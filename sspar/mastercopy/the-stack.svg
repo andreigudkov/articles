@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="28cm" height="25cm" viewBox="858 378 555 483" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #bce6ab" x="860" y="380" width="380" height="60"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="860" y="380" width="380" height="60"/>
+    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="418.217">
+      <tspan x="1050" y="418.217">Process</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #bce6ab" x="860" y="440" width="380" height="60"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="860" y="440" width="380" height="60"/>
+    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="478.217">
+      <tspan x="1050" y="478.217">(g)libc</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffcaa2" x="860" y="500" width="380" height="60"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="860" y="500" width="380" height="60"/>
+    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="538.217">
+      <tspan x="1050" y="538.217">Filesystem (ext4/XFS/etc)</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffcaa2" x="860" y="560" width="380" height="60"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="860" y="560" width="380" height="60"/>
+    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="598.217">
+      <tspan x="1050" y="598.217">Page cache</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffcaa2" x="860" y="620" width="380" height="60"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="860" y="620" width="380" height="60"/>
+    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="658.217">
+      <tspan x="1050" y="658.217">IO scheduler</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffcaa2" x="860" y="680" width="380" height="60"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="860" y="680" width="380" height="60"/>
+    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="718.217">
+      <tspan x="1050" y="718.217">Driver(s)</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #9fc5e8" x="860" y="740" width="380" height="60"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="860" y="740" width="380" height="60"/>
+    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="778.217">
+      <tspan x="1050" y="778.217">Controller</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #9fc5e8" x="860" y="800" width="380" height="60"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="860" y="800" width="380" height="60"/>
+    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="838.217">
+      <tspan x="1050" y="838.217">HDD or SSD</tspan>
+    </text>
+  </g>
+  <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1248,380 1260,380 1260,496 1248,496 "/>
+  <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1248,504 1260,504 1260,736 1248,736 "/>
+  <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1248,744 1260,744 1260,860 1248,860 "/>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1272" y="448">
+    <tspan x="1272" y="448">Userspace</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1272" y="632">
+    <tspan x="1272" y="632">Kernel</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1272" y="812">
+    <tspan x="1272" y="812">Hardware</tspan>
+  </text>
+</svg>

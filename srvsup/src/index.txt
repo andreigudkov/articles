@@ -1,0 +1,216 @@
+Server-side programmers should support their software themselves
+================================================================
+Andrei Gudkov <gudokk@gmail.com>
+:figure-caption!:
+
+Suppose that you have a special guy whose job is to press U key.
+U key is located inside the Plexiglas cage with a lock, so that only this guy is able to use it.
+Each time when you need to press U key, you raise new ticket in a bugtracker and, after about an hour,
+this special guy comes, unlocks the cage and presses the key.
+That is, you are allowed to press any other keys, but not U.
+What's so special about U, would you ask?
+Absolutely nothing.
+There is just an old tradition in the industry to limit access to U key.
+Everybody does this, and so do we.
+
+
+The guy who presses U key is considered to be very important.
+Indeed, he receives high salary for his job and has a certificate stating that he is an expert in pressing U keys.
+Furthermore, it took nearly a year to find such a brilliant person!
+All other candidates performed poorly on our standard test, and only this guy managed to answer the question
+"in what row is U key located?" without looking at the keyboard.
+So, you all must be really grateful to him.
+And don't even try to say that you would be able to press U key on your own if you were given a chance.
+
+
+What are you going to do in such situation?
+Actually, there are not many options you have.
+Straightforward approach is to pause work for an hour awaiting this guy each time when you need to press U key.
+During this period of time, you may have a cup of coffee, play billiards, read Reddit or just meditate
+by looking at an empty wall.
+As you understand, this is not the type of activity that will bring you the joy of success.
+Alternatively, you may attempt to switch to another task.
+But as soon as you are about to complete immersion in it, this guy arrives, interrupts you and
+you have to switch back to the original task.
+As such, this option doesn't advance your work in any meaningful way, either.
+If you have at least a bit of motivation, then eventually you will come up with the only one truly working solution --
+to resist stupid rules at all costs.
+
+
+First, you will complain about inefficiency to every person in charge: "Are you sure that spending 90% of time
+on waiting for this U guy is OK?
+I am assigned on a task to write a text with more than one hundred U-s in it till next weekend.
+How exactly am I supposed to meet deadline within such constraints?"
+Finally, realizing that everybody has accepted such process as normal long time ago, you will
+start thinking of some sort of workaround that will remove dependency from this ugly U guy
+(who, by the way, is not guilty of the current situation and is in no better position than you).
+What can you do?
+First idea is to reduce using U key to bare minimum.
+Luckily, human brain is very flexible: if you remove intra-word occurrences of U, then it won't affect readability too much.
+Good.
+Now you need to smmon this gy only twice per day.
+For a brief moment, you celebrate yor personal victory over the stpidity and ignorance.
+Bt very soon you realize that this is not enogh, you need to think of some better soltion.
+So, after spending a weekend of hard thinking, you come up with the idea of replacing remaining occrences of U with OO.
+Perfect!
+Of corse, the qality of yor work becomes even worse, bt at least yooo are able to complete it
+in a reasonable amont of time.
+Now yooo are completely independent from this OO gy and eventally yooo forget how he looks like.
+
+
+Even if at some point later you decide to follow the correct procedures and request this guy,
+then it won't work out as before.
+Months of being useless made this guy depressed and lazy.
+He starts acting like a spoiled little child, who produces never-ending list of wishes,
+but fulfilling them doesn't satisfy him.
+First, he will demand time to drink his usual morning caffè latte,
+then he will spend one hour reading irrelevant e-mails and watching funny Youtube videos,
+then a break time comes followed by the training courses, then there is a lunch, and then...
+well, then MAYBE he will be in the mood to perform his duties.
+"But wait. Can't you wait until next Monday? It is better to do such type of work when it is sunny outside, you know."
+And without having direct control over this guy, you can't force him to do his job.
+The result is the unbridgeable chasm between you and this guy, who was supposed to help you.
+Replacing and omitting U, which started as a fast and dirty workaround, becomes a weird de facto norm.
+
+
+Who benefits from such situation?
+Nobody, except maybe the lowest level manager, whose only goal is to hire as many people as possible
+in order to secure political position and boost self-esteem.
+You are screwed because using not fit to purpose approaches wastes your time and makes you inefficient.
+U key presser is screwed because being entirely disconnected from the production chain guarantees
+depressed mood and loss of skill.
+Stakeholders are screwed because of excessive expenses, not to mention that if you leave,
+then it will be a long time until your replacement will get accustomed to "norms" you had to create,
+which may disrupt all the plans.
+
+
+Sounds familiar?
+I believe yes.
+There are a lot of cases when artificially inserted barrier cripples productivity.
+In this article, I would like to focus attention on the stupidity of inserting a 
+system administrator between programmers and instances of their software in server-side projects.
+Interaction between programmers and "U key pressers" aka sysadmins followed the above scenario
+in all projects I participated in or observed.
+Every simple ad-hoc action of making a release, tuning system configuration or resolving an issue in a live system
+takes ages of chasing sysadmins, who avoid their duties at all costs.
+In addition, all non-critical bugs and incidents have high chance of being ignored.
+It would be distressing to spend hours in talks with sysadmins when you are sure that the problem can
+be investigated and solved in a matter of minutes by yourself if you had corresponding access privileges.
+Programmers are supposed to write code and not to spend all their time on chasing or nursing sysadmins:
+this is not something programmers are trained for and not something programmers are fond of.
+
+
+Interested in success of their product, programmers have to invent various workarounds to reduce dependence on sysamdins.
+Non-exhaustive list of them includes:
+
+  - ordering ten times more hardware in advance than required
+  - creating comprehensive monitoring interfaces to exposure logs and system state, 
+    because only sysadmins have access to conventional tools
+  - using off-site hardware for development purposes,
+    often purchased with out-of-pocket money
+  - using production environment for testing and vice versa
+  - and even creating command backdoors
+    (of course, officially such thing would be innocently named something like "Master Control Program")
+
+
+Above workarounds act like a silent agreement between programmers and sysadmins.
+Using them allows for both groups to achieve their goals, albeit inefficiently for overall development process.
+Programmers can now perform their duties without being blocked 90% of the time,
+while sysadmins enjoy their comfortable position of not taking any responsibility
+and not being constantly bothered by routine tasks.
+
+
+To be honest, the very idea of delegating support of in-house developed software to sysadmins is absurd.
+There is an abyss between off the shelf software and in-house software.
+Off the shelf software is mature, is rarely released, and there is typically a huge community built around it:
+documentation, forums, blogs, training sessions, consultants, public events.
+A great deal was invested to make it detachable from the people who had created it.
+In-house software, on the other hand, is the exact opposite of it.
+It changes very quickly -- this is exactly the job programmers are hired for.
+It would be impossible to follow all the changes without being located in the whirlpool of the development process.
+In-house software is also error-prone in a sense that latest features are simply not tested by time yet.
+Alas, there is no testing method that would detect all bugs.
+Some of them emerge only in production environment and only after some time after the release.
+If an error occurs, sysadmins won't be able to solve it by themselves.
+The best thing they can do is to restart the program,
+and if it doesn't help, the next step would be to phone the responsible programmer.
+All handbooks are eventually reduced to a pair of these two simple steps.
+Managers and too naïve to see the difference between out of the shelf software and in-house software,
+their motto is "if it is installed on the server, then it is supportable by sysadmins".
+Sysadmins are too timid to firmly reject this idea.
+They commit to support in-house software -- the promise they are not able to fulfill in practice.
+They become afraid of any modifications as the result
+and start acting as an unnecessary obstacle between programmers and their software.
+
+image::offtheshelf-vs-inhouse.png[width=60%,align=center]
+
+In server-side projects, sysadmins are assumed by default to be an annoying nuisance with no real help to the project
+when it comes to supporting in-house software.
+Primary goal of programmers is to add new features by means of releases, goal of sysadmins is to ensure that nothing breaks.
+Sysadmins figured out that the best way to do this is to avoid modifications at all costs:
+the best hardware is powered off hardware.
+And because they are usually a part of an entirely different organizational hierarchy,
+there is no way to force them change their minds.
+They are completely uncontrollable.
+
+
+Problem is particularly ridiculous when it happens to fresh projects.
+While it is natural to find numerous limitations in large mature projects where it is all about politics,
+job security and covering your ass, there is simply no justification for them in yet to be grown projects.
+You do not have a working product yet, but you've already managed to create inefficiency.
+By doing so you act like a little child who copies bad habits of his parents, thinking that it will somehow
+make him grow faster.
+Do not copy bad patterns.
+
+
+I assert that the traditional way of dividing responsibilities between a programmer and sysadmin is totally wrong.
+It never works in practice, but companies continue to copy it again and again.
+Any attempt to insert sysadmin on the path between programmers and their software leads to the
+degradation of quality and development speed without bringing any benefits.
+Sysadmin's role should be to provide platform consisting of off the shelf hardware and software.
+Support of in-house software is beyond the abilities of a sysadmin and should be done by the programmers instead.
+This is the correct and natural split point.
+
+
+It is not clear why this approach is still not widely used.
+Computer industry produced an impressive toolset intended to elegantly split programmers and sysadmins:
+containers, virtualization, DMZ, VLAN, firewalls, audit and backup tools.
+All you need to do is to split hardware assets into isolated security domains,
+ensure that you have automatic backup, setup audit system,
+and now you can grant programmers with full access rights.
+Let them do all the subsequent work themselves.
+Such approach makes programmers and sysadmins to organically complement, rather than blame, one another.
+The consequence is that all following tasks, which are typically done only after days of chasing sysadmins
+or by means of nasty workarounds, now can be completed on demand directly by the programmers:
+
+  * performing releases
+  * debugging running programs
+  * installing packages from approved repository
+  * managing open ports between servers and workstations
+  * retrieving configuration files of servers and switches
+  * monitoring servers and switches, subscribing to alerts
+  * using kernel tools: cache control, swap control, kernel debugging interface
+  * tuning system settings: limits, performance parameters of disks and NICs
+
+Audit provides alerts about who and when makes system change in violation against corporate rules.
+Backup makes you confident that system may be restored very fast if something goes wrong.
+And security domains limit damage from very pessimistic scenarios.
+
+
+Consequences of such approach:
+
+ * higher transparency: no need for nasty workarounds anymore
+ * higher development speed: programmers are not blocked by sysadmins
+ * higher quality: non-critical bugs are not ignored anymore
+ * higher morale: sysadmins are not scapegoats anymore when something goes wrong
+
+
+In software design, it is considered a good practice to strive for loose coupling between components.
+Then why don't you do the same thing with people?
+
+
+Comments
+--------
+
+disqus::srvsup[]
+

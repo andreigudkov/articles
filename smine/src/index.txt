@@ -1,0 +1,690 @@
+Why skill match is not enough
+==============================
+Andrei Gudkov <gudokk@gmail.com>
+:toc:
+:toclevels: 3
+:figure-caption!:
+
+If you work long enough in software engineering industry, then you probably have already
+met typical hiring problems:
+1) you have a really awesome open position, but nobody good enough responds to your job description in months,
+and those who do, they are not able to pass basic phone screening;
+2) you managed to hire a person with required qualification,
+but for some reason you both become dissatisfied with each other, and hired person leaves soon.
+What is the root cause of such problems?
+It is stated in this article that all such problems are caused by a lack of understanding of the project lifecycle.
+However, project's instantaneous state is the primary determiner of values and traits required to perform efficiently.
+People who create projects from scratch are of entirely different type than those who work for mature projects,
+even if they have identical sets of skills.
+Misplacing them is a bad idea.
+Unfortunately, such plain facts are out of the scope of university courses and have to be learned the hard way.
+This article explains lifecycle of a typical software project and how it affects selection of the people.
+Final section contains list of practical advices supposed to reduce number of hiring errors.
+This article would be helpful for everybody employed in software engineering industry, disregarding their role.
+
+
+Lifecycle of a typical project
+------------------------------
+
+If you take a close look at any software product, then it may seem constant during its entire life:
+it has constant name, constant style, constant set of rules.
+As a consumer, you know what to expect from it and what it wants from you in return.
+However, the project which is responsible for this product is not so constant:
+starting from its inception and until its death, it transitions through a number of distinct phases.
+As an external observer, you will never be able to notice any differences between them, even though
+the project internally experiences major changes during phase transitions, up to full replacement of the team.
+Fundamentally, there are only three well-defined phases: initial development until product launch,
+period of fast growth, and long-lasting period of maintenance until product death.
+These three phases differ dramatically.
+In fact, they differ so much that most people are able to work efficiently only during single phase
+that suits them best.
+If people are misplaced, they become the leading cause of poor productivity and dissatisfaction
+among both employers and employees.
+But let's start with the phases themselves first.
+
+Phase #1. Induction
+~~~~~~~~~~~~~~~~~~~
+
+This phase includes everything from the moment when the first line of code is written
+and till the moment when the product is launched.
+This phase is responsible for forming the shape of the project, which includes KPIs,
+technologies and required qualification of the people.
+Once the shape is formed, it stays virtually unchanged for the whole duration of the project.
+
+Good thing about induction phase is that per-person efficiency is very high.
+Small codebase, absence of legacy and modest requirements for quality make it possible
+to complete induction phase with only few people.
+People in small teams know each other, which makes communication naturally easy.
+Any problem may be solved in a matter of seconds even by a person with poor communication skills.
+
+Notable characteristic of the induction phase is that while effort is very high, 
+it doesn't generate immediate feedback.
+Work is done blindly.
+Everything planned and done during this phase is pure speculation of a smart mind.
+There is nobody to tell you what part of work is really important and will survive,
+and what part of work doesn't have any value and is not worse of spending time on it.
+Not only does this phase require you to sacrifice spare time and ignore personal interests,
+but it also may turn out in the end that all efforts were in vain.
+
+Lack of feedback limits maximal possible duration of the induction phase to a year,
+maybe to a couple of years, but no more.
+If you don't manage to complete what you have planned in this amount of time, then,
+without any feedback, growing psychological discomfort will reduce productivity to zero
+even in case when money is still available.
+Dissatisfied people leave, and without people project dissipates in no time.
+Even if you are lucky and project succeeds technically, this doesn't mean anything yet.
+Now it is the time when the project is to be tested against consumers' expectations.
+It takes some time while consumers (public audience or a private customer, depending on the project type)
+are trying to adapt to your product, eventually accepting or rejecting it.
+And only if their decision is to accept it, the project may be named as a true success.
+It naturally transitions to the second phase in such case, where development will be entirely feedback-driven.
+
+Phase #2. Growth
+~~~~~~~~~~~~~~~~
+
+Things heat up very quickly during this phase.
+Initial push from product launch produces influx of money, people and new ideas.
+Money come either from product sales or, more typical in superhot software engineering industry, from further funding.
+New funds and growing reputation of the brand attract more people.
+Ideas are the result of the established business feedback and the large number of newcomers.
+These three things -- money, ideas and people -- are constantly burning together
+resulting in increase in business value.
+And with higher business value more money, people and ideas come... typical chain reaction.
+
+image::burning.png[width=60%,align=center]
+
+Positive side of this phase is that development is done in smaller steps than before, which is easier.
+Smaller steps mean that there is no life-threatening dependence on people with 360&deg; skills anymore.
+Instead, work can be split into multiple highly specialized parts.
+It is also not so scary to fail one small step now: it won't destroy the entire project.
+You may even intentionally try some highly risky ideas you always kept in mind but were afraid of trying.
+
+Another positive aspect of the growth phase is that feedback is sensed nearly instantly, 
+which allows to adjust plans on the fly.
+Web development provides the most extreme example to this idea.
+Feedback cycle may be as short as one week:
+you may have an idea on Monday, implement it by Wednesday, deploy it into production on Friday,
+and receive the first results in the beginning of the next week.
+By accepting and rejecting ideas very fast, development works at this phase like greedy parallel algorithm,
+extending its tentacles both in-width and in-depth to find the most optimal way.
+
+The further the project goes into this stage, the more it takes the shape of what you normally 
+call "The Project", with both positive and negative traits.
+While large army of people means large workforce, it creates multi-layered hierarchy at the same time.
+In large hierarchies, people don't know one another and, thus, can't communicate well.
+This significantly reduces per-person efficiency and scatters control over the project.
+In addition, expect to face legacy, which becomes a serious issue during this phase.
+
+Project can't grow indefinitely: sooner or later, some limiting factor will appear and burning process will stop.
+Maybe you will run out of good ideas, or maybe the world will change enough so that the product won't be so relevant anymore,
+or maybe exponentially increasing cost of bureaucracy will become comparable with income.
+When it happens, it happens transparently, without any explicit milestone and public announcement.
+Project slowly transitions into its third and final phase.
+
+Phase #3. Maintenance
+~~~~~~~~~~~~~~~~~~~~~
+
+Key goal of this phase is to keep project afloat without increasing cost of ownership.
+It is clear that the project won't generate more profits than it currently does.
+Nobody will say this idea aloud.
+Instead, people will act like wonders are going to happen, even though everybody
+understands subconsciously that the project is stagnant.
+
+Term "maintenance" covers much broader range of activities than you can imagine.
+In theory, it is limited to performing scheduled tasks according to the detailed instructions
+and fixing ad-hoc problems.
+But the reality is different.
+Due to political conflicts (inevitable in large groups), desire for promotion,
+in order to keep people interested, and simply because of boredom,
+maintenance may also include following odd activities:
+
+* Rewriting the project in another language, switching to different frameworks or libraries.
+  In extreme cases, this may even lead to original technology after couple of such iterations!
+* Making releases consisting entirely of tiny, barely noticeable enhancements
+* Artificially establishing excessive formalities and processes, e.g. daily meetings
+* Creating immense amount of small entities
+* Relying mainly on manual, error-prone operations
+* Intentional use of technologies not fit to purpose ("LaTeX is the only true documentation language")
+
+The more intellectually challenging the original project was, the more intellectually challenging 
+its maintenance oddities are.
+They may range from running A/B test to figure out what color results in more ad clicks, #888888 or #888887,
+to rewriting the entire system to enhance performance by 0.1%.
+But common factor is always the same: no matter what is done during the maintenance phase,
+it doesn't contribute to business value.
+The only truly relevant tasks are those where you act on behalf of maintenance crew
+to keep HMS Project afloat.
+Occasionally, it is possible to catch a brief glimpse of sensible work, but that's nothing
+compared to the initial project making.
+
+Generally speaking, maintenance phase is not so bad from employee's perspective.
+Never-ending list of odd tasks guarantees stability and allows to plan personal
+life for years in advance -- something that is not possible during less predictable
+induction and growth phases.
+Maintenance phase is also somewhat beneficial to recent graduates,
+who can learn much from successful project in calm environment.
+But bear in mind that it will implant extremely biased job values in the long run,
+so that people will never be able to perform well during induction or growth phases anymore.
+
+Maintenance phase projects become bloated with excessive people very fast.
+Being deprived of sensible constructive goal, smartest people leave,
+and created gap is closed by a number of not so smart newcomers, which forces even more people to leave.
+This, once again, is a chain reaction, a variety of negative selection.
+Large army of people requires great expenses and creates management inflexibility.
+Together with falling positions of the product in the market, they slowly by steady move project towards
+its inevitable death.
+Compared to previous phases, maintenance phase may last for very long, sometimes for decades if conditions are right.
+
+'''
+
+To summarize: induction phase forms the skeleton of the project along with the amount of tissue 
+barely enough to bring beast to life.
+Growth phase adds more and more tissue until the point is reached when the beast becomes too bulky to be healthy.
+And maintenance phase is responsible for curing diseases in already grown up beast.
+
+Why is it so?
+When people use terms "business" and "work", they usually refer to some sort of activity when business value
+is comparable to efforts, such as in farming, manufacturing or logistics.
+If you work hard enough to produce two times more items than one month before,
+your profits will generally increase twofold as well.
+However, vast majority of the software projects are not of this kind.
+It may be very costly to create them, but once both technical and business components of the project succeed,
+money begins to flow with little additional effort, either from sales or from further funding.
+Project acts like cow that can be milked for years after this has happened.
+Linear correlation between effort and business value is observable only during the second phase, the growth.
+
+image::transitions.png[width=90%,align=center]
+
+It should be obvious that real world is much more diverse.
+Consider above model to be the arithmetic mean calculated over the large selection of the projects.
+And in the same way as the center of mass of a hollow donut is located outside of its body, in the very same
+way there is no single project that ideally fits this model.
+There are companies the whole existence of which depends on single project
+that they created long time ago and have been protecting since that time.
+On the other hand, there are whole industries constantly living in the induction phase.
+Consider, for example, game company: as soon as some title is released, they start to work on the next one.
+Feedback from gamers is fused into the development of the next title, and maintenance is reduced to just couple of weeks.
+
+Furthermore, bear in mind that single company may run multiple independent projects in different phases.
+As such, knowledge about one of the projects should not be used to make judgement about the others.
+But the key idea remains the same: each separate successful endeavour transitions through the sequence of three phases:
+initial development until first feedback, rapid growth, and plateau of maintenance.
+
+Also watch out for the fake projects.
+They may seem like normals for an external observer, but in fact they have no business value.
+Canonical example is the project that was initiated inside larger maintenance phase project with the purpose
+to rewrite or remake something.
+It passes through all three phases, but in fact it doesn't have any business value.
+It doesn't matter whether it succeeds or fails -- it won't affect the business.
+As such, there will be no feedback and no bright future.
+Another group of fakes consists of projects which were initially normal, then failed to succeed technically
+or commercially, but are still continued to be financed.
+There may be a lot of reasons to do so: publicly traded company may be afraid of reputation losses
+if it declares one of its projects as a failure, it may be because CEO's friends and relatives
+are in charge of the failed project, maybe startup founders are the gods of persuasion or 
+maybe there are simply no other projects to invest money to.
+(In modern time of software industry domination, the problem "we have money but not the ideas" occurs much more often
+than the opposite one.)
+If the project didn't make it from the very first time, chances that it will succeed in future are nil.
+Fake project of such type may live for years, occasionally demonstrating convulsions as it tries to unsuccessfully 
+enter the market.
+ 
+When being hired, you may wish to figure out the phase of the project under consideration.
+Below is the list of common characteristics which should help you in doing so.
+
+Induction phase:
+
+* Product is not launched yet, existence of ugly prototype is highly possible
+* Work is divided into massive tasks without complete understanding of how to do them
+* Personal responsibility is highly valued
+* Project is severely understaffed
+* Candidates are ranked by number of previously completed projects
+* Employees tend to leave _late_ on Fridays
+
+Growth phase:
+
+* Many various tasks to choose from, you are even allowed to create your own task
+* Project had a lot of major achievements during the last year
+* Candidates are ranked by skill level
+* Project has a lot of open positions
+* Attempt to figure out what you can do best
+* Employees tend to leave _late_ on Fridays
+
+Maintenance phase:
+
+* Formal job description containing long lists of technologies, responsibilities and benefits
+* No clear definition of what needs to be done
+* Long lasting interviews
+* Overstaffed; non-technical managers constitute 10% of staff or more
+* Project doesn't have any commercially important achievements during the last year
+* Often very strange system of values, any other system of values is not tolerated
+* Candidates are ranked by years of experience
+* Employees tend to leave _early_ on Fridays
+
+Values
+------
+
+After model of a project lifecycle is accepted,
+everything further will come out as a direct consequence of this model.
+With so many differences between phases, it should be obvious now that
+entirely different values should be cherished and entirely different people should be hired
+for each phase.
+For example, person who works effectively during induction phase won't be so effective (and happy)
+during maintenance phase and vice versa.
+Three phases are three entirely different worlds with poorly interchangeable values and people.
+
+If I had to choose only single word for the induction phase, then it would be "targeting".
+Targeting. Targeting. Targeting.
+While the product is not launched yet and there is no confidence in its success,
+it would be fatal to do anything excessive.
+Every, no matter how small, task should begin with the question: do we really need it?
+Is it crucial for the very first version? or can we postpone it till growth phase,
+when there are much more resources available than now?
+If such questions are not asked, project won't survive for too long: either resources 
+will run out before it is even completed or the quality of the final product will be extremely poor.
+In latter case, resource scattering will result in situation when the first version of the product contains
+all bells and whistles you wanted it to contain but nothing that is worse of real business value.
+If the product is intended for the general audience, then it won't attract substantial number of users.
+If the product is contract-based, then the customer won't be interested in further cooperation with you. 
+
+If, for example, your goal is to provide people with quantum teleportation via webcam, then it
+would be a bad idea to spend 80% of the time on polishing user interface and only 20% on technology itself.
+Is it the UI that is the core idea of your project?
+If you manage to make UI awesome, people will say "wow!" but will move away because of poorly working technology.
+On the other hand, if you invest almost all effort in technology,
+people will say "what an ugly UI!" but will stay with the product.
+Induction phase is not the time when you can afford luxury of doing all components of the project well.
+This idea spans to all levels of development: from the project as a whole and down to a single-day task.
+
+Key values of the induction phase project are the abilities to distinguish between primary and secondary tasks,
+to concentrate on primary tasks, and to suppress desire to do anything else.
+Latter is not so easy as it seems at first glance.
+The problem is that people prefer to do what they already know how to do: what they were taught at university,
+what they read from books and what they managed to complete before.
+This is the most pleasant type of work.
+There are plenty of guys and girls who are willing to create something by the book,
+but only few of them are fine with taking responsibility for something even slightly innovative,
+because it is unpredictable, requires one hundred times bigger effort and may still fail in the end.
+But the irony is that age of technology negatively correlates with commercial value:
+once some technology becomes well-studied, it cannot be used to earn much money anymore.
+
+When project enters growth phase, pressure levels of being exceptionally targeted drop down.
+Instead, many new people appear and many parallel activities are initiated.
+Here is Michael -- he is responsible for optimization of the digital to quantum converter,
+here is Alice -- she researches ways to make tissue reconstruction less painful,
+here is David -- he makes Android version of our application,
+and here are two guys ... oops, they are totally new.
+Office space becomes like a large construction site.
+And as with any large construction site, the key problem is that people are dependent on each other.
+The ability to effectively communicate becomes crucial as the project progresses through the growth phase.
+
+Important note: term "communication" is not the ability to say random 10,000 words per day
+or to schedule five daily meetings.
+It is all about fitting well into the production chain,
+which means that you need to think in terms of dependencies between you and the others.
+There is no correlation between being talkative and communication skills:
+you may talk not too much, but to the point.
+The opposite is also true: reading aloud latest news every fifteen minutes 
+in no way will contribute to project's success, though it will create high personal visibility.
+
+Another crucial value of the growth phase is the ability to create quality things.
+If during the induction phase you could (and had to) sacrifice quality of all components which 
+do not constitute the core part of the project, now you can't do the same thing.
+Because with so aggressive growth, expect that dozens of new components will be built atop of 
+current ones in just a year.
+If quality is poor then everything will fall apart.
+This will severely limit expansion of the project.
+It is a good idea to create minimal quality standards and apply them even to those components
+which are not visible to consumers and are not directly tradeable.
+
+Key goal of the last phase -- maintenance -- is to support project without major increase in its cost of ownership.
+Constantly increasing cost of ownership is one of the two causes that will eventually kill the project
+(another one is the declining performance of the product in the market).
+Death will happen sooner or later, and your goal is to postpone its moment for as long as possible.
+The most important quality during maintenance phase is the absence of ambitions, both technological and career,
+no matter how strange this may sound.
+People who possess career ambitions spend significant amount of time on politics.
+This includes hiring swarms of underqualified people: they are easily controllable
+and would have to agree with whatever they are said to agree with.
+Inflated amount of underqualified employees is exactly the thing that makes costs high 
+but doesn't add to business value.
+Hence the rule: the fewer ambitions people have, the healthier the project is.
+
+People who have technological ambitions do not stay employed in maintenance phase for too long.
+And those who do, they start to do odd things: build overcomplicated unsupportable systems,
+work on a pet project or play with new unrelated technology.
+Managers, understanding their own uselessness, have to agree with such type of work
+because they do not want to loose employees.
+"Fine. Do whatever you want that at least somehow relates to the project. Just don't leave, OK?"
+It turns out that best matching people for maintenance phase are those who have level of activity
+comparable to that of attenuated vaccine: not too low, not too high.
+Entirely passive people are useless, while too active people only make things worse.
+There is no anything at maintenance phase where excessive activity could be directed to.
+
+As with growth, communication skill is also important, but now its goal is different -- to fight bureaucracy.
+To fight, not to comply.
+Usually all attempts to solve the problem with the correct procedures end with the problem becoming irrelevant
+earlier than it can be solved.
+Therefore, the only acceptable solution is to know "right" people and "right" workarounds.
+In general, solving problems with unconventional, shadow approaches is more natural during maintenance phase
+than with official ones.
+QA team is not able to complete testing in time?
+Maybe there is some acquaintance of yours in high enough position who can take responsibility 
+of releasing new version without QA approval.
+Your laptop has given up the ghost?
+Maybe the fastest way is to buy it with your own funds after agreeing on additional bonus to cover its cost.
+You need more server hardware?
+Of course, you could fill in form 27B/6 and solve the quest "get 10 approvals" but it would be much
+easier to wait for some time until production environment starts crashing and dissatisfied users
+switch to competing service.
+Required hardware will magically appear on the very next day.
+
+
+People
+------
+
+So large differences in values between phases immediately lead to the idea 
+that completely different people are required for each of them.
+There is some optimal type of people for each phase.
+Opposite is also true: because there are three and only three phases,
+people tend to adapt to one phase that suits them best.
+Of course, this is not an instant process, but after 5-10 years of experience,
+people already know things they are fine with and things that they are not going to touch ever again.
+In general, there are only three project phases and only three classes of people.
+People of different classes have entirely different set of motives, goals and expectations.
+It is not very hard to distinguish between them.
+
+Pioneers
+~~~~~~~~
+
+Induction phase is best done with _pioneers_.
+Pioneers are motivated by creating something new from scratch,
+something which is ideally in high demand in the market.
+It is not uncommon for such people to often change field of interest:
+mobile games in 2010, cryptocurrencies in 2012, self-driving cars in 2015.
+They switch their field of interest as soon as some new technology emerges.
+Being interested in what they do, they work hard regardless their age and marital status.
+They require full absence of rules in return.
+Some of them agree to work only during nights, others refuse to use bugtrackers,
+and, of course, almost all of them do not care about such trifles as code quality and testing.
+Actually, this is a good trait for induction phase projects because all these best practices,
+which are natural for further phases, are intended to fight complexity,
+but induction phase lacks it.
+Induction phase is all about making something working as fast as possible.
+It requires to be very targeted -- exactly the trait possessed by pioneers.
+
+How would someone distinguish a pioneer?
+First of all, by skill: it is high and broad.
+It is high because years of constructive work can't leave you with low skill
+and broad because of experience in large number of technologies.
+This doesn't contradict the fact that pioneers may not necessarily be able to answer highly specialized questions:
+people of such class would rather prefer to find workaround rather than to spend a week on studying documentation.
+Expect that such people are able to solve any problem but not necessarily in a most efficient or natural way.
+CV of such people mentions a lot of different projects with a duration between three months and couple of years each.
+Such people are fast and dirty thinkers, they concentrate on immediate goal.
+
+Positive traits of pioneers become their negative traits when project transitions into the growth phase.
+Growth phase means a lot of new people,
+it gives birth to the first elements of bureaucracy and team rules,
+and it means large codebase with at least some legacy.
+All these things are not acceptable for pioneers.
+Add to this the fact that technology is already not so hot as it was before,
+they loose interest in project and leave on their own after receiving first decent offer.
+Only those stay who initially were better suited for growth phase.
+After pioneers leave, it turns out that their code, albeit working satisfactory, is not so good from the inside:
+it is ugly and is not supportable by any means, there is no way you can build anything sophisticated atop of it.
+When people of the second phase -- _growers_ -- see it, they can't refrain from using bad language
+and eventually rewrite everything.
+
+Growers
+~~~~~~~
+
+Motivation of the growers is entirely different: they want to grow huge, high quality product.
+They realize that this is not possible to make it independently and
+are able to communicate well with their own kind in order to form effective production chain.
+They split work into short term tasks, such as adding new features, performance tuning, refactoring,
+conducting experiments, creating robust test suites, crystallizing best practices, teaching others.
+Such class of people require immense amount of goals and resources, more goals and more resources,
+and even more goals and even more resources.
+
+Similar to pioneers, they have high skill because they are constantly occupied by constructive work.
+Quite often they have one or two fields of interest where they are unarguable experts in both theory and practice.
+Such type of people always have a todo list, either on paper or in their heads
+with hundreds of tasks and ideas.
+They maintain it in up-to-date state by constantly adding, expanding, deleting and prioritizing items in this list.
+Growers are hard but slow thinkers capable of comprehensive analysis of current situation
+if compared to pioneers, who are faster but who see only immediate step ahead of them and ignore everything else.
+Growers are identified by extreme attention to details and the ability to give in-depth answers.
+They are also especially interested in skill of people they will have to work with because they heavily rely on collaboration.
+
+Maintainers
+~~~~~~~~~~~
+
+People who natively fit in maintenance phase -- _maintainers_ -- are motivated primarily by money.
+Their goal is to get as much money and other benefits as possible by making effort barely enough in order not to be fired.
+They decided to stick with software engineering industry only because it offered good salaries.
+They will leave as soon as they get an offer with compensation of +10% or from a company with a better name.
+They have zero passion about their job, though they will try to persuade you
+in the opposite by using eloquent words during the interview.
+This is the source of all their negative traits.
+
+The first major problem is their level: they have poor skills and are not able to think by themselves,
+even after decades of employment.
+They are able to hold their positions only because they managed to accumulate some basic experience and 
+now they are trying to constantly sell it again and again.
+They are trained to give basic answers to any interview question: you may ask them anything you like,
+and you will get literal quote from Wikipedia but without any understanding of what it actually means.
+If they encounter a problem out of their experience, they buy modern book on relevant subject
+and start doing exactly as written in the book, step by step, without any traces of thinking process.
+While growers "grow" processes and practices by adjusting and sharing their experience,
+maintainers just stupidly follow the instructions, like if a book contained military directives.
+Exact instructions, authoritative people, specifications and internal policies always have the top priority
+and are considered as something which is given by the gods from above.
+If given problem doesn't have such step-by-step instructions, they avoid it at all costs.
+The good thing is that they are really good at following instructions, they are not get tired and bored by them,
+and this can be exploited.
+The only thing that you need to keep in mind is that they must be constantly supervised: otherwise,
+lack of motivation would put them into idle state.
+
+Such class of people dramatically differ from pioneers and growers.
+As such, they can be easily identified even by a non-technical staff during the interview.
+They usually ask long lists of questions about minor benefits:
+is it possible to work one hour less on Friday?
+how many displays am I entitled to have and of what sizes?
+how many flavours of cookies are there in the kitchen?
+and what about different sorts of tea?
+have you got a playing room? and the like.
+When pioneers and growers ask for something, they do it because of some justifiable reason.
+But this kind will demand each and every benefit disregarding whether it improves their effectiveness or not.
+Another easily detectable trait of a maintainer class person is an attempt to rely on certifications as much as possible
+to avoid technical questions.
+In most ridiculous cases, it may be like following: "How do you count unique elements in SQL? -- 
+Don't worry! I am a certified database architect. Next question, please."
+Of course, not many people have access to trainings, but those who do, they make full use of this opportunity.
+
+I understand that description above doesn't sound exciting, but this is exactly the type of people 
+who fit best in maintenance phase.
+More skillful, thinking and motivated candidates are attractive but they either will leave very soon or will
+unintentionally destruct the project with remakings and overcomplication of everything they touch.
+Additionally, maintenance phase may be a perfect place for: a) novices and b) people of senior age.
+Novices are good because they don't have any experience yet and, thus, are interested or at least
+have to be interested in any work you give them.
+People of senior age tolerate the dreadfulness of the maintenance phase well even if they are the veterans
+of induction or growth phases: they have already accomplished everything they had wanted, and now they
+are fine with slow work in exchange for long-term job security.
+
+'''
+
+It is crucial to understand that people are poorly interchangeable between phases.
+People who are natural for induction and growth phases are not able to work effectively 
+during the maintenance phase because there is no any constructive work.
+And those who have to stay employed at maintenance phase, they start rewriting everything and doing odd things
+because of boredom (list of such oddities was given above).
+Opposite -- that is, maintainers working during induction or growth phase -- is also not possible
+because years of following simple instructions result in poor skills.
+As such, they simply are not able to pass technical interview or, if managed to pass, 
+won't do anything useful without detailed instructions and constant supervision.
+
+Differences between pioneers and growers are not so dramatical, but anyway are too large to be ignored.
+When project transitions to growth phase, pioneers leave because team restrictions become unbearable.
+They would like to do something newer rather than expanding already launched product.
+They do not have 100% control over the project anymore and have to reach consensus with others about every
+aspect of development, which makes them unhappy.
+Opposite situation -- that is, growers hired for induction phase -- is acceptable, though results in inefficiency.
+Growers work best when they are given seed crystal and substrate in the form of already working,
+albeit of poor quality, product and large amount of resources, and they see their goal in growing huge crystal out of them.
+When they create product from scratch, they spend considerable amount of time on activities of purely strategic meaning
+which will become eventually helpful but currently are of no use.
+For example, they may decide to refactor just written piece of code three times in a row,
+develop optimal code style guide or build list of nice to have features.
+Such activities only waste valuable time, which may be fatal for project success.
+
+image::differences.png[width=60%,align=center]
+
+Of course, real world is much more diverse than that.
+There are people who are able to switch between phases and
+there are those who can't find their favourite phase even after years of experience.
+It is better to think about fitting as of triplet of percentage values, where each value describes
+how fit person for corresponding phase is.
+The same is true for phases: every phase has some traits of others two.
+For example, research based project will always depend on pioneers and growers, even in maintenance phase.
+But for maximum efficiency, the bulk of the people should be of matching class: pioneers for induction phase,
+growers for growth phase, and maintainers for maintenance phase.
+
+One of the most paradoxical situations is when project in maintenance phase
+intentionally hires pioneers and growers.
+You may name any well-known company -- they all do the same thing.
+They succeed in doing so because being already a success allows them to use their brand name,
+high salaries and already hired people of these classes as a bait.
+People who are being hired either do not understand what awaits them or have to accept
+the offer because of circumstances (three children) or because they don't know about 
+the existence of other phases yet.
+The situation is paradoxical because neither project nor people benefit from such misplacement.
+Once project has reached maintenance phase, there is no turning back.
+You can't magically convert it to induction or growth phase:
+if you wanted to do so, you'd better create new separate project.
+Hired pioneers and growers either leave immediately or become occupied with very odd things which do not
+contribute to the well-being of the project, but eventually also leave.
+As the result, you may find a ton of negative reviews about any well-known company from really good people.
+They all state the same thing: that internally working at such company is not the same as it was advertised.
+In general, expect that companies with popular brands consist mainly of projects in maintenance phase.
+
+Advices
+-------
+
+1. Hire people matching project phase
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Different phases require people of entirely different classes.
+It may be even better to hire person of irrelevant field of expertise but of matching class
+instead of doing the opposite.
+When people fit naturally, they become useful in a matter of hours,
+while people who don't fit naturally spend a lot of time either by trying to adapt
+to the alien phase or by trying to change the whole project to match their expectations.
+Both activities are destructive and unsuccessful.
+
+2. Make job description matching project phase
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Otherwise, how exactly are people supposed to figure out whether project suits them or not?
+While job description "java dev is required, paying with money, free donuts, half page
+of motivational mottoes" is fine for the project in maintenance phase,
+it would only scare relevant candidates and attract people without proper qualities
+if published by a project in induction or growth phase.
+Job description for projects of these two phases must focus on what needs to be done:
+created, optimized or researched.
+Examples: "C dev to create linux NIC driver", "port iphone game to android",
+"work on emotions recognition in speech", "PM to merge five departments".
+Actual task and scope of ownership may be adjusted during negotiations,
+but without initial clear message, job description is doomed to attract primarily poorly
+skilled opportunists.
+Projects with clear constructive goal -- that is, during induction and growth phases --
+make serious error when they blindly follow job description format common to maintenance phase.
+
+3. Create work environment matching project phase
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+People of different classes have different expectations about working conditions,
+satisfying them is a key to good performance and well-being.
+Pioneers require full freedom: no bureaucracy, no petty managers, free choice of tools and processes.
+Growers depend on quiet working conditions: projects in growth phase become crowded very fast,
+and locking them into noisy and densely packed open space offices is a bad idea.
+And only maintainers are attracted by goodies like food, trainings and playground,
+as they alleviate the boredom of a typical lazy working day.
+
+4. Make sure that candidates are interviewed by people of matching class
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This is particularly important during transitions between phases.
+The problem is that candidates are traditionally interviewed by company veterans,
+who are predominantly of different class.
+In general, people make positive judgements only about their own kind: pioneers like pioneers,
+growers like growers, and maintainers like maintainers.
+If you do not interfere in hiring process, then the majority of the relevant candidates will be rejected,
+and it will take long time before a significant number of them 
+manages to "leak" through the interview barrier imposed by veterans.
+Once they are inside, they become dominating faction very fast due to their high efficiency,
+which is the result of being in the right place and in the right time.
+
+5. Learn how to figure out the phase of the project when you are hired
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Ask following questions during the interview: what needs to be done? 
+what is the business value of this particular task? of overall project?
+what did the interviewer do yesterday?
+Induction phase projects have concrete constructive goal but do not have any formal processes.
+Growth phase projects have large number of well-defined tasks to choose from and some formal processes.
+Maintenance phase projects do not have any constructive goal but have strict formal processes.
+
+6. Do not participate in fake projects
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If the project fails to achieve business goals, run away.
+Project will never recover, no matter how much money is artificially pumped in
+and how persuasive manager's speeches are.
+It is hard to accept that project failed despite months of hard work.
+But it is true.
+
+7. Search for phase that fits you best
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Induction phase offers maximum freedom but it also requires maximum effort without any help and supervision,
+often in a field where there are no best practices established yet.
+Growth phase offers team action with the opportunity to build large successful product,
+but in return it restricts freedom and you also won't be named as the father of a project
+despite expending effort no less than pioneers did.
+Maintenance phase offers stability, lazy working days and a great number of goodies,   
+but all your efforts will never make any difference to business,
+and there even no constructive goal present in vast majority of cases.
+
+8. Do not work for too long for maintenance phase if it is your first place of work
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Try others.
+If it turns out that maintenance phase is exactly what you are looking for,
+then you always will be able to return back.
+But moving out from maintenance phase is virtually impossible: skills and experience
+accumulate ten times slower during it than during induction and growth phases.
+As such, you simply won't be able to pass technical interviews.
+
+9. Do not be fooled by big promises
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Companies with a lot of stagnant projects, despaired by the inability to hire quality candidates,
+often use following trick.
+They artificially create one elite department with ultra high salaries, visibility and importance.
+Once it is populated, it is aggressively used for advertising purposes.
+Interviewers will constantly refer to it, promising all of its benefits.
+However, in the end of the interview, you will be offered to work for some another, not so popular, department
+on entirely different conditions.
+This will be supplemented by the promises that you will be transfered as soon as possible to elite department.
+As you have already guessed, this will never happen.
+Even if you manage to prove yourself (which is virtually impossible by working for a dying project),
+high self esteem of elite department employees will reject anybody who worked for an ordinary department.
+
+
+Comments
+--------
+
+disqus::smine[]
+

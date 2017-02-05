@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.4">
+<meta name="author" content="Andrei Gudkov">
+<title>Server-side programmers should support their software themselves</title>
+<style>
+/*! normalize.css v2.1.2 | MIT License | git.io/normalize*/article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}audio,canvas,video{display:inline-block}audio:not([controls]){display:none;height:0}[hidden],template{display:none}script{display:none!important}html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}a{background:transparent}a:focus{outline:thin dotted}a:active,a:hover{outline:0}h1{font-size:2em;margin:.67em 0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:700}dfn{font-style:italic}hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}mark{background:#ff0;color:#000}code,kbd,pre,samp{font-family:monospace;font-size:1em}pre{white-space:pre-wrap}q{quotes:"\201C" "\201D" "\2018" "\2019"}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:0}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0}button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}button,input{line-height:normal}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}textarea{overflow:auto;vertical-align:top}table{border-collapse:collapse;border-spacing:0}*,*:before,*:after{box-sizing:border-box;margin:0}body{font-family:Helvetica,Arial,sans-serif;font-size:16px;color:#222;line-height:1.5;max-width:55em;margin:0 auto}#content,#footnotes{padding-left:.5em;padding-right:.5em}strong{font-weight:700}em{font-style:italic}:not(pre)>code{font-family:Courier,monospace;line-height:1}a{color:#0061c5;text-decoration:none}a:hover{text-decoration:underline}hr{border-width:0 0 1px 0;border-style:solid;border-color:#678}ul,ol{list-style-position:outside;padding-left:0;margin-left:2em}ul li ul,ul li ol,ol li ul,ol li ol{margin-left:1.414em}ul>li{list-style-type:square;font-size:80%}ul>li>*{font-size:125%}ol>li{font-weight:700}ol>li>*{font-weight:400}ol.arabic{list-style-type:decimal}ol.decimal{list-style-type:decimal-leading-zero}ol.loweralpha{list-style-type:lower-alpha}ol.upperalpha{list-style-type:upper-alpha}ol.lowerroman{list-style-type:lower-roman}ol.upperroman{list-style-type:upper-roman}ol.lowergreek{list-style-type:lower-greek}.dlist dt{color:#325d72;font-weight:700}.dlist dt:not(:first-child){margin-top:1em}.dlist dd{margin-left:2em}td.hdlist1{color:#325d72;padding-right:.5em;vertical-align:top}td.hdlist2{padding-bottom:.5em}h1{font-size:28px;font-weight:400;letter-spacing:-1px;color:#fff;background-color:#325d72;text-align:center;margin:0 0 .5em 0;padding:.05em .5em}@media print{h1{color:#325d72;background-color:#fff;font-weight:700}}h1:after{content:":";width:0;overflow:hidden;display:inline-block;vertical-align:middle}.author{color:#325d72}.email:before{content:"<";color:#325d72}.email:after{content:">";color:#325d72}.author+br,.email+br{display:none}#author{padding-left:.5em}#toc{margin:1em 0 2em 0;padding-left:.5em}#toctitle{font-size:19px;font-weight:700;color:#325d72;margin:.5em 0}#toc>ul{line-height:1.4;font-size:15px;margin:0 0 0 .5em}#toc ul li{list-style-type:none}#toc li{margin:0}.big{font-size:120%}.small{font-size:75%}.underline{text-decoration:underline}.overline{text-decoration:overline}.line-through{text-decoration:line-through}.aqua{color:#00bfbf}.aqua-background{background-color:#00fafa;border-radius:2px;padding:0 3px}.black{color:"black"}.black-background{background-color:"black";border-radius:2px;padding:0 3px}.blue{color:#0000bf}.blue-background{background-color:#0000fa;border-radius:2px;padding:0 3px}.fuchsia{color:#bf00bf}.fuchsia-background{background-color:#fa00fa;border-radius:2px;padding:0 3px}.gray{color:#606060}.gray-background{background-color:#7d7d7d;border-radius:2px;padding:0 3px}.green{color:#006000}.green-background{background-color:#007d00;border-radius:2px;padding:0 3px}.lime{color:#00bf00}.lime-background{background-color:#00fa00;border-radius:2px;padding:0 3px}.maroon{color:#600000}.maroon-background{background-color:#7d0000;border-radius:2px;padding:0 3px}.navy{color:#000060}.navy-background{background-color:#00007d;border-radius:2px;padding:0 3px}.olive{color:#606000}.olive-background{background-color:#7d7d00;border-radius:2px;padding:0 3px}.purple{color:#600060}.purple-background{background-color:#7d007d;border-radius:2px;padding:0 3px}.red{color:#bf0000}.red-background{background-color:#fa0000;border-radius:2px;padding:0 3px}.silver{color:#909090}.silver-background{background-color:#bcbcbc;border-radius:2px;padding:0 3px}.teal{color:#006060}.teal-background{background-color:#007d7d;border-radius:2px;padding:0 3px}.white{color:#bfbfbf}.white-background{background-color:#fafafa;border-radius:2px;padding:0 3px}.yellow{color:#bfbf00}.yellow-background{background-color:#fafa00;border-radius:2px;padding:0 3px}table.tableblock{border:1px solid #91a7b3;margin-left:auto;margin-right:auto}table.tableblock>caption.title{text-align:left;margin-bottom:.5em}table.tableblock>colgroup>col{width:inherit!important}table.tableblock>tbody>tr>td{border-style:solid;border-color:#91a7b3;border-width:0 1px;padding:0 5px 2px 5px}table.tableblock>tbody>tr:nth-of-type(2n){background-color:#f3f5f7}p.tableblock{text-align:inherit}table.tableblock>thead>tr>td,table.tableblock>thead>tr>th,table.tableblock>tfoot>tr>td,table.tableblock>tfoot>tr>th{color:#325d72;font-weight:700;line-height:1.35;padding:2px 5px;border:1px solid #91a7b3}table.tableblock>thead>tr>th,table.tableblock>thead>tr>td{border-bottom-width:2px}table.tableblock>tfoot>tr>th,table.tableblock>tfoot>tr>td{border-top-width:2px}th.halign-left,td.halign-left{text-align:left}th.halign-right,td.halign-right{text-align:right}th.halign-center,td.halign-center{text-align:center}th.valign-top,td.valign-top{vertical-align:top}th.valign-bottom,td.valign-bottom{vertical-align:bottom}th.valign-middle,td.valign-middle{vertical-align:middle}div.listingblock{padding:.5em;border-style:solid;border-color:#678;border-width:0 0 0 2px;background-color:#f3f5f7;overflow:auto}div.listingblock .title{text-align:right}div.listingblock pre{font-family:Menlo,Consolas,Monaco,Lucida Console,monospace;font-size:87.5%;white-space:pre;background-color:#f3f5f7!important;margin:0}div.listingblock td.linenos{border-right:1px solid #91a7b3;padding-right:.67em}div.listingblock table.pyhltable div.linenodiv{color:#678;text-align:right}div.listingblock table.pyhltable td.code{padding-left:.67em}div.imageblock>div.content>img{max-width:98%}.text-indent{padding-left:2em}img.inlinemath{image-rendering:optimizequality;margin-top:.5ex}h2,h3,h4{font-weight:400;color:#325d72;margin:0}h2{font-size:27px;letter-spacing:-1px;border-bottom:1px solid #91a7b3}h3{font-size:24px;letter-spacing:-.75px}h4{font-size:21px;letter-spacing:-.5px}.title{color:#325d72;font-weight:700}#footer{font-size:80%;color:#fff;background-color:#325d72}@media print{#footer{color:#325d72;background-color:#fff;font-weight:700}}#footer-text{text-align:center;padding:.5em}#footer-badges{display:none}span.footnote{vertical-align:super;font-size:80%}#footnotes>hr{display:none}#footnotes:before{display:block;border-bottom:1px solid #678;margin:.5em 0;content:"Notes";font-size:19px;font-weight:700;color:#325d72}#footnotes .footnote{margin-left:.5em;font-size:15px}hr:not(:first-child){margin-top:1.5em}hr:not(:last-child){margin-bottom:1.5em}.imageblock:not(:last-child),.listingblock:not(:last-child),.tableblock:not(:last-child){margin-bottom:1em}p+*,.paragraph+*{margin-top:1em}p+.ulist,p+.olist,p+.dlist,p+.hdlist,.paragraph+.ulist,.paragraph+.olist,.paragraph+.dlist,.paragraph+.hdlist,.paragraph+.listingblock{margin-top:.5em!important}li *+.ulist,li *+.olist,li *+.dlist,li *+.hdlist{margin-top:.1em!important}.title:not(:first-child){margin-top:1.5em}.content+.title{margin-top:.5em!important}.title+*{margin-top:1.5em}.title+p,.title+.paragraph,.title+.ulist,.title+.olist,.title+.dlist,.title+.hdlist{margin-top:.5em!important}.ulist:not(:last-child),.olist:not(:last-child){margin-bottom:1em}li:not(:first-child){margin-top:.1em}.dlist:not(:last-child){margin-bottom:1em}.dlist:not(:first-child){margin-top:1em}.sect3:not(:last-child){margin-bottom:18px}.sect3:not(:first-child){margin-top:18px}h4:not(:last-child){margin-bottom:9px}.sect2:not(:last-child){margin-bottom:22px}.sect2:not(:first-child){margin-top:22px}h3:not(:last-child){margin-bottom:11px}.sect1:not(:last-child){margin-bottom:40px}.sect1:not(:first-child){margin-top:40px}#preamble:not(:last-child){margin-bottom:40px}h2:not(:last-child){margin-bottom:13px}#header:not(:last-child),#content:not(:last-child),#footnotes:not(:last-child),#footer:not(:last-child){margin-bottom:2.5em}
+
+</style>
+</head>
+<body class="article">
+<div id="header">
+<h1>Server-side programmers should support their software themselves</h1>
+<div class="details">
+<span id="author" class="author">Andrei Gudkov</span><br>
+<span id="email" class="email"><a href="mailto:gudokk@gmail.com">gudokk@gmail.com</a></span><br>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Suppose that you have a special guy whose job is to press U key.
+U key is located inside the Plexiglas cage with a lock, so that only this guy is able to use it.
+Each time when you need to press U key, you raise new ticket in a bugtracker and, after about an hour,
+this special guy comes, unlocks the cage and presses the key.
+That is, you are allowed to press any other keys, but not U.
+What&#8217;s so special about U, would you ask?
+Absolutely nothing.
+There is just an old tradition in the industry to limit access to U key.
+Everybody does this, and so do we.</p>
+</div>
+<div class="paragraph">
+<p>The guy who presses U key is considered to be very important.
+Indeed, he receives high salary for his job and has a certificate stating that he is an expert in pressing U keys.
+Furthermore, it took nearly a year to find such a brilliant person!
+All other candidates performed poorly on our standard test, and only this guy managed to answer the question
+"in what row is U key located?" without looking at the keyboard.
+So, you all must be really grateful to him.
+And don&#8217;t even try to say that you would be able to press U key on your own if you were given a chance.</p>
+</div>
+<div class="paragraph">
+<p>What are you going to do in such situation?
+Actually, there are not many options you have.
+Straightforward approach is to pause work for an hour awaiting this guy each time when you need to press U key.
+During this period of time, you may have a cup of coffee, play billiards, read Reddit or just meditate
+by looking at an empty wall.
+As you understand, this is not the type of activity that will bring you the joy of success.
+Alternatively, you may attempt to switch to another task.
+But as soon as you are about to complete immersion in it, this guy arrives, interrupts you and
+you have to switch back to the original task.
+As such, this option doesn&#8217;t advance your work in any meaningful way, either.
+If you have at least a bit of motivation, then eventually you will come up with the only one truly working solution&#8201;&#8212;&#8201;to resist stupid rules at all costs.</p>
+</div>
+<div class="paragraph">
+<p>First, you will complain about inefficiency to every person in charge: "Are you sure that spending 90% of time
+on waiting for this U guy is OK?
+I am assigned on a task to write a text with more than one hundred U-s in it till next weekend.
+How exactly am I supposed to meet deadline within such constraints?"
+Finally, realizing that everybody has accepted such process as normal long time ago, you will
+start thinking of some sort of workaround that will remove dependency from this ugly U guy
+(who, by the way, is not guilty of the current situation and is in no better position than you).
+What can you do?
+First idea is to reduce using U key to bare minimum.
+Luckily, human brain is very flexible: if you remove intra-word occurrences of U, then it won&#8217;t affect readability too much.
+Good.
+Now you need to smmon this gy only twice per day.
+For a brief moment, you celebrate yor personal victory over the stpidity and ignorance.
+Bt very soon you realize that this is not enogh, you need to think of some better soltion.
+So, after spending a weekend of hard thinking, you come up with the idea of replacing remaining occrences of U with OO.
+Perfect!
+Of corse, the qality of yor work becomes even worse, bt at least yooo are able to complete it
+in a reasonable amont of time.
+Now yooo are completely independent from this OO gy and eventally yooo forget how he looks like.</p>
+</div>
+<div class="paragraph">
+<p>Even if at some point later you decide to follow the correct procedures and request this guy,
+then it won&#8217;t work out as before.
+Months of being useless made this guy depressed and lazy.
+He starts acting like a spoiled little child, who produces never-ending list of wishes,
+but fulfilling them doesn&#8217;t satisfy him.
+First, he will demand time to drink his usual morning caffè latte,
+then he will spend one hour reading irrelevant e-mails and watching funny Youtube videos,
+then a break time comes followed by the training courses, then there is a lunch, and then&#8230;&#8203;
+well, then MAYBE he will be in the mood to perform his duties.
+"But wait. Can&#8217;t you wait until next Monday? It is better to do such type of work when it is sunny outside, you know."
+And without having direct control over this guy, you can&#8217;t force him to do his job.
+The result is the unbridgeable chasm between you and this guy, who was supposed to help you.
+Replacing and omitting U, which started as a fast and dirty workaround, becomes a weird de facto norm.</p>
+</div>
+<div class="paragraph">
+<p>Who benefits from such situation?
+Nobody, except maybe the lowest level manager, whose only goal is to hire as many people as possible
+in order to secure political position and boost self-esteem.
+You are screwed because using not fit to purpose approaches wastes your time and makes you inefficient.
+U key presser is screwed because being entirely disconnected from the production chain guarantees
+depressed mood and loss of skill.
+Stakeholders are screwed because of excessive expenses, not to mention that if you leave,
+then it will be a long time until your replacement will get accustomed to "norms" you had to create,
+which may disrupt all the plans.</p>
+</div>
+<div class="paragraph">
+<p>Sounds familiar?
+I believe yes.
+There are a lot of cases when artificially inserted barrier cripples productivity.
+In this article, I would like to focus attention on the stupidity of inserting a
+system administrator between programmers and instances of their software in server-side projects.
+Interaction between programmers and "U key pressers" aka sysadmins followed the above scenario
+in all projects I participated in or observed.
+Every simple ad-hoc action of making a release, tuning system configuration or resolving an issue in a live system
+takes ages of chasing sysadmins, who avoid their duties at all costs.
+In addition, all non-critical bugs and incidents have high chance of being ignored.
+It would be distressing to spend hours in talks with sysadmins when you are sure that the problem can
+be investigated and solved in a matter of minutes by yourself if you had corresponding access privileges.
+Programmers are supposed to write code and not to spend all their time on chasing or nursing sysadmins:
+this is not something programmers are trained for and not something programmers are fond of.</p>
+</div>
+<div class="paragraph">
+<p>Interested in success of their product, programmers have to invent various workarounds to reduce dependence on sysamdins.
+Non-exhaustive list of them includes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ordering ten times more hardware in advance than required</p>
+</li>
+<li>
+<p>creating comprehensive monitoring interfaces to exposure logs and system state,
+because only sysadmins have access to conventional tools</p>
+</li>
+<li>
+<p>using off-site hardware for development purposes,
+often purchased with out-of-pocket money</p>
+</li>
+<li>
+<p>using production environment for testing and vice versa</p>
+</li>
+<li>
+<p>and even creating command backdoors
+(of course, officially such thing would be innocently named something like "Master Control Program")</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Above workarounds act like a silent agreement between programmers and sysadmins.
+Using them allows for both groups to achieve their goals, albeit inefficiently for overall development process.
+Programmers can now perform their duties without being blocked 90% of the time,
+while sysadmins enjoy their comfortable position of not taking any responsibility
+and not being constantly bothered by routine tasks.</p>
+</div>
+<div class="paragraph">
+<p>To be honest, the very idea of delegating support of in-house developed software to sysadmins is absurd.
+There is an abyss between off the shelf software and in-house software.
+Off the shelf software is mature, is rarely released, and there is typically a huge community built around it:
+documentation, forums, blogs, training sessions, consultants, public events.
+A great deal was invested to make it detachable from the people who had created it.
+In-house software, on the other hand, is the exact opposite of it.
+It changes very quickly&#8201;&#8212;&#8201;this is exactly the job programmers are hired for.
+It would be impossible to follow all the changes without being located in the whirlpool of the development process.
+In-house software is also error-prone in a sense that latest features are simply not tested by time yet.
+Alas, there is no testing method that would detect all bugs.
+Some of them emerge only in production environment and only after some time after the release.
+If an error occurs, sysadmins won&#8217;t be able to solve it by themselves.
+The best thing they can do is to restart the program,
+and if it doesn&#8217;t help, the next step would be to phone the responsible programmer.
+All handbooks are eventually reduced to a pair of these two simple steps.
+Managers and too naïve to see the difference between out of the shelf software and in-house software,
+their motto is "if it is installed on the server, then it is supportable by sysadmins".
+Sysadmins are too timid to firmly reject this idea.
+They commit to support in-house software&#8201;&#8212;&#8201;the promise they are not able to fulfill in practice.
+They become afraid of any modifications as the result
+and start acting as an unnecessary obstacle between programmers and their software.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="offtheshelf-vs-inhouse.png" alt="offtheshelf vs inhouse" width="60%">
+</div>
+</div>
+<div class="paragraph">
+<p>In server-side projects, sysadmins are assumed by default to be an annoying nuisance with no real help to the project
+when it comes to supporting in-house software.
+Primary goal of programmers is to add new features by means of releases, goal of sysadmins is to ensure that nothing breaks.
+Sysadmins figured out that the best way to do this is to avoid modifications at all costs:
+the best hardware is powered off hardware.
+And because they are usually a part of an entirely different organizational hierarchy,
+there is no way to force them change their minds.
+They are completely uncontrollable.</p>
+</div>
+<div class="paragraph">
+<p>Problem is particularly ridiculous when it happens to fresh projects.
+While it is natural to find numerous limitations in large mature projects where it is all about politics,
+job security and covering your ass, there is simply no justification for them in yet to be grown projects.
+You do not have a working product yet, but you&#8217;ve already managed to create inefficiency.
+By doing so you act like a little child who copies bad habits of his parents, thinking that it will somehow
+make him grow faster.
+Do not copy bad patterns.</p>
+</div>
+<div class="paragraph">
+<p>I assert that the traditional way of dividing responsibilities between a programmer and sysadmin is totally wrong.
+It never works in practice, but companies continue to copy it again and again.
+Any attempt to insert sysadmin on the path between programmers and their software leads to the
+degradation of quality and development speed without bringing any benefits.
+Sysadmin&#8217;s role should be to provide platform consisting of off the shelf hardware and software.
+Support of in-house software is beyond the abilities of a sysadmin and should be done by the programmers instead.
+This is the correct and natural split point.</p>
+</div>
+<div class="paragraph">
+<p>It is not clear why this approach is still not widely used.
+Computer industry produced an impressive toolset intended to elegantly split programmers and sysadmins:
+containers, virtualization, DMZ, VLAN, firewalls, audit and backup tools.
+All you need to do is to split hardware assets into isolated security domains,
+ensure that you have automatic backup, setup audit system,
+and now you can grant programmers with full access rights.
+Let them do all the subsequent work themselves.
+Such approach makes programmers and sysadmins to organically complement, rather than blame, one another.
+The consequence is that all following tasks, which are typically done only after days of chasing sysadmins
+or by means of nasty workarounds, now can be completed on demand directly by the programmers:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>performing releases</p>
+</li>
+<li>
+<p>debugging running programs</p>
+</li>
+<li>
+<p>installing packages from approved repository</p>
+</li>
+<li>
+<p>managing open ports between servers and workstations</p>
+</li>
+<li>
+<p>retrieving configuration files of servers and switches</p>
+</li>
+<li>
+<p>monitoring servers and switches, subscribing to alerts</p>
+</li>
+<li>
+<p>using kernel tools: cache control, swap control, kernel debugging interface</p>
+</li>
+<li>
+<p>tuning system settings: limits, performance parameters of disks and NICs</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Audit provides alerts about who and when makes system change in violation against corporate rules.
+Backup makes you confident that system may be restored very fast if something goes wrong.
+And security domains limit damage from very pessimistic scenarios.</p>
+</div>
+<div class="paragraph">
+<p>Consequences of such approach:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>higher transparency: no need for nasty workarounds anymore</p>
+</li>
+<li>
+<p>higher development speed: programmers are not blocked by sysadmins</p>
+</li>
+<li>
+<p>higher quality: non-critical bugs are not ignored anymore</p>
+</li>
+<li>
+<p>higher morale: sysadmins are not scapegoats anymore when something goes wrong</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In software design, it is considered a good practice to strive for loose coupling between components.
+Then why don&#8217;t you do the same thing with people?</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_comments">Comments</h2>
+<div class="sectionbody">
+      <div id='disqus_thread'></div>
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http://gudok.xyz/srvsup/';
+          this.page.identifier = 'srvsup';
+        };
+
+        (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//gudok.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href='https://disqus.com/?ref_noscript'>comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2017-02-05 11:36:51 UTC
+</div>
+</div>
+</body>
+</html>

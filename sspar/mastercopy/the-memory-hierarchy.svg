@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="66cm" height="27cm" viewBox="210 50 1310 540" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2.35099e-37; stroke: #ffffff" x="210" y="50" width="1310" height="540"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="865" y="323.9">
+      <tspan x="865" y="323.9"></tspan>
+    </text>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="680" y="220">
+    <tspan x="680" y="220"></tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="916" y="80">
+    <tspan x="916" y="80">Capacity</tspan>
+  </text>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 2; stroke: #000000" x1="1512" y1="500" x2="720" y2="500"/>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1208" y="152">
+    <tspan x="1208" y="152">0.2 ns</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="980" y="156">
+    <tspan x="980" y="156">80 B</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="916" y="228">
+    <tspan x="916" y="228">32,768 B</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1208" y="228">
+    <tspan x="1208" y="228">1.7 ns</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="900" y="304">
+    <tspan x="900" y="304">262,144 B</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1208" y="308">
+    <tspan x="1208" y="308">5.0 ns</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="868" y="388">
+    <tspan x="868" y="388">8,388,608 B</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1192" y="390">
+    <tspan x="1192" y="390">15.0 ns</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="768" y="468">
+    <tspan x="768" y="468">137,438,953,472 B</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1192" y="468">
+    <tspan x="1192" y="468">70.0 ns</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1332" y="464">
+    <tspan x="1332" y="464">12,800 MB/s</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="768" y="532">
+    <tspan x="768" y="532">500,000,000,000 B</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="736" y="564">
+    <tspan x="736" y="564">4,000,000,000,000 B</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1112" y="532">
+    <tspan x="1112" y="532">250,000.0 ns</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1080" y="564">
+    <tspan x="1080" y="564">5,000,000.0 ns</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1380" y="532">
+    <tspan x="1380" y="532">600 MB/s</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1380" y="564">
+    <tspan x="1380" y="564">200 MB/s</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1124" y="80">
+    <tspan x="1124" y="80">Access time</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1344" y="80">
+    <tspan x="1344" y="80">Throughput</tspan>
+  </text>
+  <g>
+    <polygon style="fill: #cedff2" points="700,100 680,100 220,580 700,580 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="700,100 680,100 220,580 700,580 "/>
+  </g>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="604" y1="180" x2="700" y2="180"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="527" y1="260" x2="700" y2="260"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="297" y1="500" x2="700" y2="500"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="373" y1="420" x2="700" y2="420"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="450" y1="340" x2="700" y2="340"/>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="476" y="468">
+    <tspan x="476" y="468">RAM</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="540" y="388">
+    <tspan x="540" y="388">L3</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="584" y="308">
+    <tspan x="584" y="308">L2</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="620" y="228">
+    <tspan x="620" y="228">L1</tspan>
+  </text>
+  <text font-size="22.5778" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="644" y="156">
+    <tspan x="644" y="156">Regs</tspan>
+  </text>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 2; stroke: #000000" x1="1512" y1="420" x2="720" y2="420"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 2; stroke: #000000" x1="1512" y1="340" x2="720" y2="340"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 2; stroke: #000000" x1="1512" y1="260" x2="720" y2="260"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 2; stroke: #000000" x1="1512" y1="180" x2="720" y2="180"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 2; stroke: #000000" x1="1312" y1="60" x2="1312" y2="580"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 2; stroke: #000000" x1="1056" y1="56" x2="1056" y2="576"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 2; stroke: #000000" x1="1512" y1="100" x2="720" y2="100"/>
+  <g>
+    <polygon style="fill: #ff6550" points="700,500 296,500 220,580 700,580 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="700,500 296,500 220,580 700,580 "/>
+  </g>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="452" y="532">
+    <tspan x="452" y="532">SSD</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="430" y="570">
+    <tspan x="430" y="570">HDD</tspan>
+  </text>
+</svg>

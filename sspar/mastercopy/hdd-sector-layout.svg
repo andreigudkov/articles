@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="108cm" height="17cm" viewBox="-937 163 2141 340" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffffff" x="-935.998" y="165" width="2138" height="337"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="133.002" y="337.4">
+      <tspan x="133.002" y="337.4"></tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #c0c0c0" x="96" y="280" width="70" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="96" y="280" width="70" height="100"/>
+    <text font-size="30.48" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="131" y="339.25">
+      <tspan x="131" y="339.25"></tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #e35a47" x="-923.6" y="280" width="34" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-923.6" y="280" width="34" height="100"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="-906.6" y="333.9">
+      <tspan x="-906.6" y="333.9"></tspan>
+    </text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="-142.653,439.212 99.0942,439.212 126.382,388.571 "/>
+    <polygon style="fill: #000000" points="129.939,381.968 129.597,393.144 126.382,388.571 120.794,388.4 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="129.939,381.968 129.597,393.144 126.382,388.571 120.794,388.4 "/>
+  </g>
+  <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="-924,250 -924,230 96,230 96,250 "/>
+  <text font-size="30.48" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-480" y="220">
+    <tspan x="-480" y="220">Sector #159</tspan>
+  </text>
+  <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="166,250 166,230 1186,230 1186,250 "/>
+  <text font-size="30.48" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="580" y="220">
+    <tspan x="580" y="220">Sector #160</tspan>
+  </text>
+  <text font-size="31.6089" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="247.988" y="420.42">
+    <tspan x="247.988" y="420.42">Sector address</tspan>
+  </text>
+  <text font-size="31.6089" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="250.338" y="477.898">
+    <tspan x="250.338" y="477.898">Sync marker</tspan>
+  </text>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="214.802,388.469 237.86,429.134 489.286,429.554 "/>
+    <polygon style="fill: #000000" points="211.103,381.945 220.385,388.178 214.802,388.469 211.686,393.11 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="211.103,381.945 220.385,388.178 214.802,388.469 211.686,393.11 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="187.662,388.547 243.746,491.36 458.174,491.36 "/>
+    <polygon style="fill: #000000" points="184.071,381.963 193.249,388.347 187.662,388.547 184.47,393.136 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="184.071,381.963 193.249,388.347 187.662,388.547 184.47,393.136 "/>
+  </g>
+  <g>
+    <rect style="fill: #f8de7e" x="220" y="280" width="890" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="220" y="280" width="890" height="100"/>
+    <text font-size="30.48" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="665" y="339.25">
+      <tspan x="665" y="339.25">512/4096 bytes (user data)</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #e35a47" x="166" y="280" width="34" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="166" y="280" width="34" height="100"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="183" y="333.9">
+      <tspan x="183" y="333.9"></tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #a9c469" x="1103.07" y="280" width="83.85" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1103.07" y="280" width="83.85" height="100"/>
+    <text font-size="30.48" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1145" y="339.25">
+      <tspan x="1145" y="339.25">ECC</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #729fcf" x="199" y="280" width="22" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="199" y="280" width="22" height="100"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="210" y="333.9">
+      <tspan x="210" y="333.9"></tspan>
+    </text>
+  </g>
+  <text font-size="31.6089" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-142" y="426">
+    <tspan x="-142" y="426">Intersector gap</tspan>
+  </text>
+  <g>
+    <rect style="fill: #a9c469" x="13.3643" y="279.976" width="83.85" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="13.3643" y="279.976" width="83.85" height="100"/>
+    <text font-size="30.48" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="55.2893" y="339.226">
+      <tspan x="55.2893" y="339.226">ECC</tspan>
+    </text>
+  </g>
+  <text font-size="31.6089" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-841.722" y="420.396">
+    <tspan x="-841.722" y="420.396">Sector address</tspan>
+  </text>
+  <text font-size="31.6089" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-839.372" y="477.874">
+    <tspan x="-839.372" y="477.874">Sync marker</tspan>
+  </text>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="-874.908,388.445 -851.852,429.108 -600.424,429.53 "/>
+    <polygon style="fill: #000000" points="-878.607,381.921 -869.325,388.154 -874.908,388.445 -878.024,393.086 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="-878.607,381.921 -869.325,388.154 -874.908,388.445 -878.024,393.086 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="-902.048,388.523 -845.966,491.336 -631.538,491.336 "/>
+    <polygon style="fill: #000000" points="-905.639,381.939 -896.461,388.324 -902.048,388.523 -905.24,393.112 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="-905.639,381.939 -896.461,388.324 -902.048,388.523 -905.24,393.112 "/>
+  </g>
+  <g>
+    <rect style="fill: #f8de7e" x="-869.71" y="279.976" width="890" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-869.71" y="279.976" width="890" height="100"/>
+    <text font-size="30.48" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="-424.71" y="339.226">
+      <tspan x="-424.71" y="339.226">512/4096 bytes (user data)</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #729fcf" x="-890.71" y="279.976" width="22" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-890.71" y="279.976" width="22" height="100"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="-879.71" y="333.876">
+      <tspan x="-879.71" y="333.876"></tspan>
+    </text>
+  </g>
+</svg>

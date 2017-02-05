@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.4">
+<meta name="author" content="Andrei Gudkov">
+<title>Why skill match is not enough</title>
+<style>
+/*! normalize.css v2.1.2 | MIT License | git.io/normalize*/article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}audio,canvas,video{display:inline-block}audio:not([controls]){display:none;height:0}[hidden],template{display:none}script{display:none!important}html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}a{background:transparent}a:focus{outline:thin dotted}a:active,a:hover{outline:0}h1{font-size:2em;margin:.67em 0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:700}dfn{font-style:italic}hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}mark{background:#ff0;color:#000}code,kbd,pre,samp{font-family:monospace;font-size:1em}pre{white-space:pre-wrap}q{quotes:"\201C" "\201D" "\2018" "\2019"}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:0}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0}button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}button,input{line-height:normal}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}textarea{overflow:auto;vertical-align:top}table{border-collapse:collapse;border-spacing:0}*,*:before,*:after{box-sizing:border-box;margin:0}body{font-family:Helvetica,Arial,sans-serif;font-size:16px;color:#222;line-height:1.5;max-width:55em;margin:0 auto}#content,#footnotes{padding-left:.5em;padding-right:.5em}strong{font-weight:700}em{font-style:italic}:not(pre)>code{font-family:Courier,monospace;line-height:1}a{color:#0061c5;text-decoration:none}a:hover{text-decoration:underline}hr{border-width:0 0 1px 0;border-style:solid;border-color:#678}ul,ol{list-style-position:outside;padding-left:0;margin-left:2em}ul li ul,ul li ol,ol li ul,ol li ol{margin-left:1.414em}ul>li{list-style-type:square;font-size:80%}ul>li>*{font-size:125%}ol>li{font-weight:700}ol>li>*{font-weight:400}ol.arabic{list-style-type:decimal}ol.decimal{list-style-type:decimal-leading-zero}ol.loweralpha{list-style-type:lower-alpha}ol.upperalpha{list-style-type:upper-alpha}ol.lowerroman{list-style-type:lower-roman}ol.upperroman{list-style-type:upper-roman}ol.lowergreek{list-style-type:lower-greek}.dlist dt{color:#325d72;font-weight:700}.dlist dt:not(:first-child){margin-top:1em}.dlist dd{margin-left:2em}td.hdlist1{color:#325d72;padding-right:.5em;vertical-align:top}td.hdlist2{padding-bottom:.5em}h1{font-size:28px;font-weight:400;letter-spacing:-1px;color:#fff;background-color:#325d72;text-align:center;margin:0 0 .5em 0;padding:.05em .5em}@media print{h1{color:#325d72;background-color:#fff;font-weight:700}}h1:after{content:":";width:0;overflow:hidden;display:inline-block;vertical-align:middle}.author{color:#325d72}.email:before{content:"<";color:#325d72}.email:after{content:">";color:#325d72}.author+br,.email+br{display:none}#author{padding-left:.5em}#toc{margin:1em 0 2em 0;padding-left:.5em}#toctitle{font-size:19px;font-weight:700;color:#325d72;margin:.5em 0}#toc>ul{line-height:1.4;font-size:15px;margin:0 0 0 .5em}#toc ul li{list-style-type:none}#toc li{margin:0}.big{font-size:120%}.small{font-size:75%}.underline{text-decoration:underline}.overline{text-decoration:overline}.line-through{text-decoration:line-through}.aqua{color:#00bfbf}.aqua-background{background-color:#00fafa;border-radius:2px;padding:0 3px}.black{color:"black"}.black-background{background-color:"black";border-radius:2px;padding:0 3px}.blue{color:#0000bf}.blue-background{background-color:#0000fa;border-radius:2px;padding:0 3px}.fuchsia{color:#bf00bf}.fuchsia-background{background-color:#fa00fa;border-radius:2px;padding:0 3px}.gray{color:#606060}.gray-background{background-color:#7d7d7d;border-radius:2px;padding:0 3px}.green{color:#006000}.green-background{background-color:#007d00;border-radius:2px;padding:0 3px}.lime{color:#00bf00}.lime-background{background-color:#00fa00;border-radius:2px;padding:0 3px}.maroon{color:#600000}.maroon-background{background-color:#7d0000;border-radius:2px;padding:0 3px}.navy{color:#000060}.navy-background{background-color:#00007d;border-radius:2px;padding:0 3px}.olive{color:#606000}.olive-background{background-color:#7d7d00;border-radius:2px;padding:0 3px}.purple{color:#600060}.purple-background{background-color:#7d007d;border-radius:2px;padding:0 3px}.red{color:#bf0000}.red-background{background-color:#fa0000;border-radius:2px;padding:0 3px}.silver{color:#909090}.silver-background{background-color:#bcbcbc;border-radius:2px;padding:0 3px}.teal{color:#006060}.teal-background{background-color:#007d7d;border-radius:2px;padding:0 3px}.white{color:#bfbfbf}.white-background{background-color:#fafafa;border-radius:2px;padding:0 3px}.yellow{color:#bfbf00}.yellow-background{background-color:#fafa00;border-radius:2px;padding:0 3px}table.tableblock{border:1px solid #91a7b3;margin-left:auto;margin-right:auto}table.tableblock>caption.title{text-align:left;margin-bottom:.5em}table.tableblock>colgroup>col{width:inherit!important}table.tableblock>tbody>tr>td{border-style:solid;border-color:#91a7b3;border-width:0 1px;padding:0 5px 2px 5px}table.tableblock>tbody>tr:nth-of-type(2n){background-color:#f3f5f7}p.tableblock{text-align:inherit}table.tableblock>thead>tr>td,table.tableblock>thead>tr>th,table.tableblock>tfoot>tr>td,table.tableblock>tfoot>tr>th{color:#325d72;font-weight:700;line-height:1.35;padding:2px 5px;border:1px solid #91a7b3}table.tableblock>thead>tr>th,table.tableblock>thead>tr>td{border-bottom-width:2px}table.tableblock>tfoot>tr>th,table.tableblock>tfoot>tr>td{border-top-width:2px}th.halign-left,td.halign-left{text-align:left}th.halign-right,td.halign-right{text-align:right}th.halign-center,td.halign-center{text-align:center}th.valign-top,td.valign-top{vertical-align:top}th.valign-bottom,td.valign-bottom{vertical-align:bottom}th.valign-middle,td.valign-middle{vertical-align:middle}div.listingblock{padding:.5em;border-style:solid;border-color:#678;border-width:0 0 0 2px;background-color:#f3f5f7;overflow:auto}div.listingblock .title{text-align:right}div.listingblock pre{font-family:Menlo,Consolas,Monaco,Lucida Console,monospace;font-size:87.5%;white-space:pre;background-color:#f3f5f7!important;margin:0}div.listingblock td.linenos{border-right:1px solid #91a7b3;padding-right:.67em}div.listingblock table.pyhltable div.linenodiv{color:#678;text-align:right}div.listingblock table.pyhltable td.code{padding-left:.67em}div.imageblock>div.content>img{max-width:98%}.text-indent{padding-left:2em}img.inlinemath{image-rendering:optimizequality;margin-top:.5ex}h2,h3,h4{font-weight:400;color:#325d72;margin:0}h2{font-size:27px;letter-spacing:-1px;border-bottom:1px solid #91a7b3}h3{font-size:24px;letter-spacing:-.75px}h4{font-size:21px;letter-spacing:-.5px}.title{color:#325d72;font-weight:700}#footer{font-size:80%;color:#fff;background-color:#325d72}@media print{#footer{color:#325d72;background-color:#fff;font-weight:700}}#footer-text{text-align:center;padding:.5em}#footer-badges{display:none}span.footnote{vertical-align:super;font-size:80%}#footnotes>hr{display:none}#footnotes:before{display:block;border-bottom:1px solid #678;margin:.5em 0;content:"Notes";font-size:19px;font-weight:700;color:#325d72}#footnotes .footnote{margin-left:.5em;font-size:15px}hr:not(:first-child){margin-top:1.5em}hr:not(:last-child){margin-bottom:1.5em}.imageblock:not(:last-child),.listingblock:not(:last-child),.tableblock:not(:last-child){margin-bottom:1em}p+*,.paragraph+*{margin-top:1em}p+.ulist,p+.olist,p+.dlist,p+.hdlist,.paragraph+.ulist,.paragraph+.olist,.paragraph+.dlist,.paragraph+.hdlist,.paragraph+.listingblock{margin-top:.5em!important}li *+.ulist,li *+.olist,li *+.dlist,li *+.hdlist{margin-top:.1em!important}.title:not(:first-child){margin-top:1.5em}.content+.title{margin-top:.5em!important}.title+*{margin-top:1.5em}.title+p,.title+.paragraph,.title+.ulist,.title+.olist,.title+.dlist,.title+.hdlist{margin-top:.5em!important}.ulist:not(:last-child),.olist:not(:last-child){margin-bottom:1em}li:not(:first-child){margin-top:.1em}.dlist:not(:last-child){margin-bottom:1em}.dlist:not(:first-child){margin-top:1em}.sect3:not(:last-child){margin-bottom:18px}.sect3:not(:first-child){margin-top:18px}h4:not(:last-child){margin-bottom:9px}.sect2:not(:last-child){margin-bottom:22px}.sect2:not(:first-child){margin-top:22px}h3:not(:last-child){margin-bottom:11px}.sect1:not(:last-child){margin-bottom:40px}.sect1:not(:first-child){margin-top:40px}#preamble:not(:last-child){margin-bottom:40px}h2:not(:last-child){margin-bottom:13px}#header:not(:last-child),#content:not(:last-child),#footnotes:not(:last-child),#footer:not(:last-child){margin-bottom:2.5em}
+
+</style>
+</head>
+<body class="article">
+<div id="header">
+<h1>Why skill match is not enough</h1>
+<div class="details">
+<span id="author" class="author">Andrei Gudkov</span><br>
+<span id="email" class="email"><a href="mailto:gudokk@gmail.com">gudokk@gmail.com</a></span><br>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_lifecycle_of_a_typical_project">Lifecycle of a typical project</a>
+<ul class="sectlevel2">
+<li><a href="#_phase_1_induction">Phase #1. Induction</a></li>
+<li><a href="#_phase_2_growth">Phase #2. Growth</a></li>
+<li><a href="#_phase_3_maintenance">Phase #3. Maintenance</a></li>
+</ul>
+</li>
+<li><a href="#_values">Values</a></li>
+<li><a href="#_people">People</a>
+<ul class="sectlevel2">
+<li><a href="#_pioneers">Pioneers</a></li>
+<li><a href="#_growers">Growers</a></li>
+<li><a href="#_maintainers">Maintainers</a></li>
+</ul>
+</li>
+<li><a href="#_advices">Advices</a>
+<ul class="sectlevel3">
+<li><a href="#_1_hire_people_matching_project_phase">1. Hire people matching project phase</a></li>
+<li><a href="#_2_make_job_description_matching_project_phase">2. Make job description matching project phase</a></li>
+<li><a href="#_3_create_work_environment_matching_project_phase">3. Create work environment matching project phase</a></li>
+<li><a href="#_4_make_sure_that_candidates_are_interviewed_by_people_of_matching_class">4. Make sure that candidates are interviewed by people of matching class</a></li>
+<li><a href="#_5_learn_how_to_figure_out_the_phase_of_the_project_when_you_are_hired">5. Learn how to figure out the phase of the project when you are hired</a></li>
+<li><a href="#_6_do_not_participate_in_fake_projects">6. Do not participate in fake projects</a></li>
+<li><a href="#_7_search_for_phase_that_fits_you_best">7. Search for phase that fits you best</a></li>
+<li><a href="#_8_do_not_work_for_too_long_for_maintenance_phase_if_it_is_your_first_place_of_work">8. Do not work for too long for maintenance phase if it is your first place of work</a></li>
+<li><a href="#_9_do_not_be_fooled_by_big_promises">9. Do not be fooled by big promises</a></li>
+</ul>
+</li>
+<li><a href="#_comments">Comments</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you work long enough in software engineering industry, then you probably have already
+met typical hiring problems:
+1) you have a really awesome open position, but nobody good enough responds to your job description in months,
+and those who do, they are not able to pass basic phone screening;
+2) you managed to hire a person with required qualification,
+but for some reason you both become dissatisfied with each other, and hired person leaves soon.
+What is the root cause of such problems?
+It is stated in this article that all such problems are caused by a lack of understanding of the project lifecycle.
+However, project&#8217;s instantaneous state is the primary determiner of values and traits required to perform efficiently.
+People who create projects from scratch are of entirely different type than those who work for mature projects,
+even if they have identical sets of skills.
+Misplacing them is a bad idea.
+Unfortunately, such plain facts are out of the scope of university courses and have to be learned the hard way.
+This article explains lifecycle of a typical software project and how it affects selection of the people.
+Final section contains list of practical advices supposed to reduce number of hiring errors.
+This article would be helpful for everybody employed in software engineering industry, disregarding their role.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lifecycle_of_a_typical_project">Lifecycle of a typical project</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you take a close look at any software product, then it may seem constant during its entire life:
+it has constant name, constant style, constant set of rules.
+As a consumer, you know what to expect from it and what it wants from you in return.
+However, the project which is responsible for this product is not so constant:
+starting from its inception and until its death, it transitions through a number of distinct phases.
+As an external observer, you will never be able to notice any differences between them, even though
+the project internally experiences major changes during phase transitions, up to full replacement of the team.
+Fundamentally, there are only three well-defined phases: initial development until product launch,
+period of fast growth, and long-lasting period of maintenance until product death.
+These three phases differ dramatically.
+In fact, they differ so much that most people are able to work efficiently only during single phase
+that suits them best.
+If people are misplaced, they become the leading cause of poor productivity and dissatisfaction
+among both employers and employees.
+But let&#8217;s start with the phases themselves first.</p>
+</div>
+<div class="sect2">
+<h3 id="_phase_1_induction">Phase #1. Induction</h3>
+<div class="paragraph">
+<p>This phase includes everything from the moment when the first line of code is written
+and till the moment when the product is launched.
+This phase is responsible for forming the shape of the project, which includes KPIs,
+technologies and required qualification of the people.
+Once the shape is formed, it stays virtually unchanged for the whole duration of the project.</p>
+</div>
+<div class="paragraph">
+<p>Good thing about induction phase is that per-person efficiency is very high.
+Small codebase, absence of legacy and modest requirements for quality make it possible
+to complete induction phase with only few people.
+People in small teams know each other, which makes communication naturally easy.
+Any problem may be solved in a matter of seconds even by a person with poor communication skills.</p>
+</div>
+<div class="paragraph">
+<p>Notable characteristic of the induction phase is that while effort is very high,
+it doesn&#8217;t generate immediate feedback.
+Work is done blindly.
+Everything planned and done during this phase is pure speculation of a smart mind.
+There is nobody to tell you what part of work is really important and will survive,
+and what part of work doesn&#8217;t have any value and is not worse of spending time on it.
+Not only does this phase require you to sacrifice spare time and ignore personal interests,
+but it also may turn out in the end that all efforts were in vain.</p>
+</div>
+<div class="paragraph">
+<p>Lack of feedback limits maximal possible duration of the induction phase to a year,
+maybe to a couple of years, but no more.
+If you don&#8217;t manage to complete what you have planned in this amount of time, then,
+without any feedback, growing psychological discomfort will reduce productivity to zero
+even in case when money is still available.
+Dissatisfied people leave, and without people project dissipates in no time.
+Even if you are lucky and project succeeds technically, this doesn&#8217;t mean anything yet.
+Now it is the time when the project is to be tested against consumers' expectations.
+It takes some time while consumers (public audience or a private customer, depending on the project type)
+are trying to adapt to your product, eventually accepting or rejecting it.
+And only if their decision is to accept it, the project may be named as a true success.
+It naturally transitions to the second phase in such case, where development will be entirely feedback-driven.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_phase_2_growth">Phase #2. Growth</h3>
+<div class="paragraph">
+<p>Things heat up very quickly during this phase.
+Initial push from product launch produces influx of money, people and new ideas.
+Money come either from product sales or, more typical in superhot software engineering industry, from further funding.
+New funds and growing reputation of the brand attract more people.
+Ideas are the result of the established business feedback and the large number of newcomers.
+These three things&#8201;&#8212;&#8201;money, ideas and people&#8201;&#8212;&#8201;are constantly burning together
+resulting in increase in business value.
+And with higher business value more money, people and ideas come&#8230;&#8203; typical chain reaction.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="burning.png" alt="burning" width="60%">
+</div>
+</div>
+<div class="paragraph">
+<p>Positive side of this phase is that development is done in smaller steps than before, which is easier.
+Smaller steps mean that there is no life-threatening dependence on people with 360&deg; skills anymore.
+Instead, work can be split into multiple highly specialized parts.
+It is also not so scary to fail one small step now: it won&#8217;t destroy the entire project.
+You may even intentionally try some highly risky ideas you always kept in mind but were afraid of trying.</p>
+</div>
+<div class="paragraph">
+<p>Another positive aspect of the growth phase is that feedback is sensed nearly instantly,
+which allows to adjust plans on the fly.
+Web development provides the most extreme example to this idea.
+Feedback cycle may be as short as one week:
+you may have an idea on Monday, implement it by Wednesday, deploy it into production on Friday,
+and receive the first results in the beginning of the next week.
+By accepting and rejecting ideas very fast, development works at this phase like greedy parallel algorithm,
+extending its tentacles both in-width and in-depth to find the most optimal way.</p>
+</div>
+<div class="paragraph">
+<p>The further the project goes into this stage, the more it takes the shape of what you normally
+call "The Project", with both positive and negative traits.
+While large army of people means large workforce, it creates multi-layered hierarchy at the same time.
+In large hierarchies, people don&#8217;t know one another and, thus, can&#8217;t communicate well.
+This significantly reduces per-person efficiency and scatters control over the project.
+In addition, expect to face legacy, which becomes a serious issue during this phase.</p>
+</div>
+<div class="paragraph">
+<p>Project can&#8217;t grow indefinitely: sooner or later, some limiting factor will appear and burning process will stop.
+Maybe you will run out of good ideas, or maybe the world will change enough so that the product won&#8217;t be so relevant anymore,
+or maybe exponentially increasing cost of bureaucracy will become comparable with income.
+When it happens, it happens transparently, without any explicit milestone and public announcement.
+Project slowly transitions into its third and final phase.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_phase_3_maintenance">Phase #3. Maintenance</h3>
+<div class="paragraph">
+<p>Key goal of this phase is to keep project afloat without increasing cost of ownership.
+It is clear that the project won&#8217;t generate more profits than it currently does.
+Nobody will say this idea aloud.
+Instead, people will act like wonders are going to happen, even though everybody
+understands subconsciously that the project is stagnant.</p>
+</div>
+<div class="paragraph">
+<p>Term "maintenance" covers much broader range of activities than you can imagine.
+In theory, it is limited to performing scheduled tasks according to the detailed instructions
+and fixing ad-hoc problems.
+But the reality is different.
+Due to political conflicts (inevitable in large groups), desire for promotion,
+in order to keep people interested, and simply because of boredom,
+maintenance may also include following odd activities:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Rewriting the project in another language, switching to different frameworks or libraries.
+In extreme cases, this may even lead to original technology after couple of such iterations!</p>
+</li>
+<li>
+<p>Making releases consisting entirely of tiny, barely noticeable enhancements</p>
+</li>
+<li>
+<p>Artificially establishing excessive formalities and processes, e.g. daily meetings</p>
+</li>
+<li>
+<p>Creating immense amount of small entities</p>
+</li>
+<li>
+<p>Relying mainly on manual, error-prone operations</p>
+</li>
+<li>
+<p>Intentional use of technologies not fit to purpose ("LaTeX is the only true documentation language")</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The more intellectually challenging the original project was, the more intellectually challenging
+its maintenance oddities are.
+They may range from running A/B test to figure out what color results in more ad clicks, #888888 or #888887,
+to rewriting the entire system to enhance performance by 0.1%.
+But common factor is always the same: no matter what is done during the maintenance phase,
+it doesn&#8217;t contribute to business value.
+The only truly relevant tasks are those where you act on behalf of maintenance crew
+to keep HMS Project afloat.
+Occasionally, it is possible to catch a brief glimpse of sensible work, but that&#8217;s nothing
+compared to the initial project making.</p>
+</div>
+<div class="paragraph">
+<p>Generally speaking, maintenance phase is not so bad from employee&#8217;s perspective.
+Never-ending list of odd tasks guarantees stability and allows to plan personal
+life for years in advance&#8201;&#8212;&#8201;something that is not possible during less predictable
+induction and growth phases.
+Maintenance phase is also somewhat beneficial to recent graduates,
+who can learn much from successful project in calm environment.
+But bear in mind that it will implant extremely biased job values in the long run,
+so that people will never be able to perform well during induction or growth phases anymore.</p>
+</div>
+<div class="paragraph">
+<p>Maintenance phase projects become bloated with excessive people very fast.
+Being deprived of sensible constructive goal, smartest people leave,
+and created gap is closed by a number of not so smart newcomers, which forces even more people to leave.
+This, once again, is a chain reaction, a variety of negative selection.
+Large army of people requires great expenses and creates management inflexibility.
+Together with falling positions of the product in the market, they slowly by steady move project towards
+its inevitable death.
+Compared to previous phases, maintenance phase may last for very long, sometimes for decades if conditions are right.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p>To summarize: induction phase forms the skeleton of the project along with the amount of tissue
+barely enough to bring beast to life.
+Growth phase adds more and more tissue until the point is reached when the beast becomes too bulky to be healthy.
+And maintenance phase is responsible for curing diseases in already grown up beast.</p>
+</div>
+<div class="paragraph">
+<p>Why is it so?
+When people use terms "business" and "work", they usually refer to some sort of activity when business value
+is comparable to efforts, such as in farming, manufacturing or logistics.
+If you work hard enough to produce two times more items than one month before,
+your profits will generally increase twofold as well.
+However, vast majority of the software projects are not of this kind.
+It may be very costly to create them, but once both technical and business components of the project succeed,
+money begins to flow with little additional effort, either from sales or from further funding.
+Project acts like cow that can be milked for years after this has happened.
+Linear correlation between effort and business value is observable only during the second phase, the growth.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="transitions.png" alt="transitions" width="90%">
+</div>
+</div>
+<div class="paragraph">
+<p>It should be obvious that real world is much more diverse.
+Consider above model to be the arithmetic mean calculated over the large selection of the projects.
+And in the same way as the center of mass of a hollow donut is located outside of its body, in the very same
+way there is no single project that ideally fits this model.
+There are companies the whole existence of which depends on single project
+that they created long time ago and have been protecting since that time.
+On the other hand, there are whole industries constantly living in the induction phase.
+Consider, for example, game company: as soon as some title is released, they start to work on the next one.
+Feedback from gamers is fused into the development of the next title, and maintenance is reduced to just couple of weeks.</p>
+</div>
+<div class="paragraph">
+<p>Furthermore, bear in mind that single company may run multiple independent projects in different phases.
+As such, knowledge about one of the projects should not be used to make judgement about the others.
+But the key idea remains the same: each separate successful endeavour transitions through the sequence of three phases:
+initial development until first feedback, rapid growth, and plateau of maintenance.</p>
+</div>
+<div class="paragraph">
+<p>Also watch out for the fake projects.
+They may seem like normals for an external observer, but in fact they have no business value.
+Canonical example is the project that was initiated inside larger maintenance phase project with the purpose
+to rewrite or remake something.
+It passes through all three phases, but in fact it doesn&#8217;t have any business value.
+It doesn&#8217;t matter whether it succeeds or fails&#8201;&#8212;&#8201;it won&#8217;t affect the business.
+As such, there will be no feedback and no bright future.
+Another group of fakes consists of projects which were initially normal, then failed to succeed technically
+or commercially, but are still continued to be financed.
+There may be a lot of reasons to do so: publicly traded company may be afraid of reputation losses
+if it declares one of its projects as a failure, it may be because CEO&#8217;s friends and relatives
+are in charge of the failed project, maybe startup founders are the gods of persuasion or
+maybe there are simply no other projects to invest money to.
+(In modern time of software industry domination, the problem "we have money but not the ideas" occurs much more often
+than the opposite one.)
+If the project didn&#8217;t make it from the very first time, chances that it will succeed in future are nil.
+Fake project of such type may live for years, occasionally demonstrating convulsions as it tries to unsuccessfully
+enter the market.</p>
+</div>
+<div class="paragraph">
+<p>When being hired, you may wish to figure out the phase of the project under consideration.
+Below is the list of common characteristics which should help you in doing so.</p>
+</div>
+<div class="paragraph">
+<p>Induction phase:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Product is not launched yet, existence of ugly prototype is highly possible</p>
+</li>
+<li>
+<p>Work is divided into massive tasks without complete understanding of how to do them</p>
+</li>
+<li>
+<p>Personal responsibility is highly valued</p>
+</li>
+<li>
+<p>Project is severely understaffed</p>
+</li>
+<li>
+<p>Candidates are ranked by number of previously completed projects</p>
+</li>
+<li>
+<p>Employees tend to leave <em>late</em> on Fridays</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Growth phase:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Many various tasks to choose from, you are even allowed to create your own task</p>
+</li>
+<li>
+<p>Project had a lot of major achievements during the last year</p>
+</li>
+<li>
+<p>Candidates are ranked by skill level</p>
+</li>
+<li>
+<p>Project has a lot of open positions</p>
+</li>
+<li>
+<p>Attempt to figure out what you can do best</p>
+</li>
+<li>
+<p>Employees tend to leave <em>late</em> on Fridays</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Maintenance phase:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Formal job description containing long lists of technologies, responsibilities and benefits</p>
+</li>
+<li>
+<p>No clear definition of what needs to be done</p>
+</li>
+<li>
+<p>Long lasting interviews</p>
+</li>
+<li>
+<p>Overstaffed; non-technical managers constitute 10% of staff or more</p>
+</li>
+<li>
+<p>Project doesn&#8217;t have any commercially important achievements during the last year</p>
+</li>
+<li>
+<p>Often very strange system of values, any other system of values is not tolerated</p>
+</li>
+<li>
+<p>Candidates are ranked by years of experience</p>
+</li>
+<li>
+<p>Employees tend to leave <em>early</em> on Fridays</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_values">Values</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>After model of a project lifecycle is accepted,
+everything further will come out as a direct consequence of this model.
+With so many differences between phases, it should be obvious now that
+entirely different values should be cherished and entirely different people should be hired
+for each phase.
+For example, person who works effectively during induction phase won&#8217;t be so effective (and happy)
+during maintenance phase and vice versa.
+Three phases are three entirely different worlds with poorly interchangeable values and people.</p>
+</div>
+<div class="paragraph">
+<p>If I had to choose only single word for the induction phase, then it would be "targeting".
+Targeting. Targeting. Targeting.
+While the product is not launched yet and there is no confidence in its success,
+it would be fatal to do anything excessive.
+Every, no matter how small, task should begin with the question: do we really need it?
+Is it crucial for the very first version? or can we postpone it till growth phase,
+when there are much more resources available than now?
+If such questions are not asked, project won&#8217;t survive for too long: either resources
+will run out before it is even completed or the quality of the final product will be extremely poor.
+In latter case, resource scattering will result in situation when the first version of the product contains
+all bells and whistles you wanted it to contain but nothing that is worse of real business value.
+If the product is intended for the general audience, then it won&#8217;t attract substantial number of users.
+If the product is contract-based, then the customer won&#8217;t be interested in further cooperation with you.</p>
+</div>
+<div class="paragraph">
+<p>If, for example, your goal is to provide people with quantum teleportation via webcam, then it
+would be a bad idea to spend 80% of the time on polishing user interface and only 20% on technology itself.
+Is it the UI that is the core idea of your project?
+If you manage to make UI awesome, people will say "wow!" but will move away because of poorly working technology.
+On the other hand, if you invest almost all effort in technology,
+people will say "what an ugly UI!" but will stay with the product.
+Induction phase is not the time when you can afford luxury of doing all components of the project well.
+This idea spans to all levels of development: from the project as a whole and down to a single-day task.</p>
+</div>
+<div class="paragraph">
+<p>Key values of the induction phase project are the abilities to distinguish between primary and secondary tasks,
+to concentrate on primary tasks, and to suppress desire to do anything else.
+Latter is not so easy as it seems at first glance.
+The problem is that people prefer to do what they already know how to do: what they were taught at university,
+what they read from books and what they managed to complete before.
+This is the most pleasant type of work.
+There are plenty of guys and girls who are willing to create something by the book,
+but only few of them are fine with taking responsibility for something even slightly innovative,
+because it is unpredictable, requires one hundred times bigger effort and may still fail in the end.
+But the irony is that age of technology negatively correlates with commercial value:
+once some technology becomes well-studied, it cannot be used to earn much money anymore.</p>
+</div>
+<div class="paragraph">
+<p>When project enters growth phase, pressure levels of being exceptionally targeted drop down.
+Instead, many new people appear and many parallel activities are initiated.
+Here is Michael&#8201;&#8212;&#8201;he is responsible for optimization of the digital to quantum converter,
+here is Alice&#8201;&#8212;&#8201;she researches ways to make tissue reconstruction less painful,
+here is David&#8201;&#8212;&#8201;he makes Android version of our application,
+and here are two guys &#8230;&#8203; oops, they are totally new.
+Office space becomes like a large construction site.
+And as with any large construction site, the key problem is that people are dependent on each other.
+The ability to effectively communicate becomes crucial as the project progresses through the growth phase.</p>
+</div>
+<div class="paragraph">
+<p>Important note: term "communication" is not the ability to say random 10,000 words per day
+or to schedule five daily meetings.
+It is all about fitting well into the production chain,
+which means that you need to think in terms of dependencies between you and the others.
+There is no correlation between being talkative and communication skills:
+you may talk not too much, but to the point.
+The opposite is also true: reading aloud latest news every fifteen minutes
+in no way will contribute to project&#8217;s success, though it will create high personal visibility.</p>
+</div>
+<div class="paragraph">
+<p>Another crucial value of the growth phase is the ability to create quality things.
+If during the induction phase you could (and had to) sacrifice quality of all components which
+do not constitute the core part of the project, now you can&#8217;t do the same thing.
+Because with so aggressive growth, expect that dozens of new components will be built atop of
+current ones in just a year.
+If quality is poor then everything will fall apart.
+This will severely limit expansion of the project.
+It is a good idea to create minimal quality standards and apply them even to those components
+which are not visible to consumers and are not directly tradeable.</p>
+</div>
+<div class="paragraph">
+<p>Key goal of the last phase&#8201;&#8212;&#8201;maintenance&#8201;&#8212;&#8201;is to support project without major increase in its cost of ownership.
+Constantly increasing cost of ownership is one of the two causes that will eventually kill the project
+(another one is the declining performance of the product in the market).
+Death will happen sooner or later, and your goal is to postpone its moment for as long as possible.
+The most important quality during maintenance phase is the absence of ambitions, both technological and career,
+no matter how strange this may sound.
+People who possess career ambitions spend significant amount of time on politics.
+This includes hiring swarms of underqualified people: they are easily controllable
+and would have to agree with whatever they are said to agree with.
+Inflated amount of underqualified employees is exactly the thing that makes costs high
+but doesn&#8217;t add to business value.
+Hence the rule: the fewer ambitions people have, the healthier the project is.</p>
+</div>
+<div class="paragraph">
+<p>People who have technological ambitions do not stay employed in maintenance phase for too long.
+And those who do, they start to do odd things: build overcomplicated unsupportable systems,
+work on a pet project or play with new unrelated technology.
+Managers, understanding their own uselessness, have to agree with such type of work
+because they do not want to loose employees.
+"Fine. Do whatever you want that at least somehow relates to the project. Just don&#8217;t leave, OK?"
+It turns out that best matching people for maintenance phase are those who have level of activity
+comparable to that of attenuated vaccine: not too low, not too high.
+Entirely passive people are useless, while too active people only make things worse.
+There is no anything at maintenance phase where excessive activity could be directed to.</p>
+</div>
+<div class="paragraph">
+<p>As with growth, communication skill is also important, but now its goal is different&#8201;&#8212;&#8201;to fight bureaucracy.
+To fight, not to comply.
+Usually all attempts to solve the problem with the correct procedures end with the problem becoming irrelevant
+earlier than it can be solved.
+Therefore, the only acceptable solution is to know "right" people and "right" workarounds.
+In general, solving problems with unconventional, shadow approaches is more natural during maintenance phase
+than with official ones.
+QA team is not able to complete testing in time?
+Maybe there is some acquaintance of yours in high enough position who can take responsibility
+of releasing new version without QA approval.
+Your laptop has given up the ghost?
+Maybe the fastest way is to buy it with your own funds after agreeing on additional bonus to cover its cost.
+You need more server hardware?
+Of course, you could fill in form 27B/6 and solve the quest "get 10 approvals" but it would be much
+easier to wait for some time until production environment starts crashing and dissatisfied users
+switch to competing service.
+Required hardware will magically appear on the very next day.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_people">People</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>So large differences in values between phases immediately lead to the idea
+that completely different people are required for each of them.
+There is some optimal type of people for each phase.
+Opposite is also true: because there are three and only three phases,
+people tend to adapt to one phase that suits them best.
+Of course, this is not an instant process, but after 5-10 years of experience,
+people already know things they are fine with and things that they are not going to touch ever again.
+In general, there are only three project phases and only three classes of people.
+People of different classes have entirely different set of motives, goals and expectations.
+It is not very hard to distinguish between them.</p>
+</div>
+<div class="sect2">
+<h3 id="_pioneers">Pioneers</h3>
+<div class="paragraph">
+<p>Induction phase is best done with <em>pioneers</em>.
+Pioneers are motivated by creating something new from scratch,
+something which is ideally in high demand in the market.
+It is not uncommon for such people to often change field of interest:
+mobile games in 2010, cryptocurrencies in 2012, self-driving cars in 2015.
+They switch their field of interest as soon as some new technology emerges.
+Being interested in what they do, they work hard regardless their age and marital status.
+They require full absence of rules in return.
+Some of them agree to work only during nights, others refuse to use bugtrackers,
+and, of course, almost all of them do not care about such trifles as code quality and testing.
+Actually, this is a good trait for induction phase projects because all these best practices,
+which are natural for further phases, are intended to fight complexity,
+but induction phase lacks it.
+Induction phase is all about making something working as fast as possible.
+It requires to be very targeted&#8201;&#8212;&#8201;exactly the trait possessed by pioneers.</p>
+</div>
+<div class="paragraph">
+<p>How would someone distinguish a pioneer?
+First of all, by skill: it is high and broad.
+It is high because years of constructive work can&#8217;t leave you with low skill
+and broad because of experience in large number of technologies.
+This doesn&#8217;t contradict the fact that pioneers may not necessarily be able to answer highly specialized questions:
+people of such class would rather prefer to find workaround rather than to spend a week on studying documentation.
+Expect that such people are able to solve any problem but not necessarily in a most efficient or natural way.
+CV of such people mentions a lot of different projects with a duration between three months and couple of years each.
+Such people are fast and dirty thinkers, they concentrate on immediate goal.</p>
+</div>
+<div class="paragraph">
+<p>Positive traits of pioneers become their negative traits when project transitions into the growth phase.
+Growth phase means a lot of new people,
+it gives birth to the first elements of bureaucracy and team rules,
+and it means large codebase with at least some legacy.
+All these things are not acceptable for pioneers.
+Add to this the fact that technology is already not so hot as it was before,
+they loose interest in project and leave on their own after receiving first decent offer.
+Only those stay who initially were better suited for growth phase.
+After pioneers leave, it turns out that their code, albeit working satisfactory, is not so good from the inside:
+it is ugly and is not supportable by any means, there is no way you can build anything sophisticated atop of it.
+When people of the second phase&#8201;&#8212;&#8201;<em>growers</em>&#8201;&#8212;&#8201;see it, they can&#8217;t refrain from using bad language
+and eventually rewrite everything.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_growers">Growers</h3>
+<div class="paragraph">
+<p>Motivation of the growers is entirely different: they want to grow huge, high quality product.
+They realize that this is not possible to make it independently and
+are able to communicate well with their own kind in order to form effective production chain.
+They split work into short term tasks, such as adding new features, performance tuning, refactoring,
+conducting experiments, creating robust test suites, crystallizing best practices, teaching others.
+Such class of people require immense amount of goals and resources, more goals and more resources,
+and even more goals and even more resources.</p>
+</div>
+<div class="paragraph">
+<p>Similar to pioneers, they have high skill because they are constantly occupied by constructive work.
+Quite often they have one or two fields of interest where they are unarguable experts in both theory and practice.
+Such type of people always have a todo list, either on paper or in their heads
+with hundreds of tasks and ideas.
+They maintain it in up-to-date state by constantly adding, expanding, deleting and prioritizing items in this list.
+Growers are hard but slow thinkers capable of comprehensive analysis of current situation
+if compared to pioneers, who are faster but who see only immediate step ahead of them and ignore everything else.
+Growers are identified by extreme attention to details and the ability to give in-depth answers.
+They are also especially interested in skill of people they will have to work with because they heavily rely on collaboration.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_maintainers">Maintainers</h3>
+<div class="paragraph">
+<p>People who natively fit in maintenance phase&#8201;&#8212;&#8201;<em>maintainers</em>&#8201;&#8212;&#8201;are motivated primarily by money.
+Their goal is to get as much money and other benefits as possible by making effort barely enough in order not to be fired.
+They decided to stick with software engineering industry only because it offered good salaries.
+They will leave as soon as they get an offer with compensation of +10% or from a company with a better name.
+They have zero passion about their job, though they will try to persuade you
+in the opposite by using eloquent words during the interview.
+This is the source of all their negative traits.</p>
+</div>
+<div class="paragraph">
+<p>The first major problem is their level: they have poor skills and are not able to think by themselves,
+even after decades of employment.
+They are able to hold their positions only because they managed to accumulate some basic experience and
+now they are trying to constantly sell it again and again.
+They are trained to give basic answers to any interview question: you may ask them anything you like,
+and you will get literal quote from Wikipedia but without any understanding of what it actually means.
+If they encounter a problem out of their experience, they buy modern book on relevant subject
+and start doing exactly as written in the book, step by step, without any traces of thinking process.
+While growers "grow" processes and practices by adjusting and sharing their experience,
+maintainers just stupidly follow the instructions, like if a book contained military directives.
+Exact instructions, authoritative people, specifications and internal policies always have the top priority
+and are considered as something which is given by the gods from above.
+If given problem doesn&#8217;t have such step-by-step instructions, they avoid it at all costs.
+The good thing is that they are really good at following instructions, they are not get tired and bored by them,
+and this can be exploited.
+The only thing that you need to keep in mind is that they must be constantly supervised: otherwise,
+lack of motivation would put them into idle state.</p>
+</div>
+<div class="paragraph">
+<p>Such class of people dramatically differ from pioneers and growers.
+As such, they can be easily identified even by a non-technical staff during the interview.
+They usually ask long lists of questions about minor benefits:
+is it possible to work one hour less on Friday?
+how many displays am I entitled to have and of what sizes?
+how many flavours of cookies are there in the kitchen?
+and what about different sorts of tea?
+have you got a playing room? and the like.
+When pioneers and growers ask for something, they do it because of some justifiable reason.
+But this kind will demand each and every benefit disregarding whether it improves their effectiveness or not.
+Another easily detectable trait of a maintainer class person is an attempt to rely on certifications as much as possible
+to avoid technical questions.
+In most ridiculous cases, it may be like following: "How do you count unique elements in SQL?&#8201;&#8212;&#8201;Don&#8217;t worry! I am a certified database architect. Next question, please."
+Of course, not many people have access to trainings, but those who do, they make full use of this opportunity.</p>
+</div>
+<div class="paragraph">
+<p>I understand that description above doesn&#8217;t sound exciting, but this is exactly the type of people
+who fit best in maintenance phase.
+More skillful, thinking and motivated candidates are attractive but they either will leave very soon or will
+unintentionally destruct the project with remakings and overcomplication of everything they touch.
+Additionally, maintenance phase may be a perfect place for: a) novices and b) people of senior age.
+Novices are good because they don&#8217;t have any experience yet and, thus, are interested or at least
+have to be interested in any work you give them.
+People of senior age tolerate the dreadfulness of the maintenance phase well even if they are the veterans
+of induction or growth phases: they have already accomplished everything they had wanted, and now they
+are fine with slow work in exchange for long-term job security.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p>It is crucial to understand that people are poorly interchangeable between phases.
+People who are natural for induction and growth phases are not able to work effectively
+during the maintenance phase because there is no any constructive work.
+And those who have to stay employed at maintenance phase, they start rewriting everything and doing odd things
+because of boredom (list of such oddities was given above).
+Opposite&#8201;&#8212;&#8201;that is, maintainers working during induction or growth phase&#8201;&#8212;&#8201;is also not possible
+because years of following simple instructions result in poor skills.
+As such, they simply are not able to pass technical interview or, if managed to pass,
+won&#8217;t do anything useful without detailed instructions and constant supervision.</p>
+</div>
+<div class="paragraph">
+<p>Differences between pioneers and growers are not so dramatical, but anyway are too large to be ignored.
+When project transitions to growth phase, pioneers leave because team restrictions become unbearable.
+They would like to do something newer rather than expanding already launched product.
+They do not have 100% control over the project anymore and have to reach consensus with others about every
+aspect of development, which makes them unhappy.
+Opposite situation&#8201;&#8212;&#8201;that is, growers hired for induction phase&#8201;&#8212;&#8201;is acceptable, though results in inefficiency.
+Growers work best when they are given seed crystal and substrate in the form of already working,
+albeit of poor quality, product and large amount of resources, and they see their goal in growing huge crystal out of them.
+When they create product from scratch, they spend considerable amount of time on activities of purely strategic meaning
+which will become eventually helpful but currently are of no use.
+For example, they may decide to refactor just written piece of code three times in a row,
+develop optimal code style guide or build list of nice to have features.
+Such activities only waste valuable time, which may be fatal for project success.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="differences.png" alt="differences" width="60%">
+</div>
+</div>
+<div class="paragraph">
+<p>Of course, real world is much more diverse than that.
+There are people who are able to switch between phases and
+there are those who can&#8217;t find their favourite phase even after years of experience.
+It is better to think about fitting as of triplet of percentage values, where each value describes
+how fit person for corresponding phase is.
+The same is true for phases: every phase has some traits of others two.
+For example, research based project will always depend on pioneers and growers, even in maintenance phase.
+But for maximum efficiency, the bulk of the people should be of matching class: pioneers for induction phase,
+growers for growth phase, and maintainers for maintenance phase.</p>
+</div>
+<div class="paragraph">
+<p>One of the most paradoxical situations is when project in maintenance phase
+intentionally hires pioneers and growers.
+You may name any well-known company&#8201;&#8212;&#8201;they all do the same thing.
+They succeed in doing so because being already a success allows them to use their brand name,
+high salaries and already hired people of these classes as a bait.
+People who are being hired either do not understand what awaits them or have to accept
+the offer because of circumstances (three children) or because they don&#8217;t know about
+the existence of other phases yet.
+The situation is paradoxical because neither project nor people benefit from such misplacement.
+Once project has reached maintenance phase, there is no turning back.
+You can&#8217;t magically convert it to induction or growth phase:
+if you wanted to do so, you&#8217;d better create new separate project.
+Hired pioneers and growers either leave immediately or become occupied with very odd things which do not
+contribute to the well-being of the project, but eventually also leave.
+As the result, you may find a ton of negative reviews about any well-known company from really good people.
+They all state the same thing: that internally working at such company is not the same as it was advertised.
+In general, expect that companies with popular brands consist mainly of projects in maintenance phase.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_advices">Advices</h2>
+<div class="sectionbody">
+<div class="sect3">
+<h4 id="_1_hire_people_matching_project_phase">1. Hire people matching project phase</h4>
+<div class="paragraph">
+<p>Different phases require people of entirely different classes.
+It may be even better to hire person of irrelevant field of expertise but of matching class
+instead of doing the opposite.
+When people fit naturally, they become useful in a matter of hours,
+while people who don&#8217;t fit naturally spend a lot of time either by trying to adapt
+to the alien phase or by trying to change the whole project to match their expectations.
+Both activities are destructive and unsuccessful.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_2_make_job_description_matching_project_phase">2. Make job description matching project phase</h4>
+<div class="paragraph">
+<p>Otherwise, how exactly are people supposed to figure out whether project suits them or not?
+While job description "java dev is required, paying with money, free donuts, half page
+of motivational mottoes" is fine for the project in maintenance phase,
+it would only scare relevant candidates and attract people without proper qualities
+if published by a project in induction or growth phase.
+Job description for projects of these two phases must focus on what needs to be done:
+created, optimized or researched.
+Examples: "C dev to create linux NIC driver", "port iphone game to android",
+"work on emotions recognition in speech", "PM to merge five departments".
+Actual task and scope of ownership may be adjusted during negotiations,
+but without initial clear message, job description is doomed to attract primarily poorly
+skilled opportunists.
+Projects with clear constructive goal&#8201;&#8212;&#8201;that is, during induction and growth phases&#8201;&#8212;&#8201;make serious error when they blindly follow job description format common to maintenance phase.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_3_create_work_environment_matching_project_phase">3. Create work environment matching project phase</h4>
+<div class="paragraph">
+<p>People of different classes have different expectations about working conditions,
+satisfying them is a key to good performance and well-being.
+Pioneers require full freedom: no bureaucracy, no petty managers, free choice of tools and processes.
+Growers depend on quiet working conditions: projects in growth phase become crowded very fast,
+and locking them into noisy and densely packed open space offices is a bad idea.
+And only maintainers are attracted by goodies like food, trainings and playground,
+as they alleviate the boredom of a typical lazy working day.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_4_make_sure_that_candidates_are_interviewed_by_people_of_matching_class">4. Make sure that candidates are interviewed by people of matching class</h4>
+<div class="paragraph">
+<p>This is particularly important during transitions between phases.
+The problem is that candidates are traditionally interviewed by company veterans,
+who are predominantly of different class.
+In general, people make positive judgements only about their own kind: pioneers like pioneers,
+growers like growers, and maintainers like maintainers.
+If you do not interfere in hiring process, then the majority of the relevant candidates will be rejected,
+and it will take long time before a significant number of them
+manages to "leak" through the interview barrier imposed by veterans.
+Once they are inside, they become dominating faction very fast due to their high efficiency,
+which is the result of being in the right place and in the right time.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_5_learn_how_to_figure_out_the_phase_of_the_project_when_you_are_hired">5. Learn how to figure out the phase of the project when you are hired</h4>
+<div class="paragraph">
+<p>Ask following questions during the interview: what needs to be done?
+what is the business value of this particular task? of overall project?
+what did the interviewer do yesterday?
+Induction phase projects have concrete constructive goal but do not have any formal processes.
+Growth phase projects have large number of well-defined tasks to choose from and some formal processes.
+Maintenance phase projects do not have any constructive goal but have strict formal processes.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_6_do_not_participate_in_fake_projects">6. Do not participate in fake projects</h4>
+<div class="paragraph">
+<p>If the project fails to achieve business goals, run away.
+Project will never recover, no matter how much money is artificially pumped in
+and how persuasive manager&#8217;s speeches are.
+It is hard to accept that project failed despite months of hard work.
+But it is true.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_7_search_for_phase_that_fits_you_best">7. Search for phase that fits you best</h4>
+<div class="paragraph">
+<p>Induction phase offers maximum freedom but it also requires maximum effort without any help and supervision,
+often in a field where there are no best practices established yet.
+Growth phase offers team action with the opportunity to build large successful product,
+but in return it restricts freedom and you also won&#8217;t be named as the father of a project
+despite expending effort no less than pioneers did.
+Maintenance phase offers stability, lazy working days and a great number of goodies,
+but all your efforts will never make any difference to business,
+and there even no constructive goal present in vast majority of cases.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_8_do_not_work_for_too_long_for_maintenance_phase_if_it_is_your_first_place_of_work">8. Do not work for too long for maintenance phase if it is your first place of work</h4>
+<div class="paragraph">
+<p>Try others.
+If it turns out that maintenance phase is exactly what you are looking for,
+then you always will be able to return back.
+But moving out from maintenance phase is virtually impossible: skills and experience
+accumulate ten times slower during it than during induction and growth phases.
+As such, you simply won&#8217;t be able to pass technical interviews.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_9_do_not_be_fooled_by_big_promises">9. Do not be fooled by big promises</h4>
+<div class="paragraph">
+<p>Companies with a lot of stagnant projects, despaired by the inability to hire quality candidates,
+often use following trick.
+They artificially create one elite department with ultra high salaries, visibility and importance.
+Once it is populated, it is aggressively used for advertising purposes.
+Interviewers will constantly refer to it, promising all of its benefits.
+However, in the end of the interview, you will be offered to work for some another, not so popular, department
+on entirely different conditions.
+This will be supplemented by the promises that you will be transfered as soon as possible to elite department.
+As you have already guessed, this will never happen.
+Even if you manage to prove yourself (which is virtually impossible by working for a dying project),
+high self esteem of elite department employees will reject anybody who worked for an ordinary department.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_comments">Comments</h2>
+<div class="sectionbody">
+      <div id='disqus_thread'></div>
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http://gudok.xyz/smine/';
+          this.page.identifier = 'smine';
+        };
+
+        (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//gudok.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href='https://disqus.com/?ref_noscript'>comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2017-02-05 11:44:01 UTC
+</div>
+</div>
+</body>
+</html>
