@@ -2,8 +2,8 @@
 
 SRCDIR = src
 OUTDIR = mastercopy
-PROCESSOR = $(shell readlink -f ../adoc/asciidoctor_wrapper.rb)
-STYLESHEET = $(shell readlink -f ../adoc/lepota.css)
+PROCESSOR = $(shell readlink -f ../_generator/asciidoctor_wrapper.rb)
+STYLESHEET = $(shell readlink -f ../_generator/lepota.css)
 
 IMAGES = $(shell cat $(SRCDIR)/index.txt | sed -rn '/^image::(.*(\.svg|\.png)).*$$/s//\1/p')
 
