@@ -3475,7 +3475,7 @@ Drvperf is written in C and works exclusively in Linux environment.
 Drvperf requires root access to unlock full feature set, 
 but basic tests may be run by non-priveleged user by specifying large regular file as target block device.
 Needless to say, results would be slightly shifted in this case due to the influence of filesystem layer.
-Source code along with man page can be downloaded here: http://gudok.xyz/drvperf/[drvperf].
+Source code along with man page can be downloaded here: https://github.com/andreigudkov/drvperf[drvperf].
 Following paragraphs briefly describe methology of each test.
 
 Sequential access performance is measured by pair of tests, *seqread* and *seqwrite*,
