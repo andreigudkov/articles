@@ -164,7 +164,7 @@ class DisqusBlockMacroProcessor < Asciidoctor::Extensions::BlockMacroProcessor
   named :disqus
 
   def process parent, target, attrs
-    site_id = 'andreigudkov'
+    site_id = 'gudok'
     page_id = target
     page_url = 'http://gudok.xyz/' + CGI.escape(page_id) + '/'
 
