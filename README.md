@@ -1,1 +1,1 @@
-Source code of the articles located at [`https://andreigudkov.github.io/`](https://andreigudkov.github.io/)
+Source code of the articles located at [`http://gudok.xyz/`](http://gudok.xyz/)

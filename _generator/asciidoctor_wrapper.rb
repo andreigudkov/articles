@@ -166,7 +166,7 @@ class DisqusBlockMacroProcessor < Asciidoctor::Extensions::BlockMacroProcessor
   def process parent, target, attrs
     site_id = 'andreigudkov'
     page_id = target
-    page_url = 'https://andreigudkov.github.io/' + CGI.escape(page_id) + '/'
+    page_url = 'http://gudok.xyz/' + CGI.escape(page_id) + '/'
 
     # todo: escape javascript
     html = %(

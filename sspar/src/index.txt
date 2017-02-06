@@ -3598,5 +3598,5 @@ Tracktotrack test results (with --maxcylsize=524288 bytes):
 Comments
 --------
 
-disqus::[sspar]
+disqus::sspar[]
 
