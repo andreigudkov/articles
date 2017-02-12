@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.4">
+<meta name="author" content="Andrei Gudkov">
+<title>Hadoop is not so easy: episode one</title>
+<style>
+/*! normalize.css v2.1.2 | MIT License | git.io/normalize*/article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}audio,canvas,video{display:inline-block}audio:not([controls]){display:none;height:0}[hidden],template{display:none}script{display:none!important}html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}a{background:transparent}a:focus{outline:thin dotted}a:active,a:hover{outline:0}h1{font-size:2em;margin:.67em 0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:700}dfn{font-style:italic}hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}mark{background:#ff0;color:#000}code,kbd,pre,samp{font-family:monospace;font-size:1em}pre{white-space:pre-wrap}q{quotes:"\201C" "\201D" "\2018" "\2019"}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:0}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0}button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}button,input{line-height:normal}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}textarea{overflow:auto;vertical-align:top}table{border-collapse:collapse;border-spacing:0}*,*:before,*:after{box-sizing:border-box;margin:0}body{font-family:Helvetica,Arial,sans-serif;font-size:16px;color:#222;line-height:1.5;max-width:55em;margin:0 auto}#content,#footnotes{padding-left:.5em;padding-right:.5em}strong{font-weight:700}em{font-style:italic}:not(pre)>code{font-family:Courier,monospace;line-height:1}a{color:#0061c5;text-decoration:none}a:hover{text-decoration:underline}hr{border-width:0 0 1px 0;border-style:solid;border-color:#678}ul,ol{list-style-position:outside;padding-left:0;margin-left:2em}ul li ul,ul li ol,ol li ul,ol li ol{margin-left:1.414em}ul>li{list-style-type:square;font-size:80%}ul>li>*{font-size:125%}ol>li{font-weight:700}ol>li>*{font-weight:400}ol.arabic{list-style-type:decimal}ol.decimal{list-style-type:decimal-leading-zero}ol.loweralpha{list-style-type:lower-alpha}ol.upperalpha{list-style-type:upper-alpha}ol.lowerroman{list-style-type:lower-roman}ol.upperroman{list-style-type:upper-roman}ol.lowergreek{list-style-type:lower-greek}.dlist dt{color:#325d72;font-weight:700}.dlist dt:not(:first-child){margin-top:1em}.dlist dd{margin-left:2em}td.hdlist1{color:#325d72;padding-right:.5em;vertical-align:top}td.hdlist2{padding-bottom:.5em}h1{font-size:28px;font-weight:400;letter-spacing:-1px;color:#fff;background-color:#325d72;text-align:center;margin:0 0 .5em 0;padding:.05em .5em}@media print{h1{color:#325d72;background-color:#fff;font-weight:700}}h1:after{content:":";width:0;overflow:hidden;display:inline-block;vertical-align:middle}.author{color:#325d72}.email:before{content:"<";color:#325d72}.email:after{content:">";color:#325d72}.author+br,.email+br{display:none}#author{padding-left:.5em}#toc{margin:1em 0 2em 0;padding-left:.5em}#toctitle{font-size:19px;font-weight:700;color:#325d72;margin:.5em 0}#toc>ul{line-height:1.4;font-size:15px;margin:0 0 0 .5em}#toc ul li{list-style-type:none}#toc li{margin:0}.big{font-size:120%}.small{font-size:75%}.underline{text-decoration:underline}.overline{text-decoration:overline}.line-through{text-decoration:line-through}.aqua{color:#00bfbf}.aqua-background{background-color:#00fafa;border-radius:2px;padding:0 3px}.black{color:"black"}.black-background{background-color:"black";border-radius:2px;padding:0 3px}.blue{color:#0000bf}.blue-background{background-color:#0000fa;border-radius:2px;padding:0 3px}.fuchsia{color:#bf00bf}.fuchsia-background{background-color:#fa00fa;border-radius:2px;padding:0 3px}.gray{color:#606060}.gray-background{background-color:#7d7d7d;border-radius:2px;padding:0 3px}.green{color:#006000}.green-background{background-color:#007d00;border-radius:2px;padding:0 3px}.lime{color:#00bf00}.lime-background{background-color:#00fa00;border-radius:2px;padding:0 3px}.maroon{color:#600000}.maroon-background{background-color:#7d0000;border-radius:2px;padding:0 3px}.navy{color:#000060}.navy-background{background-color:#00007d;border-radius:2px;padding:0 3px}.olive{color:#606000}.olive-background{background-color:#7d7d00;border-radius:2px;padding:0 3px}.purple{color:#600060}.purple-background{background-color:#7d007d;border-radius:2px;padding:0 3px}.red{color:#bf0000}.red-background{background-color:#fa0000;border-radius:2px;padding:0 3px}.silver{color:#909090}.silver-background{background-color:#bcbcbc;border-radius:2px;padding:0 3px}.teal{color:#006060}.teal-background{background-color:#007d7d;border-radius:2px;padding:0 3px}.white{color:#bfbfbf}.white-background{background-color:#fafafa;border-radius:2px;padding:0 3px}.yellow{color:#bfbf00}.yellow-background{background-color:#fafa00;border-radius:2px;padding:0 3px}table.tableblock{border:1px solid #91a7b3;margin-left:auto;margin-right:auto}table.tableblock>caption.title{text-align:left;margin-bottom:.5em}table.tableblock>colgroup>col{width:inherit!important}table.tableblock>tbody>tr>td{border-style:solid;border-color:#91a7b3;border-width:0 1px;padding:0 5px 2px 5px}table.tableblock>tbody>tr:nth-of-type(2n){background-color:#f3f5f7}p.tableblock{text-align:inherit}table.tableblock>thead>tr>td,table.tableblock>thead>tr>th,table.tableblock>tfoot>tr>td,table.tableblock>tfoot>tr>th{color:#325d72;font-weight:700;line-height:1.35;padding:2px 5px;border:1px solid #91a7b3}table.tableblock>thead>tr>th,table.tableblock>thead>tr>td{border-bottom-width:2px}table.tableblock>tfoot>tr>th,table.tableblock>tfoot>tr>td{border-top-width:2px}th.halign-left,td.halign-left{text-align:left}th.halign-right,td.halign-right{text-align:right}th.halign-center,td.halign-center{text-align:center}th.valign-top,td.valign-top{vertical-align:top}th.valign-bottom,td.valign-bottom{vertical-align:bottom}th.valign-middle,td.valign-middle{vertical-align:middle}div.listingblock{padding:.5em;border-style:solid;border-color:#678;border-width:0 0 0 2px;background-color:#f3f5f7;overflow:auto}div.listingblock .title{text-align:right}div.listingblock pre{font-family:Menlo,Consolas,Monaco,Lucida Console,monospace;font-size:87.5%;white-space:pre;background-color:#f3f5f7!important;margin:0}div.listingblock td.linenos{border-right:1px solid #91a7b3;padding-right:.67em}div.listingblock table.pyhltable div.linenodiv{color:#678;text-align:right}div.listingblock table.pyhltable td.code{padding-left:.67em}div.imageblock>div.content>img{max-width:98%}.text-indent{padding-left:2em}img.inlinemath{image-rendering:optimizequality;margin-top:.5ex}h2,h3,h4{font-weight:400;color:#325d72;margin:0}h2{font-size:27px;letter-spacing:-1px;border-bottom:1px solid #91a7b3}h3{font-size:24px;letter-spacing:-.75px}h4{font-size:21px;letter-spacing:-.5px}.title{color:#325d72;font-weight:700}#footer{font-size:80%;color:#fff;background-color:#325d72}@media print{#footer{color:#325d72;background-color:#fff;font-weight:700}}#footer-text{text-align:center;padding:.5em}#footer-badges{display:none}span.footnote{vertical-align:super;font-size:80%}#footnotes>hr{display:none}#footnotes:before{display:block;border-bottom:1px solid #678;margin:.5em 0;content:"Notes";font-size:19px;font-weight:700;color:#325d72}#footnotes .footnote{margin-left:.5em;font-size:15px}hr:not(:first-child){margin-top:1.5em}hr:not(:last-child){margin-bottom:1.5em}.imageblock:not(:last-child),.listingblock:not(:last-child),.tableblock:not(:last-child){margin-bottom:1em}p+*,.paragraph+*{margin-top:1em}p+.ulist,p+.olist,p+.dlist,p+.hdlist,.paragraph+.ulist,.paragraph+.olist,.paragraph+.dlist,.paragraph+.hdlist,.paragraph+.listingblock{margin-top:.5em!important}li *+.ulist,li *+.olist,li *+.dlist,li *+.hdlist{margin-top:.1em!important}.title:not(:first-child){margin-top:1.5em}.content+.title{margin-top:.5em!important}.title+*{margin-top:1.5em}.title+p,.title+.paragraph,.title+.ulist,.title+.olist,.title+.dlist,.title+.hdlist{margin-top:.5em!important}.ulist:not(:last-child),.olist:not(:last-child){margin-bottom:1em}li:not(:first-child){margin-top:.1em}.dlist:not(:last-child){margin-bottom:1em}.dlist:not(:first-child){margin-top:1em}.sect3:not(:last-child){margin-bottom:18px}.sect3:not(:first-child){margin-top:18px}h4:not(:last-child){margin-bottom:9px}.sect2:not(:last-child){margin-bottom:22px}.sect2:not(:first-child){margin-top:22px}h3:not(:last-child){margin-bottom:11px}.sect1:not(:last-child){margin-bottom:40px}.sect1:not(:first-child){margin-top:40px}#preamble:not(:last-child){margin-bottom:40px}h2:not(:last-child){margin-bottom:13px}#header:not(:last-child),#content:not(:last-child),#footnotes:not(:last-child),#footer:not(:last-child){margin-bottom:2.5em}
+
+</style>
+<style>
+.listingblock .pygments .hll { background-color: #ffffcc }
+.listingblock .pygments  { background: #f8f8f8; }
+.listingblock .pygments .tok-c { color: #408080; font-style: italic } /* Comment */
+.listingblock .pygments .tok-err { border: 1px solid #FF0000 } /* Error */
+.listingblock .pygments .tok-k { color: #008000; font-weight: bold } /* Keyword */
+.listingblock .pygments .tok-o { color: #666666 } /* Operator */
+.listingblock .pygments .tok-ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.listingblock .pygments .tok-cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.listingblock .pygments .tok-cp { color: #BC7A00 } /* Comment.Preproc */
+.listingblock .pygments .tok-cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.listingblock .pygments .tok-c1 { color: #408080; font-style: italic } /* Comment.Single */
+.listingblock .pygments .tok-cs { color: #408080; font-style: italic } /* Comment.Special */
+.listingblock .pygments .tok-gd { color: #A00000 } /* Generic.Deleted */
+.listingblock .pygments .tok-ge { font-style: italic } /* Generic.Emph */
+.listingblock .pygments .tok-gr { color: #FF0000 } /* Generic.Error */
+.listingblock .pygments .tok-gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.listingblock .pygments .tok-gi { color: #00A000 } /* Generic.Inserted */
+.listingblock .pygments .tok-go { color: #888888 } /* Generic.Output */
+.listingblock .pygments .tok-gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.listingblock .pygments .tok-gs { font-weight: bold } /* Generic.Strong */
+.listingblock .pygments .tok-gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.listingblock .pygments .tok-gt { color: #0044DD } /* Generic.Traceback */
+.listingblock .pygments .tok-kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.listingblock .pygments .tok-kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.listingblock .pygments .tok-kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.listingblock .pygments .tok-kp { color: #008000 } /* Keyword.Pseudo */
+.listingblock .pygments .tok-kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.listingblock .pygments .tok-kt { color: #B00040 } /* Keyword.Type */
+.listingblock .pygments .tok-m { color: #666666 } /* Literal.Number */
+.listingblock .pygments .tok-s { color: #BA2121 } /* Literal.String */
+.listingblock .pygments .tok-na { color: #7D9029 } /* Name.Attribute */
+.listingblock .pygments .tok-nb { color: #008000 } /* Name.Builtin */
+.listingblock .pygments .tok-nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.listingblock .pygments .tok-no { color: #880000 } /* Name.Constant */
+.listingblock .pygments .tok-nd { color: #AA22FF } /* Name.Decorator */
+.listingblock .pygments .tok-ni { color: #999999; font-weight: bold } /* Name.Entity */
+.listingblock .pygments .tok-ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.listingblock .pygments .tok-nf { color: #0000FF } /* Name.Function */
+.listingblock .pygments .tok-nl { color: #A0A000 } /* Name.Label */
+.listingblock .pygments .tok-nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.listingblock .pygments .tok-nt { color: #008000; font-weight: bold } /* Name.Tag */
+.listingblock .pygments .tok-nv { color: #19177C } /* Name.Variable */
+.listingblock .pygments .tok-ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.listingblock .pygments .tok-w { color: #bbbbbb } /* Text.Whitespace */
+.listingblock .pygments .tok-mb { color: #666666 } /* Literal.Number.Bin */
+.listingblock .pygments .tok-mf { color: #666666 } /* Literal.Number.Float */
+.listingblock .pygments .tok-mh { color: #666666 } /* Literal.Number.Hex */
+.listingblock .pygments .tok-mi { color: #666666 } /* Literal.Number.Integer */
+.listingblock .pygments .tok-mo { color: #666666 } /* Literal.Number.Oct */
+.listingblock .pygments .tok-sa { color: #BA2121 } /* Literal.String.Affix */
+.listingblock .pygments .tok-sb { color: #BA2121 } /* Literal.String.Backtick */
+.listingblock .pygments .tok-sc { color: #BA2121 } /* Literal.String.Char */
+.listingblock .pygments .tok-dl { color: #BA2121 } /* Literal.String.Delimiter */
+.listingblock .pygments .tok-sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.listingblock .pygments .tok-s2 { color: #BA2121 } /* Literal.String.Double */
+.listingblock .pygments .tok-se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.listingblock .pygments .tok-sh { color: #BA2121 } /* Literal.String.Heredoc */
+.listingblock .pygments .tok-si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.listingblock .pygments .tok-sx { color: #008000 } /* Literal.String.Other */
+.listingblock .pygments .tok-sr { color: #BB6688 } /* Literal.String.Regex */
+.listingblock .pygments .tok-s1 { color: #BA2121 } /* Literal.String.Single */
+.listingblock .pygments .tok-ss { color: #19177C } /* Literal.String.Symbol */
+.listingblock .pygments .tok-bp { color: #008000 } /* Name.Builtin.Pseudo */
+.listingblock .pygments .tok-fm { color: #0000FF } /* Name.Function.Magic */
+.listingblock .pygments .tok-vc { color: #19177C } /* Name.Variable.Class */
+.listingblock .pygments .tok-vg { color: #19177C } /* Name.Variable.Global */
+.listingblock .pygments .tok-vi { color: #19177C } /* Name.Variable.Instance */
+.listingblock .pygments .tok-vm { color: #19177C } /* Name.Variable.Magic */
+.listingblock .pygments .tok-il { color: #666666 } /* Literal.Number.Integer.Long */
+</style>
+</head>
+<body class="article">
+<div id="header">
+<h1>Hadoop is not so easy: episode one</h1>
+<div class="details">
+<span id="author" class="author">Andrei Gudkov</span><br>
+<span id="email" class="email"><a href="mailto:gudokk@gmail.com">gudokk@gmail.com</a></span><br>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Books about Hadoop are usually focused on solving artificial problems.
+Learning from them creates false feeling of the simplicity of commercial coding with MapReduce.
+When time to solve real-world problems comes, it turns out that straightforward solution
+either doesn&#8217;t fit in resource limits (typically RAM) or runs for unacceptably long time.
+It takes months of practicing by trial and error before programmers accumulate enough experience
+to be able to create satisfactory solutions for real-world problems.
+In this article, I&#8217;ll describe example of recurring problem of exactly such kind&#8201;&#8212;&#8201;join of one to many relation.
+A series of issues will be identified and resolved, eventually leading to commercial-grade solution.</p>
+</div>
+<div class="paragraph">
+<p>Our problem deals with joining two tables, one of which is thousands times larger than another one.
+Such problem is typical for MapReduce.
+For example, consider following practical problem.
+We are building advertising engine and we are interested in data analysis of user activity.
+Our primary table consists of immense amount of sessions.
+One session is a sequence of events related to a single user during short period of time,
+such as when some URL was loaded, page was scrolled down, advertisement was displayed or clicked.
+Such sessions are the basis for data analysis and user segmentation.
+Total size of sessions table may be extremely huge&#8201;&#8212;&#8201;dozens of terabytes stored in sequence files.
+Sessions are different in size: some users open website and leave soon, others do moderate amount of clicking,
+and finally, there are bad bots who automatically generate hundreds of clicks per each session.</p>
+</div>
+<div class="paragraph">
+<p>In order to perform session classification and analysis, we would like to join sessions with information
+about users, such as gender, age group and set of interests.
+This information comes from various external data providers and can be joined with sessions by means of <code>uid</code> identifier,
+which typically is some sort of tracking cookie.
+Users table is <em>much</em> smaller than sessions table: relation between them is one-to-many, so that single user
+may generate from zero to as many as thousands of sessions.
+In the end, we would like to get a copy of sessions table where each session is enriched with information
+about corresponding user.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="sessions-join-users.png" alt="sessions join users" width="60%">
+</div>
+</div>
+<div class="paragraph">
+<p>If you completed any random tutorial on Hadoop, then you should immediately come to the naive solution.
+Let us create M/R job that accepts both data sources on input simultaneously.
+Mapper doesn&#8217;t need to do anything special except emitting records <code>&lt;uid, Session&gt;</code> or <code>&lt;uid, User&gt;</code>
+depending on the type of the input value.
+It is the reducer that does actual join job.
+It buffers all data about single user: user object goes into <code>user</code> variable,
+and all sessions go into <code>sessions</code> array.
+When input ends, reducer emits all buffered sessions enriching them with the same user.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="join-dataflow-v1.png" alt="join dataflow v1" width="90%">
+</div>
+</div>
+<div class="paragraph">
+<p>In the code below, I create and use domain-specific container class <code>Any</code> which can hold
+single user, single session or both.
+Instances of <code>Any</code> are used to store all types of data: input files with sessions contain <code>Any{session}</code>,
+input file with users contain <code>Any{user}</code>, and output files with enriched sessions will contain both fields:
+<code>Any{session, user}</code>.
+This is a common trick that makes moving objects of different classes from mappers to reducers and from
+one job to another one easy.
+Otherwise, you&#8217;d have to create small separate container class for every job and setup <code>Job</code> appropriately.
+Code below uses handmade <code>Any</code> class that implements <code>Writable</code> interface.
+Multi-job task would require significantly more fields in <code>Any</code> class than just <code>user</code> and <code>session</code>
+to cover the needs of the task at hand.
+As such, for real-world problems I recommend to codegenerate <code>Any</code> by using protobuf or similar tool to avoid
+tedious and error-prone job of implementing <code>Writable</code> methods by hand.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="java"><table class="pyhltable"><tr><td class="linenos"><div class="linenodiv"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34</div></td><td class="code"><span></span><span class="tok-kd">public</span> <span class="tok-kd">class</span> <span class="tok-nc">Any</span> <span class="tok-kd">implements</span> <span class="tok-n">Writable</span> <span class="tok-o">{</span>
+  <span class="tok-kd">public</span> <span class="tok-n">Session</span> <span class="tok-n">session</span><span class="tok-o">;</span>
+  <span class="tok-kd">public</span> <span class="tok-n">User</span> <span class="tok-n">user</span><span class="tok-o">;</span>
+  <span class="tok-c1">//...</span>
+<span class="tok-o">}</span>
+
+<span class="tok-kd">protected</span> <span class="tok-kt">void</span> <span class="tok-nf">map</span><span class="tok-o">(</span><span class="tok-n">NullWritable</span> <span class="tok-n">key</span><span class="tok-o">,</span> <span class="tok-n">Any</span> <span class="tok-n">value</span><span class="tok-o">,</span>
+                   <span class="tok-n">Mapper</span><span class="tok-o">&lt;</span><span class="tok-n">NullWritable</span><span class="tok-o">,</span> <span class="tok-n">Any</span><span class="tok-o">,</span> <span class="tok-n">LongWritable</span><span class="tok-o">,</span> <span class="tok-n">Any</span><span class="tok-o">&gt;.</span><span class="tok-na">Context</span> <span class="tok-n">context</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+  <span class="tok-k">if</span> <span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">session</span> <span class="tok-o">!=</span> <span class="tok-kc">null</span><span class="tok-o">)</span> <span class="tok-o">{</span>  <span class="tok-c1">// comes from sessions file(s)</span>
+    <span class="tok-n">context</span><span class="tok-o">.</span><span class="tok-na">write</span><span class="tok-o">(</span><span class="tok-k">new</span> <span class="tok-n">LongWritable</span><span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">session</span><span class="tok-o">.</span><span class="tok-na">uid</span><span class="tok-o">),</span> <span class="tok-k">new</span> <span class="tok-n">Any</span><span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">session</span><span class="tok-o">));</span>
+  <span class="tok-o">}</span>
+  <span class="tok-k">if</span> <span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">user</span> <span class="tok-o">!=</span> <span class="tok-kc">null</span><span class="tok-o">)</span> <span class="tok-o">{</span>  <span class="tok-c1">// comes from users file(s)</span>
+    <span class="tok-n">context</span><span class="tok-o">.</span><span class="tok-na">write</span><span class="tok-o">(</span><span class="tok-k">new</span> <span class="tok-n">LongWritable</span><span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">user</span><span class="tok-o">.</span><span class="tok-na">uid</span><span class="tok-o">),</span> <span class="tok-k">new</span> <span class="tok-n">Any</span><span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">user</span><span class="tok-o">));</span>
+  <span class="tok-o">}</span>
+<span class="tok-o">}</span>
+
+<span class="tok-kd">protected</span> <span class="tok-kt">void</span> <span class="tok-nf">reduce</span><span class="tok-o">(</span><span class="tok-n">LongWritable</span> <span class="tok-n">key</span><span class="tok-o">,</span> <span class="tok-n">Iterable</span><span class="tok-o">&lt;</span><span class="tok-n">Any</span><span class="tok-o">&gt;</span> <span class="tok-n">values</span><span class="tok-o">,</span>
+                      <span class="tok-n">Reducer</span><span class="tok-o">&lt;</span><span class="tok-n">LongWritable</span><span class="tok-o">,</span> <span class="tok-n">Any</span><span class="tok-o">,</span> <span class="tok-n">NullWritable</span><span class="tok-o">,</span> <span class="tok-n">Any</span><span class="tok-o">&gt;.</span><span class="tok-na">Context</span> <span class="tok-n">context</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+  <span class="tok-n">List</span><span class="tok-o">&lt;</span><span class="tok-n">Session</span><span class="tok-o">&gt;</span> <span class="tok-n">sessions</span> <span class="tok-o">=</span> <span class="tok-k">new</span> <span class="tok-n">ArrayList</span><span class="tok-o">&lt;</span><span class="tok-n">Session</span><span class="tok-o">&gt;();</span>
+  <span class="tok-n">User</span> <span class="tok-n">user</span> <span class="tok-o">=</span> <span class="tok-kc">null</span><span class="tok-o">;</span>
+  <span class="tok-k">for</span> <span class="tok-o">(</span><span class="tok-n">Any</span> <span class="tok-n">value</span> <span class="tok-o">:</span> <span class="tok-n">values</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-k">if</span> <span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">session</span> <span class="tok-o">!=</span> <span class="tok-kc">null</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+      <span class="tok-n">sessions</span><span class="tok-o">.</span><span class="tok-na">add</span><span class="tok-o">(</span><span class="tok-k">new</span> <span class="tok-n">Session</span><span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">session</span><span class="tok-o">));</span>
+    <span class="tok-o">}</span>
+    <span class="tok-k">if</span> <span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">user</span> <span class="tok-o">!=</span> <span class="tok-kc">null</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+      <span class="tok-k">if</span> <span class="tok-o">(</span><span class="tok-n">user</span> <span class="tok-o">==</span> <span class="tok-kc">null</span><span class="tok-o">)</span> <span class="tok-o">{</span> <span class="tok-c1">// ignore duplicate user objects</span>
+        <span class="tok-n">user</span> <span class="tok-o">=</span> <span class="tok-k">new</span> <span class="tok-n">User</span><span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">user</span><span class="tok-o">);</span>
+      <span class="tok-o">}</span>
+    <span class="tok-o">}</span>
+  <span class="tok-o">}</span>
+  <span class="tok-k">for</span> <span class="tok-o">(</span><span class="tok-n">Session</span> <span class="tok-n">session</span> <span class="tok-o">:</span> <span class="tok-n">sessions</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-n">context</span><span class="tok-o">.</span><span class="tok-na">write</span><span class="tok-o">(</span><span class="tok-n">NullWritable</span><span class="tok-o">.</span><span class="tok-na">get</span><span class="tok-o">(),</span> <span class="tok-k">new</span> <span class="tok-n">Any</span><span class="tok-o">(</span><span class="tok-n">session</span><span class="tok-o">,</span> <span class="tok-n">user</span><span class="tok-o">));</span>
+  <span class="tok-o">}</span>
+<span class="tok-o">}</span>
+</td></tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Alas, above code is doomed to fail.
+It assumes that all sessions of a single user fit into the RAM of one reducer process.
+While it is true for the vast majority of users, there will be definitely users
+with thousands of sessions, either real people or bots.
+The result is out of memory error in some of the reducers:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>2017-02-12 21:48:58,395 FATAL [main] org.apache.hadoop.mapred.YarnChild: Error running child : java.lang.OutOfMemoryError: Java heap space
+        at mrhints.Session.readFields(Session.java:31)
+        at mrhints.Any.readField(Any.java:52)
+        at mrhints.Any.readFields(Any.java:37)
+        at org.apache.hadoop.io.serializer.WritableSerialization$WritableDeserializer.deserialize(WritableSerialization.java:71)
+        ...
+
+2017-02-12 21:48:58,842 INFO  [main] mapreduce.Job (Job.java:printTaskEvents(1453)) - Task Id : attempt_1486921044666_0003_r_000000_0, Status : FAILED
+Error: Java heap space</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>What can we do?
+Fast and dirty solution is to limit the number of buffered sessions at the cost of losing some data.
+Once <code>reduce()</code> accumulates max allowed number of sessions per single <code>uid</code>, all further sessions are simply skipped.
+Of course, we would like to avoid that: data is a precious resource for analysis to simply through it away.
+We need some better solution.</p>
+</div>
+<div class="paragraph">
+<p>Brief observation of the above piece of code reveals the source of the problem:
+user object may appear in any position in the <code>values</code> stream.
+This is the only reason why we have to buffer all sessions in RAM,
+even though we do not perform any pairwise operations on them.
+It would be great if we could somehow force user object to appear as the very first object in the <code>values</code> stream.
+In this case, it won&#8217;t be necessary to buffer all sessions.
+Instead, we would be able to enrich them and stream directly from the input to the output one by one.
+Luckily M/R provides low level API specifically designed for such sort of problems.
+But to use it, we need to understand how data is processed between mappers and reducers.</p>
+</div>
+<div class="paragraph">
+<p>When some key/value pair is emitted from mapper, it immediately goes to <em>partitioner</em>,
+which is responsible for deciding which reducer will get this key/value pair.
+Default partitioner implementation scatters key/value pairs between reducers based on <code>key.hashCode() % job.getNumReduceTasks()</code>,
+thus ensuring that pairs with identical keys will be delivered to the same reducer and that keys (but not key/value pairs)
+will be uniformly distributed between reducers.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="between-map-reduce.png" alt="between map reduce" width="90%">
+</div>
+</div>
+<div class="paragraph">
+<p>Reducer&#8217;s job is more complicated, it consists of three distinct phases.
+During the first phase, reducer copies key/value pairs emitted by <code>map()</code> functions from all mappers.
+In web interface, this phase is called <code>reduce &gt; copy</code> and it occupies progress range between 0% and 33%.
+Next phase is dedicated entirely to sorting of copied data into large sequential stream (<code>reduce &gt; sort</code>, 33%..66%).
+Key/value pairs become ordered in this stream according to <em>sort comparator</em>.
+Similar to partitioner, its default implementation compares whole keys:
+key/value pairs with identical keys are located adjacently in this stream,
+but their pairwise order is unspecified.
+For example, it may produce following sequence of key/value pairs: (k1, 15), (k1, 9), (k1, 10), (k1, 4).
+Finally, reducer transitions to <code>reduce &gt; reduce</code> phase (66%..100%) where actual reducing is done.
+It scans sorted stream from the beginning and uses <em>grouping comparator</em> to
+extract subsequences of key/value pairs which should be processed in single reduce() call.
+If grouping comparator says that next key is identical to the previous one,
+then its value is passed to the current <code>reduce()</code> call.
+If grouping comparator says that next key is different,
+then reducer completes current reduce() call (<code>values.hasNext()</code> returns <code>false</code>) and starts new one.
+Hadoop&#8217;s ability to use different sort and grouping comparators makes it possible to sort not only keys,
+but also values (implicitly)&#8201;&#8212;&#8201;exactly what we need.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">API method</th>
+<th class="tableblock halign-left valign-top">Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Partitioner</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Job.setPartitionerClass()</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chooses which of reducers gets key/value pair</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sort comparator</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Job.setSortComparatorClass()</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Orders key/value pairs in the input stream of a single reducer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Grouping comparator</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Job.setGroupingComparatorClass()</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chops sequences of key/value pairs in an input stream of a single reducer, each such sequence is triggers separate <code>reduce()</code> call</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Actual implementation of the above logic involves a number of optimizations.
+It is noteworthy that sort comparator works on both mappers and reducers.
+Mappers sort output directly on the fly.
+Reducers benefit from this because now all they need to do is to run merge sort on a number of
+already sorted streams from mappers, which is significantly cheaper than sorting everything from scratch.
+As such, do not get frustrated if your erronous implementation of sort comparator triggers <em>mapper</em> failure.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s return back to our problem.
+What we need to do is to create composite key <code>JoinKey</code> consisting of two fields:
+first one is already mentioned <code>uid</code>, and second one is the flag identifying what is stored in value,
+user (0) or session (1).
+Such composite key makes it possible to order key/value pairs in a reducer stream in such way
+that for each <code>uid</code>, its user object appears first (if exists), followed by a sequence of sessions.
+Partitioner and grouping comparator must be manually implemented.
+We want them to work as before, by comparing only <code>uid</code> field and ignoring value type field.
+This ensures that all objects with the same <code>uid</code> are routed to the same reducer and to the same <code>reduce()</code> call.
+Sorting comparator, on the other hand, compares both fields.
+First it compares <code>uid</code> fields, and if they turn out to be equal, it further compares value type fields,
+with user object considered to be &#8220;less&#8221; than session object.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="join-dataflow-v2.png" alt="join dataflow v2" width="90%">
+</div>
+</div>
+<div class="paragraph">
+<p>Now reducer knows that user object (if present) always is the very first object in <code>values</code> stream.
+This allows us to reimplement reducer to use only O(1) memory no matter how large reducer input is.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="java"><table class="pyhltable"><tr><td class="linenos"><div class="linenodiv"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60</div></td><td class="code"><span></span><span class="tok-kd">public</span> <span class="tok-kd">static</span> <span class="tok-kd">class</span> <span class="tok-nc">JoinKey</span> <span class="tok-kd">implements</span> <span class="tok-n">Writable</span> <span class="tok-o">{</span>
+  <span class="tok-kd">public</span> <span class="tok-kt">long</span> <span class="tok-n">uid</span><span class="tok-o">;</span>
+  <span class="tok-kd">public</span> <span class="tok-n">ValueType</span> <span class="tok-n">vtype</span><span class="tok-o">;</span>
+  <span class="tok-c1">//...</span>
+<span class="tok-o">}</span>
+
+<span class="tok-kd">protected</span> <span class="tok-kt">void</span> <span class="tok-nf">map</span><span class="tok-o">(</span><span class="tok-n">NullWritable</span> <span class="tok-n">key</span><span class="tok-o">,</span> <span class="tok-n">Any</span> <span class="tok-n">value</span><span class="tok-o">,</span>
+                   <span class="tok-n">Mapper</span><span class="tok-o">&lt;</span><span class="tok-n">NullWritable</span><span class="tok-o">,</span> <span class="tok-n">Any</span><span class="tok-o">,</span> <span class="tok-n">JoinKey</span><span class="tok-o">,</span> <span class="tok-n">Any</span><span class="tok-o">&gt;.</span><span class="tok-na">Context</span> <span class="tok-n">context</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+
+  <span class="tok-k">if</span> <span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">session</span> <span class="tok-o">!=</span> <span class="tok-kc">null</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-n">context</span><span class="tok-o">.</span><span class="tok-na">write</span><span class="tok-o">(</span><span class="tok-k">new</span> <span class="tok-n">JoinKey</span><span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">session</span><span class="tok-o">.</span><span class="tok-na">uid</span><span class="tok-o">,</span> <span class="tok-n">ValueType</span><span class="tok-o">.</span><span class="tok-na">SESSION</span><span class="tok-o">),</span> <span class="tok-k">new</span> <span class="tok-n">Any</span><span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">session</span><span class="tok-o">));</span>
+  <span class="tok-o">}</span>
+  <span class="tok-k">if</span> <span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">user</span> <span class="tok-o">!=</span> <span class="tok-kc">null</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-n">context</span><span class="tok-o">.</span><span class="tok-na">write</span><span class="tok-o">(</span><span class="tok-k">new</span> <span class="tok-n">JoinKey</span><span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">user</span><span class="tok-o">.</span><span class="tok-na">uid</span><span class="tok-o">,</span> <span class="tok-n">ValueType</span><span class="tok-o">.</span><span class="tok-na">USER</span><span class="tok-o">),</span> <span class="tok-k">new</span> <span class="tok-n">Any</span><span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">user</span><span class="tok-o">));</span>
+  <span class="tok-o">}</span>
+<span class="tok-o">}</span>
+
+<span class="tok-kd">public</span> <span class="tok-kd">static</span> <span class="tok-kd">class</span> <span class="tok-nc">PartitionerImpl</span> <span class="tok-kd">extends</span> <span class="tok-n">Partitioner</span><span class="tok-o">&lt;</span><span class="tok-n">JoinKey</span><span class="tok-o">,</span> <span class="tok-n">Any</span><span class="tok-o">&gt;</span> <span class="tok-o">{</span>
+  <span class="tok-kd">public</span> <span class="tok-kt">int</span> <span class="tok-nf">getPartition</span><span class="tok-o">(</span><span class="tok-n">JoinKey</span> <span class="tok-n">key</span><span class="tok-o">,</span> <span class="tok-n">Any</span> <span class="tok-n">any</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">numPartitions</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-k">return</span> <span class="tok-o">((</span><span class="tok-kt">int</span><span class="tok-o">)(</span><span class="tok-n">key</span><span class="tok-o">.</span><span class="tok-na">uid</span> <span class="tok-o">&amp;</span> <span class="tok-mh">0x7fff_ffff</span><span class="tok-o">))</span> <span class="tok-o">%</span> <span class="tok-n">numPartitions</span><span class="tok-o">;</span>
+  <span class="tok-o">}</span>
+<span class="tok-o">}</span>
+
+<span class="tok-kd">public</span> <span class="tok-kd">static</span> <span class="tok-kd">class</span> <span class="tok-nc">SortComparatorImpl</span> <span class="tok-kd">implements</span> <span class="tok-n">RawComparator</span><span class="tok-o">&lt;</span><span class="tok-n">JoinKey</span><span class="tok-o">&gt;</span> <span class="tok-o">{</span>
+  <span class="tok-kd">public</span> <span class="tok-kt">int</span> <span class="tok-nf">compare</span><span class="tok-o">(</span><span class="tok-kt">byte</span><span class="tok-o">[]</span> <span class="tok-n">buf1</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">off1</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">len1</span><span class="tok-o">,</span>
+                     <span class="tok-kt">byte</span><span class="tok-o">[]</span> <span class="tok-n">buf2</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">off2</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">len2</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-n">JoinKey</span> <span class="tok-n">key1</span> <span class="tok-o">=</span> <span class="tok-n">Utils</span><span class="tok-o">.</span><span class="tok-na">readObject</span><span class="tok-o">(</span><span class="tok-k">new</span> <span class="tok-n">JoinKey</span><span class="tok-o">(),</span> <span class="tok-n">buf1</span><span class="tok-o">,</span> <span class="tok-n">off1</span><span class="tok-o">,</span> <span class="tok-n">len1</span><span class="tok-o">);</span>
+    <span class="tok-n">JoinKey</span> <span class="tok-n">key2</span> <span class="tok-o">=</span> <span class="tok-n">Utils</span><span class="tok-o">.</span><span class="tok-na">readObject</span><span class="tok-o">(</span><span class="tok-k">new</span> <span class="tok-n">JoinKey</span><span class="tok-o">(),</span> <span class="tok-n">buf2</span><span class="tok-o">,</span> <span class="tok-n">off2</span><span class="tok-o">,</span> <span class="tok-n">len2</span><span class="tok-o">);</span>
+    <span class="tok-k">return</span> <span class="tok-n">Utils</span><span class="tok-o">.</span><span class="tok-na">compareMultilevel</span><span class="tok-o">(</span>
+          <span class="tok-n">Utils</span><span class="tok-o">.</span><span class="tok-na">compareLongs</span><span class="tok-o">(</span><span class="tok-n">key1</span><span class="tok-o">.</span><span class="tok-na">uid</span><span class="tok-o">,</span> <span class="tok-n">key2</span><span class="tok-o">.</span><span class="tok-na">uid</span><span class="tok-o">),</span>
+          <span class="tok-n">Utils</span><span class="tok-o">.</span><span class="tok-na">compareInts</span><span class="tok-o">(</span><span class="tok-n">key1</span><span class="tok-o">.</span><span class="tok-na">vtype</span><span class="tok-o">.</span><span class="tok-na">ordinal</span><span class="tok-o">(),</span> <span class="tok-n">key2</span><span class="tok-o">.</span><span class="tok-na">vtype</span><span class="tok-o">.</span><span class="tok-na">ordinal</span><span class="tok-o">())</span>
+        <span class="tok-o">);</span>
+  <span class="tok-o">}</span>
+<span class="tok-o">}</span>
+
+<span class="tok-kd">public</span> <span class="tok-kd">static</span> <span class="tok-kd">class</span> <span class="tok-nc">GroupingComparatorImpl</span> <span class="tok-kd">implements</span> <span class="tok-n">RawComparator</span><span class="tok-o">&lt;</span><span class="tok-n">JoinKey</span><span class="tok-o">&gt;</span> <span class="tok-o">{</span>
+  <span class="tok-kd">public</span> <span class="tok-kt">int</span> <span class="tok-nf">compare</span><span class="tok-o">(</span><span class="tok-kt">byte</span><span class="tok-o">[]</span> <span class="tok-n">buf1</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">off1</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">len1</span><span class="tok-o">,</span>
+                     <span class="tok-kt">byte</span><span class="tok-o">[]</span> <span class="tok-n">buf2</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">off2</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">len2</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-n">JoinKey</span> <span class="tok-n">key1</span> <span class="tok-o">=</span> <span class="tok-n">Utils</span><span class="tok-o">.</span><span class="tok-na">readObject</span><span class="tok-o">(</span><span class="tok-k">new</span> <span class="tok-n">JoinKey</span><span class="tok-o">(),</span> <span class="tok-n">buf1</span><span class="tok-o">,</span> <span class="tok-n">off1</span><span class="tok-o">,</span> <span class="tok-n">len1</span><span class="tok-o">);</span>
+    <span class="tok-n">JoinKey</span> <span class="tok-n">key2</span> <span class="tok-o">=</span> <span class="tok-n">Utils</span><span class="tok-o">.</span><span class="tok-na">readObject</span><span class="tok-o">(</span><span class="tok-k">new</span> <span class="tok-n">JoinKey</span><span class="tok-o">(),</span> <span class="tok-n">buf2</span><span class="tok-o">,</span> <span class="tok-n">off2</span><span class="tok-o">,</span> <span class="tok-n">len2</span><span class="tok-o">);</span>
+    <span class="tok-k">return</span> <span class="tok-n">Utils</span><span class="tok-o">.</span><span class="tok-na">compareLongs</span><span class="tok-o">(</span><span class="tok-n">key1</span><span class="tok-o">.</span><span class="tok-na">uid</span><span class="tok-o">,</span> <span class="tok-n">key2</span><span class="tok-o">.</span><span class="tok-na">uid</span><span class="tok-o">);</span>
+  <span class="tok-o">}</span>
+<span class="tok-o">}</span>
+
+<span class="tok-kd">protected</span> <span class="tok-kt">void</span> <span class="tok-nf">reduce</span><span class="tok-o">(</span><span class="tok-n">JoinKey</span> <span class="tok-n">key</span><span class="tok-o">,</span> <span class="tok-n">Iterable</span><span class="tok-o">&lt;</span><span class="tok-n">Any</span><span class="tok-o">&gt;</span> <span class="tok-n">values</span><span class="tok-o">,</span>
+                      <span class="tok-n">Reducer</span><span class="tok-o">&lt;</span><span class="tok-n">JoinKey</span><span class="tok-o">,</span> <span class="tok-n">Any</span><span class="tok-o">,</span> <span class="tok-n">NullWritable</span><span class="tok-o">,</span> <span class="tok-n">Any</span><span class="tok-o">&gt;.</span><span class="tok-na">Context</span> <span class="tok-n">context</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+  <span class="tok-n">User</span> <span class="tok-n">user</span> <span class="tok-o">=</span> <span class="tok-kc">null</span><span class="tok-o">;</span>
+  <span class="tok-k">for</span> <span class="tok-o">(</span><span class="tok-n">Any</span> <span class="tok-n">value</span> <span class="tok-o">:</span> <span class="tok-n">values</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-k">if</span> <span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">user</span> <span class="tok-o">!=</span> <span class="tok-kc">null</span><span class="tok-o">)</span> <span class="tok-o">{</span> <span class="tok-c1">// the very first record should be *user*</span>
+      <span class="tok-k">if</span> <span class="tok-o">(</span><span class="tok-n">user</span> <span class="tok-o">==</span> <span class="tok-kc">null</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+        <span class="tok-n">user</span> <span class="tok-o">=</span> <span class="tok-k">new</span> <span class="tok-n">User</span><span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">user</span><span class="tok-o">);</span>
+      <span class="tok-o">}</span>
+    <span class="tok-o">}</span>
+    <span class="tok-k">if</span> <span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">session</span> <span class="tok-o">!=</span> <span class="tok-kc">null</span><span class="tok-o">)</span> <span class="tok-o">{</span> <span class="tok-c1">// all further records should be *sessions*</span>
+      <span class="tok-k">if</span> <span class="tok-o">(</span><span class="tok-n">user</span> <span class="tok-o">!=</span> <span class="tok-kc">null</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+        <span class="tok-n">context</span><span class="tok-o">.</span><span class="tok-na">write</span><span class="tok-o">(</span><span class="tok-n">NullWritable</span><span class="tok-o">.</span><span class="tok-na">get</span><span class="tok-o">(),</span> <span class="tok-k">new</span> <span class="tok-n">Any</span><span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">session</span><span class="tok-o">,</span> <span class="tok-n">user</span><span class="tok-o">));</span>
+      <span class="tok-o">}</span>
+    <span class="tok-o">}</span>
+  <span class="tok-o">}</span>
+<span class="tok-o">}</span>
+</td></tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Although it works as expected and doesn&#8217;t fail with out of memory error anymore,
+there is still one severe problem left.
+Number of sessions for some <code>uid</code> may be <em>so</em> huge, that reducer that joins its objects
+runs tens or hundreds times longer than other reducers.
+When this happens, you can see that all reducers but one complete in a matter of minutes,
+while this poor guy is projected to last for one full day more.
+This is unacceptable considering that join job is only a single step in multistage dataflow.
+Add to that that if MapReduce cluster goes down, then this job has to be restarted from the very beginning.
+The most pessimistic scenario consists of never-ending loop: start the job, wait until cluster failure,
+curse Hadoop, repeat.
+In general, long-lasting jobs is the primary coding problem with M/R.
+It makes any ETA forecasting absolutely unreliable.
+Deprived of any sense of confidence, programmers prefer to avoid batch processing in general and Hadoop in particular.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="slow-reducer.png" alt="slow reducer" width="90%">
+</div>
+</div>
+<div class="paragraph">
+<p>To solve the problem of non-uniform reducers, we will extend join key again.
+Idea is to split sessions of a single <code>uid</code> into multiple <code>reduce()</code> calls,
+like if they belonged to different users.
+This is fine because we need only to join user object with every single session,
+but we do not have any operations that require two sessions to be present in a single place simultaneously.
+So, we are going to add third field to our <code>JoinKey</code>&#8201;&#8212;&#8201;shard number.
+We select number of shards <code>SHARDS</code> from range [5 .. 100],
+so that running time of heaviest reducer divided by <code>SHARDS</code> becomes acceptable.
+The larger <code>SHARDS</code> value, the more uniform reducer load becomes.
+But too large value would generate large amount of excessive data to sort and transfer between mappers and reducers.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="join-dataflow-v3.png" alt="join dataflow v3" width="90%">
+</div>
+</div>
+<div class="paragraph">
+<p>Now we think of a pair <code>{uid, shard}</code> as of <em>true</em> join key, while full triplet&#8201;&#8212;&#8201;<code>{{uid, shard}, vtype}</code>&#8201;&#8212;&#8201;is used only for sorting as in previous version.
+When mapper encounters session object, its shard is computed as <code>session.hashCode()%SHARDS</code>, thus ensuring
+that sessions of a single <code>uid</code> will be scattered almost uniformly between reducers rather than delivered to
+a single reducer.
+When mapper encounters user object, it emits <code>SHARDS</code> identical values but with different keys:
+their <code>shard</code> value runs from 0 to <code>SHARDS-1</code>.
+Implementation of reducer is not changed from previous version.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="java"><table class="pyhltable"><tr><td class="linenos"><div class="linenodiv"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53</div></td><td class="code"><span></span><span class="tok-kd">public</span> <span class="tok-kd">static</span> <span class="tok-kd">class</span> <span class="tok-nc">JoinKey</span> <span class="tok-kd">implements</span> <span class="tok-n">Writable</span> <span class="tok-o">{</span>
+  <span class="tok-kd">public</span> <span class="tok-kt">long</span> <span class="tok-n">uid</span><span class="tok-o">;</span>
+  <span class="tok-kd">public</span> <span class="tok-n">ValueType</span> <span class="tok-n">vtype</span><span class="tok-o">;</span>
+  <span class="tok-kd">public</span> <span class="tok-kt">int</span> <span class="tok-n">shard</span><span class="tok-o">;</span>
+  <span class="tok-o">...</span>
+<span class="tok-o">}</span>
+
+<span class="tok-kd">protected</span> <span class="tok-kt">void</span> <span class="tok-nf">map</span><span class="tok-o">(</span><span class="tok-n">NullWritable</span> <span class="tok-n">key</span><span class="tok-o">,</span> <span class="tok-n">Any</span> <span class="tok-n">value</span><span class="tok-o">,</span>
+                   <span class="tok-n">Mapper</span><span class="tok-o">&lt;</span><span class="tok-n">NullWritable</span><span class="tok-o">,</span> <span class="tok-n">Any</span><span class="tok-o">,</span> <span class="tok-n">JoinKey</span><span class="tok-o">,</span> <span class="tok-n">Any</span><span class="tok-o">&gt;.</span><span class="tok-na">Context</span> <span class="tok-n">context</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+  <span class="tok-k">if</span> <span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">session</span> <span class="tok-o">!=</span> <span class="tok-kc">null</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-kt">int</span> <span class="tok-n">shard</span> <span class="tok-o">=</span> <span class="tok-o">(</span><span class="tok-n">Arrays</span><span class="tok-o">.</span><span class="tok-na">hashCode</span><span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">session</span><span class="tok-o">.</span><span class="tok-na">data</span><span class="tok-o">)</span> <span class="tok-o">&amp;</span> <span class="tok-mh">0x7fff_ffff</span><span class="tok-o">)</span> <span class="tok-o">%</span> <span class="tok-n">SHARDS</span><span class="tok-o">;</span> <span class="tok-c1">// [0..SHARDS-1]</span>
+    <span class="tok-n">context</span><span class="tok-o">.</span><span class="tok-na">write</span><span class="tok-o">(</span><span class="tok-k">new</span> <span class="tok-n">JoinKey</span><span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">session</span><span class="tok-o">.</span><span class="tok-na">uid</span><span class="tok-o">,</span> <span class="tok-n">ValueType</span><span class="tok-o">.</span><span class="tok-na">SESSION</span><span class="tok-o">,</span> <span class="tok-n">shard</span><span class="tok-o">),</span> <span class="tok-k">new</span> <span class="tok-n">Any</span><span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">session</span><span class="tok-o">));</span>
+  <span class="tok-o">}</span>
+  <span class="tok-k">if</span> <span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">user</span> <span class="tok-o">!=</span> <span class="tok-kc">null</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-k">for</span> <span class="tok-o">(</span><span class="tok-kt">int</span> <span class="tok-n">shard</span> <span class="tok-o">=</span> <span class="tok-mi">0</span><span class="tok-o">;</span> <span class="tok-n">shard</span> <span class="tok-o">&lt;</span> <span class="tok-n">SHARDS</span><span class="tok-o">;</span> <span class="tok-n">shard</span><span class="tok-o">++)</span> <span class="tok-o">{</span>
+      <span class="tok-n">context</span><span class="tok-o">.</span><span class="tok-na">write</span><span class="tok-o">(</span><span class="tok-k">new</span> <span class="tok-n">JoinKey</span><span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">user</span><span class="tok-o">.</span><span class="tok-na">uid</span><span class="tok-o">,</span> <span class="tok-n">ValueType</span><span class="tok-o">.</span><span class="tok-na">USER</span><span class="tok-o">,</span> <span class="tok-n">shard</span><span class="tok-o">),</span> <span class="tok-k">new</span> <span class="tok-n">Any</span><span class="tok-o">(</span><span class="tok-n">value</span><span class="tok-o">.</span><span class="tok-na">user</span><span class="tok-o">));</span>
+    <span class="tok-o">}</span>
+  <span class="tok-o">}</span>
+<span class="tok-o">}</span>
+
+<span class="tok-kd">public</span> <span class="tok-kd">static</span> <span class="tok-kd">class</span> <span class="tok-nc">PartitionerImpl</span> <span class="tok-kd">extends</span> <span class="tok-n">Partitioner</span><span class="tok-o">&lt;</span><span class="tok-n">JoinKey</span><span class="tok-o">,</span> <span class="tok-n">Any</span><span class="tok-o">&gt;</span> <span class="tok-o">{</span>
+  <span class="tok-kd">public</span> <span class="tok-kt">int</span> <span class="tok-nf">getPartition</span><span class="tok-o">(</span><span class="tok-n">JoinKey</span> <span class="tok-n">key</span><span class="tok-o">,</span> <span class="tok-n">Any</span> <span class="tok-n">any</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">numPartitions</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-kt">int</span> <span class="tok-n">hash</span> <span class="tok-o">=</span> <span class="tok-mi">1</span><span class="tok-o">;</span>
+    <span class="tok-n">hash</span> <span class="tok-o">=</span> <span class="tok-n">hash</span> <span class="tok-o">*</span> <span class="tok-mi">13</span> <span class="tok-o">+</span> <span class="tok-o">(</span><span class="tok-kt">int</span><span class="tok-o">)(</span><span class="tok-n">key</span><span class="tok-o">.</span><span class="tok-na">uid</span> <span class="tok-o">&amp;</span> <span class="tok-mh">0xffff_ffff</span><span class="tok-o">);</span>
+    <span class="tok-n">hash</span> <span class="tok-o">=</span> <span class="tok-n">hash</span> <span class="tok-o">*</span> <span class="tok-mi">13</span> <span class="tok-o">+</span> <span class="tok-n">key</span><span class="tok-o">.</span><span class="tok-na">shard</span><span class="tok-o">;</span>
+    <span class="tok-k">return</span> <span class="tok-o">(</span><span class="tok-n">hash</span> <span class="tok-o">&amp;</span> <span class="tok-mh">0x7fff_ffff</span><span class="tok-o">)</span> <span class="tok-o">%</span> <span class="tok-n">numPartitions</span><span class="tok-o">;</span>
+  <span class="tok-o">}</span>
+<span class="tok-o">}</span>
+
+<span class="tok-kd">public</span> <span class="tok-kd">static</span> <span class="tok-kd">class</span> <span class="tok-nc">SortComparatorImpl</span> <span class="tok-kd">implements</span> <span class="tok-n">RawComparator</span><span class="tok-o">&lt;</span><span class="tok-n">JoinKey</span><span class="tok-o">&gt;</span> <span class="tok-o">{</span>
+  <span class="tok-kd">public</span> <span class="tok-kt">int</span> <span class="tok-nf">compare</span><span class="tok-o">(</span><span class="tok-kt">byte</span><span class="tok-o">[]</span> <span class="tok-n">buf1</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">off1</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">len1</span><span class="tok-o">,</span>
+                     <span class="tok-kt">byte</span><span class="tok-o">[]</span> <span class="tok-n">buf2</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">off2</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">len2</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-n">JoinKey</span> <span class="tok-n">key1</span> <span class="tok-o">=</span> <span class="tok-n">Utils</span><span class="tok-o">.</span><span class="tok-na">readObject</span><span class="tok-o">(</span><span class="tok-k">new</span> <span class="tok-n">JoinKey</span><span class="tok-o">(),</span> <span class="tok-n">buf1</span><span class="tok-o">,</span> <span class="tok-n">off1</span><span class="tok-o">,</span> <span class="tok-n">len1</span><span class="tok-o">);</span>
+    <span class="tok-n">JoinKey</span> <span class="tok-n">key2</span> <span class="tok-o">=</span> <span class="tok-n">Utils</span><span class="tok-o">.</span><span class="tok-na">readObject</span><span class="tok-o">(</span><span class="tok-k">new</span> <span class="tok-n">JoinKey</span><span class="tok-o">(),</span> <span class="tok-n">buf2</span><span class="tok-o">,</span> <span class="tok-n">off2</span><span class="tok-o">,</span> <span class="tok-n">len2</span><span class="tok-o">);</span>
+    <span class="tok-k">return</span> <span class="tok-n">Utils</span><span class="tok-o">.</span><span class="tok-na">compareMultilevel</span><span class="tok-o">(</span>
+        <span class="tok-n">Utils</span><span class="tok-o">.</span><span class="tok-na">compareLongs</span><span class="tok-o">(</span><span class="tok-n">key1</span><span class="tok-o">.</span><span class="tok-na">uid</span><span class="tok-o">,</span> <span class="tok-n">key2</span><span class="tok-o">.</span><span class="tok-na">uid</span><span class="tok-o">),</span>
+        <span class="tok-n">Utils</span><span class="tok-o">.</span><span class="tok-na">compareInts</span><span class="tok-o">(</span><span class="tok-n">key1</span><span class="tok-o">.</span><span class="tok-na">shard</span><span class="tok-o">,</span> <span class="tok-n">key2</span><span class="tok-o">.</span><span class="tok-na">shard</span><span class="tok-o">),</span>
+        <span class="tok-n">Utils</span><span class="tok-o">.</span><span class="tok-na">compareInts</span><span class="tok-o">(</span><span class="tok-n">key1</span><span class="tok-o">.</span><span class="tok-na">vtype</span><span class="tok-o">.</span><span class="tok-na">ordinal</span><span class="tok-o">(),</span> <span class="tok-n">key2</span><span class="tok-o">.</span><span class="tok-na">vtype</span><span class="tok-o">.</span><span class="tok-na">ordinal</span><span class="tok-o">())</span>
+    <span class="tok-o">);</span>
+  <span class="tok-o">}</span>
+<span class="tok-o">}</span>
+
+<span class="tok-kd">public</span> <span class="tok-kd">static</span> <span class="tok-kd">class</span> <span class="tok-nc">GroupingComparatorImpl</span> <span class="tok-kd">implements</span> <span class="tok-n">RawComparator</span><span class="tok-o">&lt;</span><span class="tok-n">JoinKey</span><span class="tok-o">&gt;</span> <span class="tok-o">{</span>
+  <span class="tok-kd">public</span> <span class="tok-kt">int</span> <span class="tok-nf">compare</span><span class="tok-o">(</span><span class="tok-kt">byte</span><span class="tok-o">[]</span> <span class="tok-n">buf1</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">off1</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">len1</span><span class="tok-o">,</span>
+                     <span class="tok-kt">byte</span><span class="tok-o">[]</span> <span class="tok-n">buf2</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">off2</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">len2</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-n">JoinKey</span> <span class="tok-n">key1</span> <span class="tok-o">=</span> <span class="tok-n">Utils</span><span class="tok-o">.</span><span class="tok-na">readObject</span><span class="tok-o">(</span><span class="tok-k">new</span> <span class="tok-n">JoinKey</span><span class="tok-o">(),</span> <span class="tok-n">buf1</span><span class="tok-o">,</span> <span class="tok-n">off1</span><span class="tok-o">,</span> <span class="tok-n">len1</span><span class="tok-o">);</span>
+    <span class="tok-n">JoinKey</span> <span class="tok-n">key2</span> <span class="tok-o">=</span> <span class="tok-n">Utils</span><span class="tok-o">.</span><span class="tok-na">readObject</span><span class="tok-o">(</span><span class="tok-k">new</span> <span class="tok-n">JoinKey</span><span class="tok-o">(),</span> <span class="tok-n">buf2</span><span class="tok-o">,</span> <span class="tok-n">off2</span><span class="tok-o">,</span> <span class="tok-n">len2</span><span class="tok-o">);</span>
+    <span class="tok-k">return</span> <span class="tok-n">Utils</span><span class="tok-o">.</span><span class="tok-na">compareMultilevel</span><span class="tok-o">(</span>
+        <span class="tok-n">Utils</span><span class="tok-o">.</span><span class="tok-na">compareLongs</span><span class="tok-o">(</span><span class="tok-n">key1</span><span class="tok-o">.</span><span class="tok-na">uid</span><span class="tok-o">,</span> <span class="tok-n">key2</span><span class="tok-o">.</span><span class="tok-na">uid</span><span class="tok-o">),</span>
+        <span class="tok-n">Utils</span><span class="tok-o">.</span><span class="tok-na">compareInts</span><span class="tok-o">(</span><span class="tok-n">key1</span><span class="tok-o">.</span><span class="tok-na">shard</span><span class="tok-o">,</span> <span class="tok-n">key2</span><span class="tok-o">.</span><span class="tok-na">shard</span><span class="tok-o">)</span>
+    <span class="tok-o">);</span>
+  <span class="tok-o">}</span>
+<span class="tok-o">}</span>
+</td></tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Above piece of code completes the solution of the join problem.
+It works for any input data volume and takes acceptable amount of time to complete.
+Experienced programmer would further add number of improvements which I omitted for the sake of clarity:
+avoid deserialization in comparators, increase object reuse, add counters and asserts.
+Anyway, above solution should give you the feeling that coding with MapReduce is not so easy as described in tutorials.
+In general, simplicity of the MapReduce concept is a benefit and a drawback at the same time.
+On the one hand, its basics can be learned very fast.
+On the other hand, even basic problems require constructing complicated dataflow
+because of overly simplistic MapReduce model.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_comments">Comments</h2>
+<div class="sectionbody">
+      <div id='disqus_thread'></div>
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http://gudok.xyz/hdp1/';
+          this.page.identifier = 'hdp1';
+        };
+
+        (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//gudok.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href='https://disqus.com/?ref_noscript'>comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2017-02-12 21:48:09 UTC
+</div>
+</div>
+</body>
+</html>
