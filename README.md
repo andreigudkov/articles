@@ -1,1 +1,1 @@
-Source code of the articles located at [`http://gudok.xyz/`](http://gudok.xyz/)
+This repository contains source code of the articles which are hosted at [`http://gudok.xyz/`](http://gudok.xyz/)
