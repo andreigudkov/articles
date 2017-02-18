@@ -1,4 +1,4 @@
-package mrhints;
+package hdpdemo;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;

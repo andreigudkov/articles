@@ -1,4 +1,4 @@
-package mrhints;
+package hdpdemo.ep1;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,6 +12,10 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
+
+import hdpdemo.Any;
+import hdpdemo.Session;
+import hdpdemo.User;
 
 public class DenormalizeJobV1 {
 
@@ -53,7 +57,7 @@ public class DenormalizeJobV1 {
 			}
 
 			if (user == null) {
-				context.getCounter(JoinStatus.SessionsWithoutUser).increment(sessions.size());
+				context.getCounter(JoinStatus.SessionWithoutUser).increment(sessions.size());
 			}
 			for (Session session : sessions) {
 				context.write(NullWritable.get(), new Any(session, user));

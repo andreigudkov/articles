@@ -1,6 +1,6 @@
-package mrhints;
+package hdpdemo.ep1;
 
 public enum JoinStatus {
-	SessionsWithoutUser,
+	SessionWithoutUser,
 	DuplicateUser
 }
