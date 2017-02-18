@@ -35,7 +35,7 @@ may generate from zero to as many as thousands of sessions.
 In the end, we would like to get a copy of sessions table where each session is enriched with information
 about corresponding user.
 
-image::sessions-join-users.png[align=center,width=60%]
+image::join-problem.png[align=center,width=60%]
 
 If you completed any random tutorial on Hadoop, then you should immediately come to the naive solution.
 Let us create M/R job that accepts both data sources on input simultaneously.
@@ -140,7 +140,7 @@ Default partitioner implementation scatters key/value pairs between reducers bas
 thus ensuring that pairs with identical keys will be delivered to the same reducer and that keys (but not key/value pairs)
 will be uniformly distributed between reducers.
 
-image::between-map-reduce.png[align=center,width=90%]
+image::join-mr-framework.png[align=center,width=90%]
 
 Reducer's job is more complicated, it consists of three distinct phases.
 During the first phase, reducer copies key/value pairs emitted by +map()+ functions from all mappers.
@@ -272,7 +272,7 @@ In general, long-lasting jobs is the primary coding problem with M/R.
 It makes any ETA forecasting absolutely unreliable.
 Deprived of any sense of confidence, programmers prefer to avoid batch processing in general and Hadoop in particular.
 
-image::slow-reducer.png[align=center,width=90%]
+image::join-slow-reducer.png[align=center,width=90%]
 
 To solve the problem of non-uniform reducers, we will extend join key again.
 Idea is to split sessions of a single +uid+ into multiple +reduce()+ calls,
