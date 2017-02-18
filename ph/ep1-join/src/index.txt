@@ -1,5 +1,5 @@
-Practical Hadoop, episode one: JOIN
-===================================
+Practical Hadoop, episode 1: JOIN
+=================================
 Andrei Gudkov <gudokk@gmail.com>
 :source-highlighter: pygments
 :figure-caption!:
