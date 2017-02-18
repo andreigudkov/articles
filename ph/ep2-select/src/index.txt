@@ -231,6 +231,12 @@ But the idea is always the same: you want to filter out as much irrelevant data 
 The less irrelevant data "leaks" to reducers, the more efficient overall job is.
 
 
+Sources
+-------
+
+Full source code can be found at https://github.com/andreigudkov/articles/tree/master/ph/src/java[github].
+
+
 Comments
 --------
 

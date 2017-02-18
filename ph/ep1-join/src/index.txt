@@ -363,6 +363,11 @@ On the one hand, its basics can be learned very fast.
 On the other hand, even basic problems require constructing complicated dataflow
 because of overly simplistic MapReduce model.
 
+Sources
+-------
+
+Full source code can be found at https://github.com/andreigudkov/articles/tree/master/ph/src/java[github].
+
 Comments
 --------
 
