@@ -1,5 +1,5 @@
-Hadoop is not so easy: episode 2
-================================
+Hadoop is not so easy, episode 2: SELECT
+========================================
 Andrei Gudkov <gudokk@gmail.com>
 :source-highlighter: pygments
 :figure-caption!:
@@ -234,5 +234,5 @@ The less irrelevant data "leaks" to reducers, the more efficient overall job is.
 Comments
 --------
 
-disqus::hdp2[]
+disqus::hdpep2[]
 
