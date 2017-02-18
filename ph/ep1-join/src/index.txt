@@ -1,5 +1,5 @@
-Hadoop is not so easy, episode one: JOIN
-========================================
+Practical Hadoop, episode one: JOIN
+===================================
 Andrei Gudkov <gudokk@gmail.com>
 :source-highlighter: pygments
 :figure-caption!:
@@ -366,5 +366,5 @@ because of overly simplistic MapReduce model.
 Comments
 --------
 
-disqus::hdpep1[]
+disqus::phep1[]
 
