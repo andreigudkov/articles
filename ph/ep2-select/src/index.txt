@@ -80,17 +80,17 @@ data but with different sublists.
 This is expensive.
 
 To make our job independent on number of URLs, we are going to use classical MapReduce approach.
-As in first version, we will first create a sequence file with URLs in format (NullWritable, Any{url}) and put in HDFS.
+As in first version, we will first create a sequence file with URLs in format +(NullWritable, Any{url})+ and put in HDFS.
 Next we will create a job that tasks both URLs and sessions files as input and joins them.
 URL is used as join key, so that all objects -- both sessions and URLs -- are delivered to the same reducer.
 Reducer emits only those sessions which have URL from our list of interest.
-To optimize sorting operation, hash(URL) is used as a key instead of URL itself.
+To optimize sorting operation, +hash(URL)+ is used as a key instead of URL itself.
 This slightly complicates reducer because now there is a chance that multiple URLs will map into the same +hash(url)+.
 As such, reducer has to track multiple URLs at once.
 
 We also assume that number of sessions with single URL is small.
 In real-world, this might not be the case, and we would have to use the approach described in previous article.
-That is, to split sessions with the same URLs into multiple shards with the key {hash(URL), shardId(0..20)}.
+That is, to split sessions with the same URLs into multiple shards with the key +{hash(URL), shardId(0..20)}+.
 
 image::select-dataflow-v2.png[align=center,width=80%]
 
@@ -218,14 +218,14 @@ the job starts and pass it to mappers in serialized form to speed them up.
 It is easy to do so, because Bloom filter is essentially just an ordinary bit array with a couple of parameters.
 Add counters and tests, and you'll get a production-grade solution for the frequently recurring SELECT problem.
 
-Different problems may require some adaptations of above approach.
+Different problems may require some adaptations of the above approach.
 In particular, you should wisely choose data structure to filter data depending on its nature and volume:
 
  - use sorted array if key set fits into RAM
  - use sorted array of +hash(key)+ for larger key sets, but be aware that it produces false positives
  - use bloom filter for even larger key sets
  - use prefix trees (https://en.wikipedia.org/wiki/Trie[trie]) for string keys that have long common substrings,
-   such as URLs and semantic keys ("SWAP-AUD-JPY-20170218")
+   such as inverted URLs (+com.example.shop/apparel/women/dresses/https://+) and semantic keys (+SWAP-AUD-JPY-20170218+)
 
 But the idea is always the same: you want to filter out as much irrelevant data on mappers as you can.
 The less irrelevant data "leaks" to reducers, the more efficient overall job is.

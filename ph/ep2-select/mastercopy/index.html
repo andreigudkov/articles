@@ -205,18 +205,18 @@ This is expensive.</p>
 </div>
 <div class="paragraph">
 <p>To make our job independent on number of URLs, we are going to use classical MapReduce approach.
-As in first version, we will first create a sequence file with URLs in format (NullWritable, Any{url}) and put in HDFS.
+As in first version, we will first create a sequence file with URLs in format <code>(NullWritable, Any{url})</code> and put in HDFS.
 Next we will create a job that tasks both URLs and sessions files as input and joins them.
 URL is used as join key, so that all objects&#8201;&#8212;&#8201;both sessions and URLs&#8201;&#8212;&#8201;are delivered to the same reducer.
 Reducer emits only those sessions which have URL from our list of interest.
-To optimize sorting operation, hash(URL) is used as a key instead of URL itself.
+To optimize sorting operation, <code>hash(URL)</code> is used as a key instead of URL itself.
 This slightly complicates reducer because now there is a chance that multiple URLs will map into the same <code>hash(url)</code>.
 As such, reducer has to track multiple URLs at once.</p>
 </div>
 <div class="paragraph">
 <p>We also assume that number of sessions with single URL is small.
 In real-world, this might not be the case, and we would have to use the approach described in previous article.
-That is, to split sessions with the same URLs into multiple shards with the key {hash(URL), shardId(0..20)}.</p>
+That is, to split sessions with the same URLs into multiple shards with the key <code>{hash(URL), shardId(0..20)}</code>.</p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
@@ -438,7 +438,7 @@ It is easy to do so, because Bloom filter is essentially just an ordinary bit ar
 Add counters and tests, and you&#8217;ll get a production-grade solution for the frequently recurring SELECT problem.</p>
 </div>
 <div class="paragraph">
-<p>Different problems may require some adaptations of above approach.
+<p>Different problems may require some adaptations of the above approach.
 In particular, you should wisely choose data structure to filter data depending on its nature and volume:</p>
 </div>
 <div class="ulist">
@@ -454,7 +454,7 @@ In particular, you should wisely choose data structure to filter data depending 
 </li>
 <li>
 <p>use prefix trees (<a href="https://en.wikipedia.org/wiki/Trie">trie</a>) for string keys that have long common substrings,
-such as URLs and semantic keys ("SWAP-AUD-JPY-20170218")</p>
+such as inverted URLs (<code>com.example.shop/apparel/women/dresses/https://</code>) and semantic keys (<code>SWAP-AUD-JPY-20170218</code>)</p>
 </li>
 </ul>
 </div>
@@ -495,7 +495,7 @@ The less irrelevant data "leaks" to reducers, the more efficient overall job is.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-02-18 14:10:15 UTC
+Last updated 2017-02-21 06:57:38 UTC
 </div>
 </div>
 </body>
