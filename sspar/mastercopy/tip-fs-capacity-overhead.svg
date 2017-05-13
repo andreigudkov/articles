@@ -1,62 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
 <svg width="101cm" height="16cm" viewBox="-322 118 2001 311" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <g>
-    <rect style="fill: #ffd320" x="1544" y="120" width="100" height="80"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffd320" x="1544" y="120" width="100" height="80"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1594" y="163.9">
-      <tspan x="1594" y="163.9"></tspan>
+  <g id="Background">
+    <g>
+      <rect style="fill: #ffd320; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #ffd320" x="1544" y="120" width="100" height="80" rx="0" ry="0"/>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1594" y="163.9">
+        <tspan x="1594" y="163.9"></tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #c5000e; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #c5000e" x="1644" y="120" width="32" height="80" rx="0" ry="0"/>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1660" y="163.9">
+        <tspan x="1660" y="163.9"></tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #a9c469; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #a9c469" x="-320" y="120" width="1864" height="80" rx="0" ry="0"/>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="612" y="163.9">
+        <tspan x="612" y="163.9"></tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #004586; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #004586" x="1676" y="120" width="2" height="80" rx="0" ry="0"/>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1677" y="163.9">
+        <tspan x="1677" y="163.9"></tspan>
+      </text>
+    </g>
+    <text font-size="31.6089" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="612" y="170.95">
+      <tspan x="612" y="170.95">93.3% | 1,866 GB | Effective space</tspan>
+    </text>
+    <text font-size="31.6089" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1248" y="264">
+      <tspan x="1248" y="264">5.0% | 100 GB | Reserved blocks</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="2120" y="544">
+      <tspan x="2120" y="544"></tspan>
+    </text>
+    <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="1594" y1="200" x2="1560" y2="280"/>
+    <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="1560" y1="280" x2="970" y2="280"/>
+    <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="1660" y1="200" x2="1592" y2="352"/>
+    <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="1592" y1="352" x2="1104" y2="352"/>
+    <text font-size="31.6089" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1328" y="336">
+      <tspan x="1328" y="336">1.6% | 32 GB | Inode table</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1852" y="584">
+      <tspan x="1852" y="584"></tspan>
+    </text>
+    <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="1677.5" y1="200" x2="1580" y2="428"/>
+    <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="1580" y1="428" x2="1236" y2="428"/>
+    <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="2024" y="500">
+      <tspan x="2024" y="500"></tspan>
+    </text>
+    <text font-size="31.6089" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1400" y="412">
+      <tspan x="1400" y="412">0.1% | 2 GB | Other</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1620" y="420">
+      <tspan x="1620" y="420"></tspan>
     </text>
   </g>
-  <g>
-    <rect style="fill: #c5000e" x="1644" y="120" width="32" height="80"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #c5000e" x="1644" y="120" width="32" height="80"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1660" y="163.9">
-      <tspan x="1660" y="163.9"></tspan>
-    </text>
-  </g>
-  <g>
-    <rect style="fill: #a9c469" x="-320" y="120" width="1864" height="80"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #a9c469" x="-320" y="120" width="1864" height="80"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="612" y="163.9">
-      <tspan x="612" y="163.9"></tspan>
-    </text>
-  </g>
-  <g>
-    <rect style="fill: #004586" x="1676" y="120" width="2" height="80"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #004586" x="1676" y="120" width="2" height="80"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1677" y="163.9">
-      <tspan x="1677" y="163.9"></tspan>
-    </text>
-  </g>
-  <text font-size="31.6089" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="612" y="170.95">
-    <tspan x="612" y="170.95">93.3% | 1,866 GB | Effective space</tspan>
-  </text>
-  <text font-size="31.6089" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1248" y="264">
-    <tspan x="1248" y="264">5.0% | 100 GB | Reserved blocks</tspan>
-  </text>
-  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="2120" y="544">
-    <tspan x="2120" y="544"></tspan>
-  </text>
-  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="1594" y1="200" x2="1560" y2="280"/>
-  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="1560" y1="280" x2="970" y2="280"/>
-  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="1660" y1="200" x2="1592" y2="352"/>
-  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="1592" y1="352" x2="1104" y2="352"/>
-  <text font-size="31.6089" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1328" y="336">
-    <tspan x="1328" y="336">1.6% | 32 GB | Inode table</tspan>
-  </text>
-  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1852" y="584">
-    <tspan x="1852" y="584"></tspan>
-  </text>
-  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="1677.5" y1="200" x2="1580" y2="428"/>
-  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="1580" y1="428" x2="1236" y2="428"/>
-  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="2024" y="500">
-    <tspan x="2024" y="500"></tspan>
-  </text>
-  <text font-size="31.6089" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1400" y="412">
-    <tspan x="1400" y="412">0.1% | 2 GB | Other</tspan>
-  </text>
-  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1620" y="420">
-    <tspan x="1620" y="420"></tspan>
-  </text>
 </svg>

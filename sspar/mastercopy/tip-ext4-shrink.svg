@@ -1,65 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
 <svg width="49cm" height="8cm" viewBox="358 578 963 143" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <g>
-    <rect style="fill: #bce6ab" x="360" y="680" width="120" height="40"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="360" y="680" width="120" height="40"/>
-    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="420" y="708.217">
-      <tspan x="420" y="708.217">sda1</tspan>
-    </text>
-  </g>
-  <g>
-    <rect style="fill: #ff6550" x="480" y="680" width="240" height="40"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="480" y="680" width="240" height="40"/>
-    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="600" y="708.217">
-      <tspan x="600" y="708.217">sda2</tspan>
-    </text>
-  </g>
-  <g>
-    <rect style="fill: #ffffff" x="720" y="680" width="400" height="40"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="720" y="680" width="400" height="40"/>
-    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="920" y="708.217">
-      <tspan x="920" y="708.217">free</tspan>
-    </text>
-  </g>
-  <g>
-    <rect style="fill: #9fc5e8" x="1120" y="680" width="200" height="40"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1120" y="680" width="200" height="40"/>
-    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1220" y="708.217">
-      <tspan x="1220" y="708.217">sda3</tspan>
-    </text>
-  </g>
-  <g>
-    <rect style="fill: #bce6ab" x="360" y="580" width="120" height="40"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="360" y="580" width="120" height="40"/>
-    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="420" y="608.217">
-      <tspan x="420" y="608.217">sda1</tspan>
-    </text>
-  </g>
-  <g>
-    <rect style="fill: #ff6550" x="480" y="580" width="560" height="40"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="480" y="580" width="560" height="40"/>
-    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="760" y="608.217">
-      <tspan x="760" y="608.217">sda2</tspan>
-    </text>
-  </g>
-  <g>
-    <rect style="fill: #ffffff" x="1040" y="580" width="80" height="40"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1040" y="580" width="80" height="40"/>
-    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1080" y="608.217">
-      <tspan x="1080" y="608.217">free</tspan>
-    </text>
-  </g>
-  <g>
-    <rect style="fill: #9fc5e8" x="1120" y="580" width="200" height="40"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1120" y="580" width="200" height="40"/>
-    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1220" y="608.217">
-      <tspan x="1220" y="608.217">sda3</tspan>
-    </text>
-  </g>
-  <g>
-    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 1040 620 C 1040,680 720,620 720,673.264"/>
-    <polygon style="fill: #000000" points="720,677.764 717,671.764 720,673.264 723,671.764 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="720,677.764 717,671.764 720,673.264 723,671.764 "/>
+  <g id="Background">
+    <g>
+      <rect style="fill: #bce6ab; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="360" y="680" width="120" height="40" rx="0" ry="0"/>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="420" y="708.217">
+        <tspan x="420" y="708.217">sda1</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #ff6550; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="480" y="680" width="240" height="40" rx="0" ry="0"/>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="600" y="708.217">
+        <tspan x="600" y="708.217">sda2</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="720" y="680" width="400" height="40" rx="0" ry="0"/>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="920" y="708.217">
+        <tspan x="920" y="708.217">free</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #9fc5e8; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1120" y="680" width="200" height="40" rx="0" ry="0"/>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1220" y="708.217">
+        <tspan x="1220" y="708.217">sda3</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #bce6ab; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="360" y="580" width="120" height="40" rx="0" ry="0"/>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="420" y="608.217">
+        <tspan x="420" y="608.217">sda1</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #ff6550; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="480" y="580" width="560" height="40" rx="0" ry="0"/>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="760" y="608.217">
+        <tspan x="760" y="608.217">sda2</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1040" y="580" width="80" height="40" rx="0" ry="0"/>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1080" y="608.217">
+        <tspan x="1080" y="608.217">free</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #9fc5e8; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1120" y="580" width="200" height="40" rx="0" ry="0"/>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1220" y="608.217">
+        <tspan x="1220" y="608.217">sda3</tspan>
+      </text>
+    </g>
+    <g>
+      <path style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" d="M 1040 620 C 1040,680 720,620 720,673.264"/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="720,677.764 717,671.764 720,673.264 723,671.764 "/>
+    </g>
   </g>
 </svg>

@@ -1,53 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
-<svg width="39cm" height="5cm" viewBox="148 398 763 97" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <g>
-    <path style="fill: #ebe4d0" d="M 538 410 C 538,418 522,420 522,430 C 522,440 530,440 530,440 C 530,440 300,440 300,440 C 300,440 300,400 300,400 C 300,400 530,400 530,400 C 530,400 538,402 538,410z"/>
-    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 538 410 C 538,418 522,420 522,430 C 522,440 530,440 530,440 C 530,440 300,440 300,440 C 300,440 300,400 300,400 C 300,400 530,400 530,400 C 530,400 538,402 538,410"/>
-  </g>
-  <g>
-    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="760" y1="400" x2="760" y2="440"/>
-    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="760" y1="400" x2="540" y2="400"/>
-    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="760" y1="440" x2="540" y2="440"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="644.5" y="425">
-      <tspan x="644.5" y="425"></tspan>
+<svg width="39cm" height="5cm" viewBox="148 397 763 98" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs/>
+  <g id="Background">
+    <path style="fill: #ebe4d0; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" d="M 538 410 C 538,418 522,420 522,430 C 522,440 530,440 530,440 C 530,440 300,440 300,440 C 300,440 300,400 300,400 C 300,400 530,400 530,400 C 530,400 538,402 538,410z"/>
+    <g>
+      <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="760" y1="400" x2="760" y2="440"/>
+      <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="760" y1="400" x2="540" y2="400"/>
+      <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="760" y1="440" x2="540" y2="440"/>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="644.5" y="425">
+        <tspan x="644.5" y="425"></tspan>
+      </text>
+    </g>
+    <path style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" d="M 540 400 C 540,400 548,400 548,410 C 548,420 532,420 532,430 C 532,440 540,440 540,440"/>
+    <g>
+      <rect style="fill: #bce6ab; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="150" y="400" width="150" height="40" rx="0" ry="0"/>
+      <text font-size="22.5778" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="225" y="426.889">
+        <tspan x="225" y="426.889">10 GB</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #ff6550; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="760" y="400" width="150" height="40" rx="0" ry="0"/>
+      <text font-size="22.5778" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="835" y="426.889">
+        <tspan x="835" y="426.889">10 GB</tspan>
+      </text>
+    </g>
+    <path style="fill: #ebe4d0; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" d="M 760 400 C 760,400 760,440 760,440 C 760,440 538,440 538,440 C 538,440 532,440 532,430 C 532,420 548,420 548,410 C 548,400 540,400 540,400 C 540,400 760,400 760,400z"/>
+    <polyline style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" points="150,450 150,460 300,460 300,450 "/>
+    <polyline style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" points="760,450 760,460 910,460 910,450 "/>
+    <text font-size="22.5778" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="200" y="490">
+      <tspan x="200" y="490">Part. #1</tspan>
     </text>
-  </g>
-  <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 540 400 C 540,400 548,400 548,410 C 548,420 532,420 532,430 C 532,440 540,440 540,440"/>
-  <g>
-    <rect style="fill: #bce6ab" x="150" y="400" width="150" height="40"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="150" y="400" width="150" height="40"/>
-    <text font-size="22.5778" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="225" y="426.889">
-      <tspan x="225" y="426.889">10 GB</tspan>
+    <text font-size="22.5778" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="790" y="490">
+      <tspan x="790" y="490">Part. #3</tspan>
     </text>
-  </g>
-  <g>
-    <rect style="fill: #ff6550" x="760" y="400" width="150" height="40"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="760" y="400" width="150" height="40"/>
-    <text font-size="22.5778" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="835" y="426.889">
-      <tspan x="835" y="426.889">10 GB</tspan>
+    <text font-size="22.5778" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="500" y="490">
+      <tspan x="500" y="490">Part. #2</tspan>
     </text>
-  </g>
-  <g>
-    <path style="fill: #ebe4d0" d="M 760 400 C 760,400 760,440 760,440 C 760,440 538,440 538,440 C 538,440 532,440 532,430 C 532,420 548,420 548,410 C 548,400 540,400 540,400 C 540,400 760,400 760,400z"/>
-    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 760 400 C 760,400 760,440 760,440 C 760,440 538,440 538,440 C 538,440 532,440 532,430 C 532,420 548,420 548,410 C 548,400 540,400 540,400 C 540,400 760,400 760,400"/>
-  </g>
-  <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="150,450 150,460 300,460 300,450 "/>
-  <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="760,450 760,460 910,460 910,450 "/>
-  <text font-size="22.5778" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="200" y="490">
-    <tspan x="200" y="490">Part. #1</tspan>
-  </text>
-  <text font-size="22.5778" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="790" y="490">
-    <tspan x="790" y="490">Part. #3</tspan>
-  </text>
-  <text font-size="22.5778" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="500" y="490">
-    <tspan x="500" y="490">Part. #2</tspan>
-  </text>
-  <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="300,450 300,460 520,460 520,460 "/>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="540,460 760,460 760,450 "/>
-    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="520" y1="460" x2="524" y2="460"/>
-    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="526.667" y1="460" x2="530.667" y2="460"/>
-    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="533.333" y1="460" x2="537.333" y2="460"/>
+    <polyline style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" points="300,450 300,460 520,460 520,460 "/>
+    <g>
+      <polyline style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" points="540,460 760,460 760,450 "/>
+      <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="520" y1="460" x2="524" y2="460"/>
+      <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="526.667" y1="460" x2="530.667" y2="460"/>
+      <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="533.333" y1="460" x2="537.333" y2="460"/>
+    </g>
   </g>
 </svg>

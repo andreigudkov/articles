@@ -1,181 +1,148 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
 <svg width="68cm" height="19cm" viewBox="417 358 1344 363" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <g>
-    <rect style="fill: #cedff2" x="660" y="360" width="1100" height="360"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="660" y="360" width="1100" height="360"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1210" y="543.9">
-      <tspan x="1210" y="543.9"></tspan>
+  <g id="Background">
+    <g>
+      <rect style="fill: #cedff2; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="660" y="360" width="1100" height="360" rx="0" ry="0"/>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1210" y="543.9">
+        <tspan x="1210" y="543.9"></tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1040" y="380" width="160.5" height="120" rx="0" ry="0"/>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1120.25" y="448.217">
+        <tspan x="1120.25" y="448.217">Flash chip</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="680" y="380" width="280" height="220" rx="0" ry="0"/>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="820" y="498.217">
+        <tspan x="820" y="498.217">Controller</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="860" y="640" width="100" height="60" rx="0" ry="0"/>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="910" y="678.217">
+        <tspan x="910" y="678.217">RAM</tspan>
+      </text>
+    </g>
+    <g>
+      <ellipse style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" cx="719.017" cy="670" rx="30.5553" ry="31.5905"/>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="719.017" y="678.217">
+        <tspan x="719.017" y="678.217">c</tspan>
+      </text>
+    </g>
+    <g>
+      <ellipse style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" cx="789.017" cy="670" rx="30.5553" ry="31.5905"/>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="789.017" y="678.217">
+        <tspan x="789.017" y="678.217">c</tspan>
+      </text>
+    </g>
+    <g>
+      <line style="fill: none; stroke-opacity: 1; stroke-width: 4; stroke: #000000" x1="432" y1="500" x2="668" y2="500"/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 4; stroke: #000000" fill-rule="evenodd" points="432,495 422,500 432,505 "/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 4; stroke: #000000" fill-rule="evenodd" points="668,505 678,500 668,495 "/>
+    </g>
+    <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="448" y="488">
+      <tspan x="448" y="488">SATA/SAS/PCIe</tspan>
     </text>
-  </g>
-  <g>
-    <rect style="fill: #ffffff" x="1040" y="380" width="160.5" height="120"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1040" y="380" width="160.5" height="120"/>
-    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1120.25" y="448.217">
-      <tspan x="1120.25" y="448.217">Flash chip</tspan>
+    <g>
+      <line style="fill: none; stroke-opacity: 1; stroke-width: 4; stroke: #000000" x1="532" y1="672" x2="672" y2="672"/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 4; stroke: #000000" fill-rule="evenodd" points="672,677 682,672 672,667 "/>
+    </g>
+    <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="564" y="664">
+      <tspan x="564" y="664">Power</tspan>
     </text>
-  </g>
-  <g>
-    <rect style="fill: #ffffff" x="680" y="380" width="280" height="220"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="680" y="380" width="280" height="220"/>
-    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="820" y="498.217">
-      <tspan x="820" y="498.217">Controller</tspan>
-    </text>
-  </g>
-  <g>
-    <rect style="fill: #ffffff" x="860" y="640" width="100" height="60"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="860" y="640" width="100" height="60"/>
-    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="910" y="678.217">
-      <tspan x="910" y="678.217">RAM</tspan>
-    </text>
-  </g>
-  <g>
-    <ellipse style="fill: #ffffff" cx="719.017" cy="670" rx="30.5553" ry="31.5905"/>
-    <ellipse style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" cx="719.017" cy="670" rx="30.5553" ry="31.5905"/>
-    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="719.017" y="678.217">
-      <tspan x="719.017" y="678.217">c</tspan>
-    </text>
-  </g>
-  <g>
-    <ellipse style="fill: #ffffff" cx="789.017" cy="670" rx="30.5553" ry="31.5905"/>
-    <ellipse style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" cx="789.017" cy="670" rx="30.5553" ry="31.5905"/>
-    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="789.017" y="678.217">
-      <tspan x="789.017" y="678.217">c</tspan>
-    </text>
-  </g>
-  <g>
-    <line style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #000000" x1="432" y1="500" x2="668" y2="500"/>
-    <polygon style="fill: #000000" points="432,495 422,500 432,505 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #000000" points="432,495 422,500 432,505 "/>
-    <polygon style="fill: #000000" points="668,505 678,500 668,495 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #000000" points="668,505 678,500 668,495 "/>
-  </g>
-  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="448" y="488">
-    <tspan x="448" y="488">SATA/SAS/PCIe</tspan>
-  </text>
-  <g>
-    <line style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #000000" x1="532" y1="672" x2="672" y2="672"/>
-    <polygon style="fill: #000000" points="672,677 682,672 672,667 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #000000" points="672,677 682,672 672,667 "/>
-  </g>
-  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="564" y="664">
-    <tspan x="564" y="664">Power</tspan>
-  </text>
-  <g>
-    <rect style="fill: #ffffff" x="1220" y="380" width="160.5" height="120"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1220" y="380" width="160.5" height="120"/>
-    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1300.25" y="448.217">
-      <tspan x="1300.25" y="448.217">Flash chip</tspan>
-    </text>
-  </g>
-  <g>
-    <rect style="fill: #ffffff" x="1400" y="380" width="160.5" height="120"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1400" y="380" width="160.5" height="120"/>
-    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1480.25" y="448.217">
-      <tspan x="1480.25" y="448.217">Flash chip</tspan>
-    </text>
-  </g>
-  <g>
-    <rect style="fill: #ffffff" x="1580" y="380" width="160.5" height="120"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1580" y="380" width="160.5" height="120"/>
-    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1660.25" y="448.217">
-      <tspan x="1660.25" y="448.217">Flash chip</tspan>
-    </text>
-  </g>
-  <g>
-    <rect style="fill: #ffffff" x="1040" y="580" width="160.5" height="120"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1040" y="580" width="160.5" height="120"/>
-    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1120.25" y="648.217">
-      <tspan x="1120.25" y="648.217">Flash chip</tspan>
-    </text>
-  </g>
-  <g>
-    <rect style="fill: #ffffff" x="1220" y="580" width="160.5" height="120"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1220" y="580" width="160.5" height="120"/>
-    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1300.25" y="648.217">
-      <tspan x="1300.25" y="648.217">Flash chip</tspan>
-    </text>
-  </g>
-  <g>
-    <rect style="fill: #ffffff" x="1400" y="580" width="160.5" height="120"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1400" y="580" width="160.5" height="120"/>
-    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1480.25" y="648.217">
-      <tspan x="1480.25" y="648.217">Flash chip</tspan>
-    </text>
-  </g>
-  <g>
-    <rect style="fill: #ffffff" x="1580" y="580" width="160.5" height="120"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1580" y="580" width="160.5" height="120"/>
-    <text font-size="27.0933" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1660.25" y="648.217">
-      <tspan x="1660.25" y="648.217">Flash chip</tspan>
-    </text>
-  </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="965.236,538 1660,538 1660,507.236 "/>
-    <polygon style="fill: #000000" points="962.236,538 966.236,536 965.236,538 966.236,540 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="962.236,538 966.236,536 965.236,538 966.236,540 "/>
-    <polygon style="fill: #000000" points="1660,504.236 1662,508.236 1660,507.236 1658,508.236 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1660,504.236 1662,508.236 1660,507.236 1658,508.236 "/>
-  </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="965.236,532 1480,532 1480,505.236 "/>
-    <polygon style="fill: #000000" points="962.236,532 966.236,530 965.236,532 966.236,534 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="962.236,532 966.236,530 965.236,532 966.236,534 "/>
-    <polygon style="fill: #000000" points="1480,502.236 1482,506.236 1480,505.236 1478,506.236 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1480,502.236 1482,506.236 1480,505.236 1478,506.236 "/>
-  </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="965.236,526 1300,526 1300,506.56 "/>
-    <polygon style="fill: #000000" points="962.236,526 966.236,524 965.236,526 966.236,528 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="962.236,526 966.236,524 965.236,526 966.236,528 "/>
-    <polygon style="fill: #000000" points="1300,503.56 1302,507.56 1300,506.56 1298,507.56 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1300,503.56 1302,507.56 1300,506.56 1298,507.56 "/>
-  </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="965.236,520 1120,520 1120,506.56 "/>
-    <polygon style="fill: #000000" points="962.236,520 966.236,518 965.236,520 966.236,522 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="962.236,520 966.236,518 965.236,520 966.236,522 "/>
-    <polygon style="fill: #000000" points="1120,503.56 1122,507.56 1120,506.56 1118,507.56 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1120,503.56 1122,507.56 1120,506.56 1118,507.56 "/>
-  </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="965.236,544 1660,544 1660,572.764 "/>
-    <polygon style="fill: #000000" points="962.236,544 966.236,542 965.236,544 966.236,546 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="962.236,544 966.236,542 965.236,544 966.236,546 "/>
-    <polygon style="fill: #000000" points="1660,575.764 1658,571.764 1660,572.764 1662,571.764 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1660,575.764 1658,571.764 1660,572.764 1662,571.764 "/>
-  </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="965.236,550 1480,550 1480,572.764 "/>
-    <polygon style="fill: #000000" points="962.236,550 966.236,548 965.236,550 966.236,552 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="962.236,550 966.236,548 965.236,550 966.236,552 "/>
-    <polygon style="fill: #000000" points="1480,575.764 1478,571.764 1480,572.764 1482,571.764 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1480,575.764 1478,571.764 1480,572.764 1482,571.764 "/>
-  </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="965.236,556 1300,556 1300,572.764 "/>
-    <polygon style="fill: #000000" points="962.236,556 966.236,554 965.236,556 966.236,558 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="962.236,556 966.236,554 965.236,556 966.236,558 "/>
-    <polygon style="fill: #000000" points="1300,575.764 1298,571.764 1300,572.764 1302,571.764 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1300,575.764 1298,571.764 1300,572.764 1302,571.764 "/>
-  </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="965.236,562 1120,562 1120,572.764 "/>
-    <polygon style="fill: #000000" points="962.236,562 966.236,560 965.236,562 966.236,564 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="962.236,562 966.236,560 965.236,562 966.236,564 "/>
-    <polygon style="fill: #000000" points="1120,575.764 1118,571.764 1120,572.764 1122,571.764 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1120,575.764 1118,571.764 1120,572.764 1122,571.764 "/>
-  </g>
-  <g>
-    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="910" y1="605.236" x2="910" y2="634.764"/>
-    <polygon style="fill: #000000" points="910,602.236 912,606.236 910,605.236 908,606.236 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="910,602.236 912,606.236 910,605.236 908,606.236 "/>
-    <polygon style="fill: #000000" points="910,637.764 908,633.764 910,634.764 912,633.764 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="910,637.764 908,633.764 910,634.764 912,633.764 "/>
-  </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="560,642 550,654 558,654 551.201,662.159 "/>
-    <polygon style="fill: #000000" points="549.664,660.879 548.64,665.232 552.737,663.439 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="549.664,660.879 548.64,665.232 552.737,663.439 "/>
+    <g>
+      <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1220" y="380" width="160.5" height="120" rx="0" ry="0"/>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1300.25" y="448.217">
+        <tspan x="1300.25" y="448.217">Flash chip</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1400" y="380" width="160.5" height="120" rx="0" ry="0"/>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1480.25" y="448.217">
+        <tspan x="1480.25" y="448.217">Flash chip</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1580" y="380" width="160.5" height="120" rx="0" ry="0"/>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1660.25" y="448.217">
+        <tspan x="1660.25" y="448.217">Flash chip</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1040" y="580" width="160.5" height="120" rx="0" ry="0"/>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1120.25" y="648.217">
+        <tspan x="1120.25" y="648.217">Flash chip</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1220" y="580" width="160.5" height="120" rx="0" ry="0"/>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1300.25" y="648.217">
+        <tspan x="1300.25" y="648.217">Flash chip</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1400" y="580" width="160.5" height="120" rx="0" ry="0"/>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1480.25" y="648.217">
+        <tspan x="1480.25" y="648.217">Flash chip</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1580" y="580" width="160.5" height="120" rx="0" ry="0"/>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1660.25" y="648.217">
+        <tspan x="1660.25" y="648.217">Flash chip</tspan>
+      </text>
+    </g>
+    <g>
+      <polyline style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" points="965.236,538 1660,538 1660,507.236 "/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="962.236,538 966.236,536 965.236,538 966.236,540 "/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="1660,504.236 1662,508.236 1660,507.236 1658,508.236 "/>
+    </g>
+    <g>
+      <polyline style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" points="965.236,532 1480,532 1480,505.236 "/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="962.236,532 966.236,530 965.236,532 966.236,534 "/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="1480,502.236 1482,506.236 1480,505.236 1478,506.236 "/>
+    </g>
+    <g>
+      <polyline style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" points="965.236,526 1300,526 1300,506.56 "/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="962.236,526 966.236,524 965.236,526 966.236,528 "/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="1300,503.56 1302,507.56 1300,506.56 1298,507.56 "/>
+    </g>
+    <g>
+      <polyline style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" points="965.236,520 1120,520 1120,506.56 "/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="962.236,520 966.236,518 965.236,520 966.236,522 "/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="1120,503.56 1122,507.56 1120,506.56 1118,507.56 "/>
+    </g>
+    <g>
+      <polyline style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" points="965.236,544 1660,544 1660,572.764 "/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="962.236,544 966.236,542 965.236,544 966.236,546 "/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="1660,575.764 1658,571.764 1660,572.764 1662,571.764 "/>
+    </g>
+    <g>
+      <polyline style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" points="965.236,550 1480,550 1480,572.764 "/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="962.236,550 966.236,548 965.236,550 966.236,552 "/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="1480,575.764 1478,571.764 1480,572.764 1482,571.764 "/>
+    </g>
+    <g>
+      <polyline style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" points="965.236,556 1300,556 1300,572.764 "/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="962.236,556 966.236,554 965.236,556 966.236,558 "/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="1300,575.764 1298,571.764 1300,572.764 1302,571.764 "/>
+    </g>
+    <g>
+      <polyline style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" points="965.236,562 1120,562 1120,572.764 "/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="962.236,562 966.236,560 965.236,562 966.236,564 "/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="1120,575.764 1118,571.764 1120,572.764 1122,571.764 "/>
+    </g>
+    <g>
+      <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="910" y1="605.236" x2="910" y2="634.764"/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="910,602.236 912,606.236 910,605.236 908,606.236 "/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="910,637.764 908,633.764 910,634.764 912,633.764 "/>
+    </g>
+    <g>
+      <polyline style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" points="560,642 550,654 558,654 551.201,662.159 "/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="549.664,660.879 548.64,665.232 552.737,663.439 "/>
+    </g>
   </g>
 </svg>
