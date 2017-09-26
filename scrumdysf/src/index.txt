@@ -1,0 +1,188 @@
+Scrum dysfunction
+=================
+Andrei Gudkov <gudokk@gmail.com>
+
+It's been a while since scrum became the dominating religion in software engineering.
+Adjacent industries are slowly adopting it, too.
+What are the reasons behind its such immense popularity?
+Cost of development?
+Ability to change requirements on the fly?
+Or maybe the product quality?
+Unfortunately, creations are rarely liked for what their inventors expect them to be liked for,
+and scrum is not the exception.
+Let's look at the true reasons that make scrum so popular.
+As you have already guessed from the title, they are not genuinely good.
+
+
+*1. Evading responsibility* +
+Responsibility is rarely a pleasant thing.
+Nobody likes to work on boring tasks, tasks which are too hard or too simple,
+tasks with unpredictable time estimation or tasks which are liability rather than increasing product value.
+But scrum's approach to manage people as being interchangeable provides wide range of tools to evade responsibility.
+You can extract unpleasant part of your task into separate task and assign it to someone else.
+You can build a prototype (the most rewarding part of the work), and, after declaring that here "everything is already done"
+and "only _minor_ polishing remains" get the bonus and move to another project.
+Or you can hide yourself behind the myriad of trivial dependencies.
+Result is always the same: the collection of the most unpleasant (and, ironically, important)
+tasks jumps from a person to a person and from iteration to iteration until they become irrelevant.
+But the key goal -- evading responsibility -- is achieved.
+Welcome to comfort zone.
+
+
+*2. Visible artifacts* +
+Scrum naturally generates immense amount of highly visible artifacts:
+bugtracker issues and sub-issues, sprint boards, whiteboards entirely covered with colored sticky notes,
+frequent noisy stand-ups and meetings...
+When you enter office space, it becomes immediately obvious that people are doing something _important_.
+Visible artifacts are crucial when you work on an outsourced project ordered by external customer.
+The same is true if you work for company where IT is one of many auxiliary departments
+with primary goal of supporting core business.
+In both cases, people who fund the project have zero understanding of software engineering.
+Visible artifacts are the only unarguable means of proving that the project is moving forward.
+The results of the project are of secondary importance.
+
+
+*3. Fast career progression* +
+Have you always been dreaming of managing a huge project with hundreds of subordinates,
+but the only thing you've got so far is supporting single-page web site?
+Don't worry!
+With scrum -- by clever applying micromanagement, bureaucracy and people blending tools --
+you will be able to always easily justify the necessity of more employees.
+Split project into five-minute long tasks, add twenty required fields to your bugtracker,
+hold at least four meetings per day, and regularly switch people between the components.
+All this guarantees that the project won't be on schedule anymore.
+Ninety percent of the time will be occupied by _supporting_ scrum process.
+Project won't move towards its goal anymore.
+Now you can prepare pessimistic forecast (visible artificats are very helpful at this point!),
+go to your managers and easily persuade them to hire more people.
+Scrum is a truly _agile_ methodology in this sense.
+I wonder whether the term "agile" itself comes from the fact that any methodology of such type
+is able to bloat any -- no matter how small -- project to the extent of the universe.
+
+
+*4. Hiding incompetence* +
+Scrum is the easiest way for a person without required skills to enter software engineering industry
+and gain its benefits.
+Try the role of a scrum master.
+This is not too hard.
+You don't need to understand the technical details of the project.
+The only thing you really need to do is to rigorously follow scrum process:
+fill in iterations with tasks, shift priorities up and down, gather daily meetings and use a lot of scrum-related buzzwords.
+This by itself will be more than enough to create an aura of high importance around you.
+You can work for a year and even don't know what the project is all about.
+After you have been accepted by the team, you can start hiring people you like.
+This should be preferably an army of loyal idiots, so that they would be in the same boat as you.
+Scrum approach of mixing people and tasks at microlevel will make it impossible to distinguish
+between genuine contributors and those who were hired to support manager's self-esteem.
+
+
+*5. Job security* +
+Scrum, being a micromanagement-based methodology, naturally blends people with different
+qualifications and roles.
+This blend is miscible to such extent that it is not possible to reliably distinguish between
+key people and those who can be removed without failing the project.
+Even if your company faces bad times and an external manager is summoned to reduce the costs of your project,
+the only thing this outsider will be able to do is to replace the whole team,
+which most likely will be considered too dangerous to do.
+Hence, your team survives and becomes irreplaceable as a whole.
+
+
+*6. Scrum is a formal methodology* +
+Solving problems which do not have ready by the book solutions results in lack of confidence and, consequently, to stress.
+You have to answer yourself a lot of questions everyday.
+"How often should we make releases?
+Did we estimate effort reasonably?
+How to explain that we need to remake everything?
+And whom should we blame for the project failure?"
+Two steps ahead, one step behind.
+With scrum, you can at least stop worrying about how the process is organized.
+The only thing you really need to do is to visit nearby book shop and buy any modern book on scrum.
+No more decisions out of thin air: step by step instruction is provided by the book.
+You can't be blamed for misorganization, you can rely on scrum book to justify all your decisions.
+"According to this book, the experts on scrum recommend that this be done exactly this way.
+Do you really think that they are wrong? In this case, talk to them, not me."
+No more hard thinking.
+Atop of that, you can compare your "scrum level" with colleagues
+and even complete training courses and earn the title "certified scrum master".
+
+
+The more scrum projects I encounter, the more I become confident that "scrum" is an umbrella term
+for superficial, toy projects with constantly growing micromanagement and chaos.
+If I had to choose only single word to describe scrum, then it would be "kindergarten".
+Any traditional best practice integrated into scrum process transforms into a child's play:
+it still has all external attributes of the former but lacks the very essence.
+Code review boils down to checking indentation,
+meetings -- to half-day long discussions of how to name a class,
+testing is limited to verifying the primary use case,
+and the remainder of the day is dedicated to solving the easiest problem you've managed to secure for yourself.
+All these activities are fake and do not contribute to the welfare of the project.
+
+
+How did it happen that scrum managed to stick to software engineering,
+where the fundamental principle "high cohesion, loose coupling" was born?
+I think that the answer to this question is the ongoing simplification of the industry,
+shift from full-scale development towards building small linear combinations over 3rd-party components.
+Neither long-term commitment nor deep immersion are required in such setup.
+When you have such type of project, any methodology works, even the absence of thereof.
+But it is the scrum that creates the best possible cover-up among all existing methodologies
+for an army of opportunistic managers who were attracted to software engineering industry by high salaries.
+
+
+Scrum doesn't work for projects which require hard effort.
+Its focus on short, well-defined tasks and zero personal responsibility
+make it impossible to finish any poorly predictable project, for example, relying on deep development or research.
+Here scrum again proves that it is an _agile_ methodology (though the term "slimy" would be more appropriate):
+it encourages to stick to the easiest, tastiest problems and ignore anything harder than that.
+As such, every project infected with scrum eventually transforms into the pipeline that copy-pastes
+simple by-the-book solutions.
+It is very frustrating to observe a fresh project with novel idea slowly dying
+after scrum has been introduced into it.
+The key idea of the project is dropped halfway, -- "but don't worry, we instead made this beautiful UI based on the 
+state-of-the-art JS framework".
+Beautiful UI alone is hard to sell, project stagnates, participants scatter,
+and managers search for a new host to infect with scrum.
+In the long run, only the managers benefit from scrum, but not the ordinary team members and not the project as a whole.
+
+
+All successful, long-lived projects that I encountered relied on splitting project
+into non-overlapping areas of responsibility with full private ownership.
+This is the key factor to well-being of the project.
+There should be only single responsible person for any component, and this person should be the sole owner
+of this component at the same time.
+Owner acts like mother and father of the component: designs it, builds it, supports it, milks it.
+Relationship between project participants should be by means of agreed API, such as header files
+and communication protocols, or by means of agreed data scheme in case you are dealing with data analysis.
+These are the perfect split points: they allow to smoothly connect components together
+and hide their internal complexity inside the minds of their respective owners at the same time.
+Implementation details of each separate component are entirely under control of the component's owner
+(restricted by project-wide rules, of course).
+In such organizational setup, manager's job is to hire best possible people, split project into components
+(this is hard!) and leave people alone.
+After that is done, people can work without constant supervision, and manager can focus
+on "outside" aspects of the project, such as budget, politics and long-term plans,
+thus securing bright future for the whole team.
+
+
+Only after granting full ownership you can demand that people take responsibility for what they do.
+In general, the benefits of private ownership cover much wider range than that: 
+
+ - it guarantees that unpleasant tasks will be done and not indefinitely reassigned from a person to a person
+ - it ensures quality: experienced people are motivated to work on their own components and not the shared trash
+ - it gives the manager much time to focus on the "outside" of the project rather than the "inside"
+ - it scales well thanks to small number of interpersonal dependencies; teams of hundreds of members are not the exception
+ - it allows to work remotely (for the same reason)
+ - it encourages experimenting: working on ideas which are well accepted only after they have been implemented
+ - it ensures that every team member uses accustomed and, thus, the most efficient tools
+ - it is transparent: bottlenecks are identified at early stage, so that the adjustments can be made in time
+ - it reduces number of conflicts of interest to a bare minimum
+ - components built by a single person can be easily handed over due to high quality, clear interface and uniform style
+ 
+
+Scrum, on the other hand, perfectly inverses these benefits.
+If private ownership can be considered an instance of divide and conquer approach, then scrum is an instance
+of "entangle and enjoy the chaos" approach.
+And I can hardly imagine any uses of it except for personal benefit.
+So, if you are on the bright side of the world, I suggest that you stay away from scrum as well as from its advocates.
+Learn to value private ownership instead.
+It is much more efficient and rewarding.
+
