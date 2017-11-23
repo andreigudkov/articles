@@ -1,0 +1,254 @@
+Demo Page
+=========
+Benjamin Karamazoff <b.karamazoff@example.net>
+:toc:
+:source-highlighter: pygments
+:_linkcss:
+:_icons: font
+
+
+Basic Formatting
+----------------
+
+Pierre drove to Marya Dmitrievna's to tell her of the fulfillment of her wish
+that Kuragin should be banished from Moscow. The whole house was in a state of
+alarm and commotion. +Natasha+ was *very ill*, having, as +Marya Dmitrievna+
+told him in secret, *poisoned herself* the night after she had been told that
++Anatole+ was *married*, with some arsenic she had 'stealthily' procured. After
+swallowing a little she had been so frightened that she woke Sonya and told her
+what she had done. The necessary *antidotes* had been *administered* in time and
+she was now 'out of danger', though still so 'weak' that it was out of the
+question to move her to the country, and so the countess had been sent for.
++Pierre+ saw the 'distracted' count, and +Sonya+, who had a 'tear-stained' face,
+but he could not see Natasha. footnote:[Move along, nothing to see here]
+
+Pierre dined at the club that day and heard on all sides gossip about the
+attempted abduction of Rostova. He resolutely denied these rumors, assuring
+everyone that nothing had happened except that his brother-in-law had proposed
+to her and been refused. It seemed to Pierre that it was his duty to conceal the
+whole affair and re-establish Natasha's reputation.
+
+
+*strong* +
++monospaced+ +
+'emphasized' +
+
+*+strong and monospaced+* +
+*'strong and emphasized'* +
++'monospaced and emphasized'+ +
+
+*+'strong and monospaced and emphasized'+*
+
+
+Implementation note: this implementation provides O(log(n)) time for the
+enqueing and dequeing methods (+offer+, +poll+, +remove()+ and +add+); linear
+time for the +remove(Object)+ and +contains(Object)+ methods; and constant time
+for the retrieval methods (+peek+, +element+, and +size+). 
+
+'''
+
+https://en.wikipedia.org/wiki/Twilight[Twilight] is the illumination of the
+Earth's lower https://en.wikipedia.org/wiki/Atmosphere_of_Earth[+atmosphere+]
+when the https://en.wikipedia.org/wiki/Sun[*Sun*] itself is not directly visible
+because it is below the https://en.wikipedia.org/wiki/Horizon['horizon'].
+
+http://speedof.me/ +
+http://obama-weather.com/classic/russia/moscow/ +
+
++mono- di- tri- tetra- penta- hexa- hepta- octa- nona- deca- undeca- dodeca- 
+trideca- tetradeca- pentadeca- hexadeca- heptadeca- octadeca- nonadeca- 
+icosa-/eicosa- henicosa-/heneicosa- docosa- tricosa- triaconta- hentriaconta- 
+dotriaconta- tetraconta- pentaconta- hexaconta- heptaconta- octaconta- 
+nonaconta- hecta-+
+
+Listing
+--------
+
+----
+                 /\___   
+    @@@@@@@@@@@  O  \   
+ @@@@@@@@@@@@@@@____/   
+@@@@@@@@@@@@@@@@   
+@ @@@@@@@@@@@@   
+   ||      ||   
+   ~~      ~~
+----
+
+[source,c,numbered]
+----
+static inline int is_mergeable_anon_vma(struct anon_vma *anon_vma1,
+          struct anon_vma *anon_vma2,
+          struct vm_area_struct *vma)
+{
+  /*
+   * The list_is_singular() test is to avoid merging VMA cloned from
+   * parents. This can improve scalability caused by anon_vma lock.
+   */
+  if ((!anon_vma1 || !anon_vma2) && (!vma ||
+    list_is_singular(&vma->anon_vma_chain)))
+    return 1;
+  return anon_vma1 == anon_vma2;
+}
+----
+
+[source,c]
+----
+static inline int is_mergeable_anon_vma(struct anon_vma *anon_vma1,
+          struct anon_vma *anon_vma2,
+          struct vm_area_struct *vma)
+{
+  /*
+   * The list_is_singular() test is to avoid merging VMA cloned from
+   * parents. This can improve scalability caused by anon_vma lock.
+   */
+  if ((!anon_vma1 || !anon_vma2) && (!vma ||
+    list_is_singular(&vma->anon_vma_chain)))
+    return 1;
+  return anon_vma1 == anon_vma2;
+}
+----
+
+
+----
+This is single line: One, Ten, Hundred, Thousand, Ten Thousand (Myriad), Hundred Thousand, Million, Billion, Trillion, Quadrillion, Quintillion, Sextillion, Septillion, Octillion, Nonillion, Decillion, Undecillion, Duodecillion, Tredecillion, Quattuordecillion, Quindecillion  
+----
+
+
++tail -F+
+---------
+
+adfadfal aldfjadf a
+
+barrow::
+a castrated male swine
+
+boar::
+a mature, male swine; often a wild or feral swine
+
+gilt::
+a female pig that has never been pregnant
+
+hog::
+a domestic swine, especially a fully-grown specimen
+
+piglet::
+a very young pig
+
+shoat::
+a young hog, especially one that has been weaned
+
+sow::
+a mature, female swine
+
+swineherd::
+one who tends swine; a pig farmer
+
+queen::
+a female pig that has never been mated
+
+
+adfadfal aldfjadf a
+
+
+Prefer +tail -F+ to +tail -f+
+-----------------------------
+
+Pierre drove to Marya Dmitrievna's to tell her of the fulfillment of her wish
+that Kuragin should be banished from Moscow. The whole house was in a state of
+alarm and commotion. +Natasha+ was *very ill*, having, as +Marya Dmitrievna+
++adaa aldajfa lajdfka  adjfka jakd fajdf ladjfka lajdfla lla djlfa lajdlf aldfjla fla jdf adljfad aldjfadfa
+akfjadfl adjlfa d  ljadf al jldajfa+
+Pierre drove to Marya Dmitrievna's to tell her of the fulfillment of her wish
+that Kuragin should be banished from Moscow. The whole house was in a state of
+alarm and commotion. +Natasha+ was *very ill*, having, as +Marya Dmitrievna+
+
+List and Custom Styles
+----------------------
+
+
+* All work and no play [aqua underline]#makes# [black underline]#Jack# a dull bon
+** [blue underline]#All# wwork and no play makes Jack a Rull [fuchsia underline]#boy#
+** All [gray underline]#work# and no play makes Jack [green underline]#adull# boy
+*** All [lime underline]#work# and no plaay makes [maroon underline]#Jack# a dull boy
+**** All work and no play [navy underline]#makes# Jacka dull [olive underline]#boy#
+***** [purple underline]#All# work and no play makesXJack a dusl [red underline]#boy#
+*** All work andd no [silver underline]#play# makeI Jack a [teal underline]#dull# boy
+*** All [white underline]#work# [yellow underline]#and# no play makeI Jack a dull boy
+
+'''
+
+. All work and no [aqua-background underline]#plaS# makes [black-background underline]#Jack# a dull boy
+.. All work and nv [blue-background underline]#plaV# makes Jack a dull [fuchsia-background underline]#boy#
+.. [gray-background underline]#All# work and no [green-background underline]#plVy# makes Jack a dull boy
+... All work and no [lime-background underline]#play# maes Jack  dull [maroon-background underline]#boy#
+.... [navy-background underline]#All# [olive-background underline]#work# and no play makes Jack a dull by
+..... All wok [purple-background underline]#and# no play makes [red-background underline]#Jack# a dull boy
+.. All work and no [silver-background underline]#play# [teal-background underline]#make# Jak a dull boy
+... All work and no [white-background underline]#play# makes [yellow-background underline]#Jack# a dull boy
+
+
+'''
+
+* That is not [underline]#dead# which can [overline]#eternal# lie +
+yet with [strike-through]#strange# [small]#aeons# even [big]#death# may die
+
+Table
+-----
+
+.Ten staples that feed the world (by annual production)
+[options="header,footer",cols=">,^,<,>,>,^"]
+|============================================================================================
+| | ^|World production 2012 ^|Average world yield 2010 2+^|World's most productive countries 2012
+|1   |Maize (corn)   |873 million  |5.1  |25.9 |United States
+|2   |Rice           |738 million  |4.3  |9.5  |Egypt
+|3   |Wheat          |671 million  |3.1  |8.9  |New Zealand
+|4   |Potatoes       |365 million  |17.2 |45.4 |Netherlands
+|5   |Cassava        |269 million  |12.5 |34.8 |India
+|6   |Soybeans       |241 million  |2.4  |4.4  |Egypt
+|7   |Sweet potatoes |108 million  |13.5 |33.3 |Senegal
+|8   |Yams           |59.5 million |10.5 |28.3 |Colombia
+|9   |Sorghum        |57.0 million |1.5  |86.7 |United Arab Emirates
+|10  |Plantain       |37.2 million |6.3  |31.1  |El Salvador
+^|Rank ^|Crop ^|(metric tons) ^|(tons per hectare) ^|(tons per hectare) ^|Country
+|============================================================================================
+
+Misc Elements
+-------------
+
+Image
+~~~~~
+
+image::silky.jpg["Silky sifaka",title="Silky sifaka",width=320,align="center"]
+
+
+Paradisio
+---------
+
+Purgatorio
+----------
+Now I shall sing the second kingdom, there where the soul of man is cleansed, made worthy to ascend to Heaven.
+
+Inferno
+-------
+
+Ninth Circle (Treachery)
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Eighth Circle (Fraud)
+~~~~~~~~~~~~~~~~~~~~~
+There is a place in Hell called Malebolge, fashioned entirely of iron-colored rock, as is the escarpment that encircles it.
+
+Seventh Circle (Violence)
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Inner Ring
+^^^^^^^^^^
+
+Middle Ring
+^^^^^^^^^^^
+Here the filthy Harpies nest, who drove the Trojans from the Strophades with doleful prophecies of woe to come. +
+
+Outer Ring
+^^^^^^^^^^
+
+

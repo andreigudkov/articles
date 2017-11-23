@@ -1,0 +1,578 @@
+@import "normalize";
+
+/*
+ * Lepota: easy-readable style for asciidoctor
+ * MIT License
+ * Copyright (c) 2016 Andrei Gudkov
+ */
+
+/*********** Color names **************/
+
+$clr-night-gray:   #222;
+
+$clr-night-blue:   #325d72;
+$clr-sea-blue:     #0061C5;
+$clr-dirty-blue:   #667788;
+$clr-metal-blue:   #91A7B3;
+$clr-air-blue:     #F3F5F7;
+
+
+/*********** Color roles ***************/
+
+$clr-font:             $clr-night-gray;
+$clr-font-link:        $clr-sea-blue;
+$clr-font-lineno:      $clr-dirty-blue;
+
+$clr-border-hard:      $clr-dirty-blue;
+$clr-border-soft:      $clr-metal-blue;
+$clr-block-bg:         $clr-air-blue;
+
+$clr-title:            $clr-night-blue;
+$clr-title-underline:  $clr-metal-blue;
+$clr-foothead-light:   white;
+$clr-foothead-dark:    $clr-night-blue;
+
+
+/*********** Sizes ***************/
+
+$content-width:        55em;
+$content-padding-lr:   0.5em;
+
+
+/************* Basics **************/
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  font-family: Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  color: $clr-font;
+  line-height: 1.5;
+
+  max-width: $content-width;
+  margin: 0px auto;
+}
+
+#content, #footnotes {
+  padding-left: $content-padding-lr;
+  padding-right: $content-padding-lr;
+}
+
+strong {
+  font-weight: bold;
+}
+
+em {
+  font-style: italic;
+}
+
+/* inline code */
+:not(pre) > code {
+  font-family: Courier, monospace;
+  line-height: 1.0;
+}
+
+a {
+  color: $clr-font-link;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+hr {
+  border-width: 0px 0px 1px 0px;
+  border-style: solid;
+  border-color: $clr-border-hard;
+}
+
+
+/************* List **************/
+
+ul, ol {
+  list-style-position: outside;
+  padding-left: 0;
+  margin-left: 2em;
+}
+
+ul li ul, ul li ol, ol li ul, ol li ol {
+  margin-left: 1.414em;
+}
+
+ul > li { 
+  list-style-type: square;
+  font-size: 80%;
+  > * {
+    font-size: 125%;
+  }
+}
+
+ol > li {
+  font-weight: bold;
+  > * {
+    font-weight: normal;
+  }
+}
+ol.arabic { list-style-type: decimal; }
+ol.decimal { list-style-type: decimal-leading-zero; }
+ol.loweralpha { list-style-type: lower-alpha; }
+ol.upperalpha { list-style-type: upper-alpha; }
+ol.lowerroman { list-style-type: lower-roman; }
+ol.upperroman { list-style-type: upper-roman; }
+ol.lowergreek { list-style-type: lower-greek; }
+
+
+.dlist dt {
+  color: $clr-title;
+  font-weight: bold;
+}
+.dlist dt:not(:first-child) {
+  margin-top: 1em;
+}
+.dlist dd {
+  margin-left: 2em;
+}
+
+td.hdlist1 {
+  color: $clr-title;
+  padding-right: 0.5em;
+  vertical-align: top;
+}
+td.hdlist2 {
+  padding-bottom: 0.5em;
+}
+
+
+/*********** Header ***************/
+
+h1 {
+  font-size: 28px;
+  font-weight: normal;
+  letter-spacing: -1px;
+  color: $clr-foothead-light;
+  background-color: $clr-foothead-dark;
+  text-align: center;
+  margin: 0 0 0.5em 0;
+  padding: 0.05em 0.5em;
+}
+@media print {
+  h1 {
+    color: $clr-foothead-dark;
+    background-color: $clr-foothead-light;
+    font-weight: bold;
+  }
+}
+
+/* fix vertical align for both Helvetica and Arial */
+h1::after {
+  content: ':';
+  width: 0;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+/*********** Attribution ***************/
+
+.author {
+  color: $clr-title;
+}
+.email::before {
+  content: "<";
+  color: $clr-title;
+}
+.email::after {
+  content: ">";
+  color: $clr-title;
+}
+.author + br, .email + br {
+  display: none;
+}
+#author {
+  padding-left: $content-padding-lr;
+}
+
+
+/*********** TOC ***************/
+
+#toc {
+  margin: 1em 0 2em 0;
+  padding-left: $content-padding-lr;
+}
+
+#toctitle {
+  font-size: 19px;
+  font-weight: bold;
+  color: $clr-title;
+  margin: 0.5em 0;
+}
+
+#toc > ul { 
+  line-height: 1.4;
+  font-size: 15px;
+  margin: 0 0 0 0.5em;
+}
+#toc ul li {
+  list-style-type: none;
+}
+#toc li {
+  margin: 0;
+}
+
+
+/*********** Custom Text Style ***************/
+
+.big { font-size: 120%; }
+.small { font-size: 75%; }
+
+.underline { text-decoration: underline; }
+.overline { text-decoration: overline; }
+.line-through { text-decoration: line-through; }
+
+@mixin mxn-colored($name, $fgcolor, $bgcolor) {
+  .#{$name} {
+    color: $fgcolor;
+  }
+  .#{$name}-background {
+    background-color: $bgcolor;
+    border-radius: 2px;
+    padding: 0 3px;
+  }
+}
+
+@include mxn-colored("aqua",    #00bfbf, #00fafa);
+@include mxn-colored("black",   "black", "black");
+@include mxn-colored("blue",    #0000bf, #0000fa);
+@include mxn-colored("fuchsia", #bf00bf, #fa00fa);
+@include mxn-colored("gray",    #606060, #7d7d7d);
+@include mxn-colored("green",   #006000, #007d00);
+@include mxn-colored("lime",    #00bf00, #00fa00);
+@include mxn-colored("maroon",  #600000, #7d0000);
+@include mxn-colored("navy",    #000060, #00007d);
+@include mxn-colored("olive",   #606000, #7d7d00);
+@include mxn-colored("purple",  #600060, #7d007d);
+@include mxn-colored("red",     #bf0000, #fa0000);
+@include mxn-colored("silver",  #909090, #bcbcbc);
+@include mxn-colored("teal",    #006060, #007d7d);
+@include mxn-colored("white",   #bfbfbf, #fafafa);
+@include mxn-colored("yellow",  #bfbf00, #fafa00);
+
+
+/*********** Table ****************/
+
+table.tableblock {
+  border: 1px solid $clr-border-soft;
+  margin-left: auto; // asciidoctor doesn't support align attribute -- force all tables centered for now
+  margin-right: auto;
+}
+
+table.tableblock > caption.title {
+  text-align: left;
+  margin-bottom: 0.5em;
+}
+
+table.tableblock > colgroup > col {
+  width: inherit !important;
+}
+
+// tbody
+table.tableblock > tbody > tr > td {
+  border-style: solid;
+  border-color: $clr-border-soft;
+  border-width: 0px 1px;
+  padding: 0 5px 2px 5px;
+}
+table.tableblock > tbody > tr:nth-of-type(2n) {
+  background-color: $clr-block-bg;
+}
+p.tableblock {
+  text-align: inherit;
+}
+
+// thead, tfoot
+table.tableblock > thead > tr > td,
+table.tableblock > thead > tr > th,
+table.tableblock > tfoot > tr > td,
+table.tableblock > tfoot > tr > th {
+  color: $clr-title;
+  font-weight: bold;
+  line-height: 1.35;
+  padding: 2px 5px;
+  border: 1px solid $clr-border-soft;
+}
+table.tableblock > thead > tr > th,
+table.tableblock > thead > tr > td {
+  border-bottom-width: 2px;
+}
+table.tableblock > tfoot > tr > th,
+table.tableblock > tfoot > tr > td {
+  border-top-width: 2px;
+}
+
+
+// manual alignment
+th.halign-left, td.halign-left { text-align: left; }
+th.halign-right, td.halign-right { text-align: right; }
+th.halign-center, td.halign-center { text-align: center; }
+th.valign-top, td.valign-top { vertical-align: top; }
+th.valign-bottom, td.valign-bottom { vertical-align: bottom; }
+th.valign-middle, td.valign-middle { vertical-align: middle; }
+
+
+/*********** Listing ****************/
+
+div.listingblock {
+  padding: 0.5em;
+  border-style: solid;
+  border-color: $clr-border-hard;
+  border-width: 0 0 0 2px;
+  background-color: $clr-block-bg;
+  overflow: auto;
+
+  .title {
+    text-align: right;
+  }
+
+  pre {
+    font-family: Menlo, Consolas, Monaco, "Lucida Console", monospace;
+    font-size: 87.5%;
+    white-space: pre;
+    background-color: $clr-block-bg !important; /* override value provided by pygments css */
+    margin: 0;
+  }
+
+  td.linenos {
+    border-right: 1px solid $clr-border-soft;
+    padding-right: 0.67em;
+  }
+
+  table.pyhltable {
+    div.linenodiv {
+      color: $clr-font-lineno;
+      text-align: right;
+    }
+
+    td.code {
+      padding-left: .67em;
+    }
+  }
+}
+
+
+/****************** Image **********************/
+
+div.imageblock > div.content > img {
+  max-width: 98%; /* 100% - 2*$content-padding-lr */
+}
+
+/* ... role="text-indent" ... */
+.text-indent {
+  padding-left: 2em;
+}
+
+
+/****************** Math **********************/
+
+img.inlinemath {
+  image-rendering: optimizequality;
+  margin-top: 0.5ex;
+}
+
+/****************** Title **********************/
+
+h2, h3, h4 {
+  font-weight: normal;
+  color: $clr-title;
+  margin: 0;
+}
+
+h2 {
+  font-size: 27px;
+  letter-spacing: -1px;
+  border-bottom: 1px solid $clr-title-underline;
+}
+
+h3 {
+  font-size: 24px;
+  letter-spacing: -0.75px;
+}
+
+h4 {
+  font-size: 21px;
+  letter-spacing: -0.5px;
+}
+
+.title {
+  color: $clr-title;
+  font-weight: bold;
+}
+
+
+/************* Footer ****************/
+
+#footer {
+  font-size: 80%;
+  color: $clr-foothead-light;
+  background-color: $clr-foothead-dark;
+}
+@media print {
+  #footer {
+    color: $clr-foothead-dark;
+    background-color: $clr-foothead-light;
+    font-weight: bold;
+  }
+}
+
+#footer-text {
+  text-align: center;
+  padding: 0.5em;
+}
+
+#footer-badges {
+  display: none;
+}
+
+
+/************* Footnote ****************/
+
+span.footnote {
+  vertical-align: super;
+  font-size: 80%;
+}
+
+#footnotes > hr {
+  display: none;
+}
+#footnotes::before {
+  display: block;
+  border-bottom: 1px solid $clr-border-hard;
+  margin: 0.5em 0;
+  content: "Notes";
+  font-size: 19px;
+  font-weight: bold;
+  color: $clr-title;
+}
+
+#footnotes .footnote {
+  margin-left: 0.5em;
+  font-size: 15px;
+}
+
+
+/************* Spacing ****************/
+
+/*
+ * Logically, there are two types of relations between elements: sibling-to-sibling and parent-to-child.
+ * Most of the time this is already provided by HTML markup, e.g. between a title and its inner content.
+ * But this is not always the case, for example the sequence of paragraph, image, paragraph creates
+ * disambiguity: first paragraph may be the description of the image {(<p>(<img>))(<p>)},
+ * the second paragraph may be the description of the image {(<p>)((<img>)<p>)}, or neither of
+ * them {(<p>)(<img>)(<p>)}.
+ * This can be resolved only by the author of the article, but unfortunately asciidoc syntax doesn't
+ * provide means to break this ambiguity.
+ *
+ * As a tradeof between quality and simplicity, the following rules are used.
+ * We choose relation type statically for each pair of adjacent elements, e.g. "p img" and "p list"
+ * are always considered to be in a "parent-to-child relation" (paragraph is the description of the
+ * following element), while "p hr" "p p", "hr p", "img img" are all siblings.
+ * Then we define margins:
+ *  - margin between sibling-to-sibling elements is defined by ordinary CSS rules: first element
+ *    declares minimally acceptable bottom margin with margin-bottom, second element declares
+ *    minimally acceptable top margin with margin-top; effective margin is max of them
+ *  - top-most element in a sequence of siblings has zero margin-top; bottom-most element has
+ *    zero margin-bottom
+ *  - parent is responsible for setting proper margins between itself and its inner contents in a
+ *    parent-to-sibling relation
+ *
+ * Example: <img> <img> will result in <img> <1em> <img> (siblings, both <img> provide margin value)
+ * Example: <p> <img> <p> will result in <p> <0.5em> <img> <1.2em> <p> (first <p> is the parent of the image)
+ */
+
+hr:not(:first-child) { margin-top: 1.5em; }
+hr:not(:last-child) { margin-bottom: 1.5em; }
+
+
+.imageblock:not(:last-child),
+.listingblock:not(:last-child),
+.tableblock:not(:last-child) {
+  margin-bottom: 1em;
+}
+
+
+/*
+ *  - sublists are 0.1em
+ *  - lists (but not sublists) and codeblock are considered to be children of paragraph and are 0.5em
+ *  - otherwise 1.0em
+ */
+p + * { margin-top: 1em; }
+.paragraph + * { margin-top: 1em; }
+p + .ulist,
+p + .olist,
+p + .dlist,
+p + .hdlist,
+.paragraph + .ulist,
+.paragraph + .olist,
+.paragraph + .dlist,
+.paragraph + .hdlist,
+.paragraph + .listingblock {
+  margin-top: 0.5em !important;
+}
+li * + .ulist,
+li * + .olist,
+li * + .dlist,
+li * + .hdlist {
+  margin-top: 0.1em !important;
+}
+
+/*
+ *  - <p> and all types of lists are considered children of .title and are 0.5em
+ *  - otherwise 1.5em
+ */
+.title:not(:first-child) { margin-top: 1.5em; }
+.content + .title { margin-top: 0.5em !important; }
+.title + * { margin-top: 1.5em; }
+.title + p,
+.title + .paragraph,
+.title + .ulist,
+.title + .olist,
+.title + .dlist,
+.title + .hdlist {
+  margin-top: 0.5em !important;
+}
+
+
+.ulist:not(:last-child) { margin-bottom: 1em; }
+.olist:not(:last-child) { margin-bottom: 1em; }
+li:not(:first-child) { margin-top: 0.1em; }
+
+.dlist:not(:last-child) { margin-bottom: 1em; }
+.dlist:not(:first-child) { margin-top: 1em; }
+
+.sect3:not(:last-child) { margin-bottom: 18px; }
+.sect3:not(:first-child) { margin-top: 18px; }
+h4:not(:last-child) { margin-bottom: 9px; }
+
+.sect2:not(:last-child) { margin-bottom: 22px; }
+.sect2:not(:first-child) { margin-top: 22px; }
+h3:not(:last-child) { margin-bottom: 11px; }
+
+.sect1:not(:last-child) { margin-bottom: 40px; }
+.sect1:not(:first-child) { margin-top: 40px; }
+#preamble:not(:last-child) { margin-bottom: 40px;}
+h2:not(:last-child) { margin-bottom: 13px; }
+
+
+
+#header:not(:last-child),
+#content:not(:last-child),
+#footnotes:not(:last-child) {
+//#footer:not(:last-child) {
+  margin-bottom: 2em;
+}
+
+
