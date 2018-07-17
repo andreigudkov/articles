@@ -160,7 +160,7 @@ For example, let&#8217;s assume that we have single large job which in <em>perfe
 In perfect world, there are no hardware or software errors, input data is clean,
 cluster doesn&#8217;t require maintenance, and you never have urgent desire to change the code of the already launched job.
 Alas, perfect world exists only on paper.
-When this large job meet meets real world, it will take 50 hours for it to complete because of failures and restarts.
+When this large job meets real world, it will take 50 hours for it to complete because of failures and restarts.
 On the other hand, accurately crafted series of short jobs would complete in 20 hours.
 This is the best you can do in real world.</p>
 </div>
@@ -192,7 +192,7 @@ Let&#8217;s assume that we already have a well-tested ML-analyzer that is able t
 whether it relates to the person of interest and, if the answer is yes, it also computes
 rating ranging from "very positive" to "very negative" based on the emotional analysis of the text.
 For example,
-"First step to cut unnecessary public expenditure: H.L.I. proposed to dim string lights"
+"First step to cut unnecessary public expenditure: H.L.I. proposed to dim street lights"
 would be rated positively,
 while "I bet this moron H.L.I. doesn&#8217;t commute after nightfall"&#8201;&#8212;&#8201;negatively.</p>
 </div>
@@ -313,7 +313,7 @@ So, let&#8217;s split it into a number of <strong>merger</strong> jobs either.
 We will do this by using mapreduce approach, but on a higher&#8201;&#8212;&#8201;job management&#8201;&#8212;&#8201;level.
 Remember that every map/reduce job outputs not a single file but a fixed number of partitions,
 equal to the number of reducers.
-Let&#8217;s configure invertors to use the same number of mappers: <code>job.setNumReduceTasks(1024);</code>.
+Let&#8217;s configure invertors to use the same number of reducers: <code>job.setNumReduceTasks(1024);</code>.
 This ensures that partitions with different numbers contain strictly non-intersecting sets of keys.
 Now we can perform merging "vertically", as demonstrated in the image below.
 This completes our solution.</p>
@@ -379,7 +379,7 @@ delaying completion or making it impossible</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-06 09:33:59 UTC
+Last updated 2018-07-17 14:24:43 UTC
 </div>
 </div>
 </body>

@@ -10,7 +10,7 @@ modules="
   $root/lepota
   $root/ph/ep1-join
   $root/ph/ep2-select
-  $root/ph/ep3-wtf
+  $root/ph/ep3-stability
   $root/scrumdysf
   $root/smine
   $root/srvsup

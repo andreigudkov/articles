@@ -64,7 +64,7 @@ For example, let's assume that we have single large job which in _perfect_ world
 In perfect world, there are no hardware or software errors, input data is clean,
 cluster doesn't require maintenance, and you never have urgent desire to change the code of the already launched job.
 Alas, perfect world exists only on paper.
-When this large job meet meets real world, it will take 50 hours for it to complete because of failures and restarts.
+When this large job meets real world, it will take 50 hours for it to complete because of failures and restarts.
 On the other hand, accurately crafted series of short jobs would complete in 20 hours.
 This is the best you can do in real world.
 
@@ -95,7 +95,7 @@ Let's assume that we already have a well-tested ML-analyzer that is able to dete
 whether it relates to the person of interest and, if the answer is yes, it also computes
 rating ranging from "very positive" to "very negative" based on the emotional analysis of the text.
 For example,
-"First step to cut unnecessary public expenditure: H.L.I. proposed to dim string lights"
+"First step to cut unnecessary public expenditure: H.L.I. proposed to dim street lights"
 would be rated positively,
 while "I bet this moron H.L.I. doesn't commute after nightfall" -- negatively.
 
@@ -198,7 +198,7 @@ So, let's split it into a number of *merger* jobs either.
 We will do this by using mapreduce approach, but on a higher -- job management -- level.
 Remember that every map/reduce job outputs not a single file but a fixed number of partitions,
 equal to the number of reducers.
-Let's configure invertors to use the same number of mappers: `job.setNumReduceTasks(1024);`.
+Let's configure invertors to use the same number of reducers: `job.setNumReduceTasks(1024);`.
 This ensures that partitions with different numbers contain strictly non-intersecting sets of keys.
 Now we can perform merging "vertically", as demonstrated in the image below.
 This completes our solution.
