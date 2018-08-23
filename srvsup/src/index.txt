@@ -208,9 +208,3 @@ Consequences of such approach:
 In software design, it is considered a good practice to strive for loose coupling between components.
 Then why don't you do the same thing with people?
 
-
-Comments
---------
-
-disqus::srvsup[]
-

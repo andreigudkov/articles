@@ -3594,9 +3594,3 @@ Tracktotrack test results (with --maxcylsize=524288 bytes):
         rotational speed: 5367 RPM
 ----
 
-
-Comments
---------
-
-disqus::sspar[]
-

@@ -368,8 +368,3 @@ Sources
 
 Full source code can be found at https://github.com/andreigudkov/articles/tree/master/ph/src/java[github].
 
-Comments
---------
-
-disqus::phep1[]
-

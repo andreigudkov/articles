@@ -682,9 +682,3 @@ As you have already guessed, this will never happen.
 Even if you manage to prove yourself (which is virtually impossible by working for a dying project),
 high self esteem of elite department employees will reject anybody who worked for an ordinary department.
 
-
-Comments
---------
-
-disqus::smine[]
-
