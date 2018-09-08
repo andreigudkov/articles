@@ -1,0 +1,437 @@
+Rationale behind Boyer-Moore algorithm
+======================================
+:source-highlighter: pygments
+
+Andrei Gudkov <gudokk@gmail.com>
+
+
+Searching for the first occurrence of a substring in a string is a well-studied problem.
+A variety of methods were developed to solve it, including "algorithmically
+oriented" methods and also brute-force methods utilizing special CPU instructions
+(e.g. x86-64 https://software.intel.com/sites/landingpage/IntrinsicsGuide/#text=pcmpestr[pcmpestri]).
+It is commonly stated that Boyer-Moore algorithm (BM) is the most efficient
+algorithm in general.
+This is particularly true if the goal is to search for a substring in a _huge_
+volume of data, so that some time may be invested in substring preprocessing
+before starting the search without noticeable reduction in performance.
+In this article I will try to gradually explain what makes BM so good.
+I expect that reader has at least superficial knowledge of the classical +strstr()+ algorithms.
+
+The problem is stated as following: we need to find first position
+of some given substring ("pattern", P) inside text T,
+or return -1 if P is not found in T.
+Lengths of the pattern and the text are |P| and |T| respectively.
+All characters belong to an alphabet A of cardinality |A|.
+
+.1. Left-to-right vs right-to-left
+
+Substring search algorithms can be roughly classified by the order they use
+to compare characters of the pattern, such as left-to-right (L2R for short, e.g. KMP),
+right-to-left (R2L, e.g. BM) or even from the middle of the pattern
+(e.g. http://www-igm.univ-mlv.fr/~lecroq/string/node26.html[Two Way algorithm]).
+Intuitively it should be easy to understand that right-to-left (R2L) algorithms
+are the most efficient.
+The reason for this is that they may produce much longer shifts in general
+after comparing only small number of characters.
+
+To demonstrate this, let's imagine artificial case when characters
+of the pattern do not occur in text.
+If we are to search such pattern left-to-right, then every shift
+would be exactly of length one, resulting in O(|T|) comparisons in total.
+We align pattern with the beginning of the text, then we compare
+first character of the pattern with respective character of the text,
+understand that they do not match, next we shift pattern to the right by one,
+and then repeat this process all over again until end of text is reached.
+The fact that the first character of the pattern doesn't match the respective
+character of the text doesn't produce any additional useful information.
+We will have to shift the pattern every time by 1.
+However, if we are searching right-to-left, then pattern is shifted
+by |P| every time.
+After hitting mismatch on the right-most pattern character,
+we immediately come to the conclusion that all shorter shifts are of no use
+because the observed character in the text is not present in the pattern at all.
+The shortest shift that makes sense is |P|.
+Thus right-to-left algorithms demonstrates O(|T|/|P|) comparisons at best.
+
+
+image::l2r-vs-r2l.svg[width=90%,align=center]
+
+In general case, when there are no artificial limitations as above,
+difference in efficiency of L2R and R2L algorithms is not so dramatic:
+L2R algorithm may produce longer than one shifts after successfully comparing
+couple of characters and eventually hitting mismatch,
+while R2L may produce shifts shorter than the pattern length |P|.
+However, L2R is never able to produce such long shift after comparing only single character
+as demonstrated above.
+Typically the longer the pattern, the larger the benefits of R2L over L2R are.
+
+
+.2. Baseline right-to-left algorithm
+
+Now we will construct straightforward but efficient algorithm in the R2L family.
+Let's align pattern with text and perform comparisons right-to-left
+while respective characters match.
+Either all of the pattern characters match and we have an answer, or,
+most likely, we will hit mismatch at some point.
+This means that current alignment of the pattern with the text cannot be the answer
+and we need to shift the pattern to the right to the next possible match.
+How long would be the shift?
+At this point we know the following:
+ 
+ * math:[p] -- the length of the matched suffix.
+   Note that we don't need to memorize the actual characters because we can
+   always figure them out from the pattern P, which we keep in RAM.
+ * math:[c] -- character of the text that caused mismatch
+
+This is all information that we have.
+We can write current state as the pair math:[(p,c)], where math:[p\in\lbrack0\,..\,\lvert\mathrm{P}\rvert{-}1\rbrack]
+and math:[c] is one of the characters of the alphabet, which usually consists of all one-byte
+characters: math:[c\in\left\lbrack0\,..\,255\right\rbrack].
+
+To compute the longest shift, imagine the string
+math:[
+  \mathrm{S}=(c,\;
+    \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}p\rbrack,\;
+    ..,\;
+    \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}2\rbrack,\;
+    \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}1\rbrack
+  )
+],
+i.e. this is the actual string we observed in the text and which is not the suffix
+of the pattern (which we hoped for) because of math:[c].
+Since it doesn't match the end of the pattern, let's search for
+the right-most occurrence of this string in the pattern.
+If we found such occurrence, good, this gives us next possible shift and 
+we can restart the matching process.
+Example below demonstrates the pattern "bragracadabra".
+Here we observed the string "gra" in the text that is not the suffix
+of the pattern.
+But we found the string "gra" inside the pattern itself, so we shifted
+the pattern to the right by 7 characters to align pattern's rightmost "gra"
+with the text's "gra".
+Next step is to match newly aligned pattern all over again from the last character.
+
+image::match-full.svg[width=90%,align=center]
+
+If, however, the string
+math:[
+  \mathrm{S}=(c,\;
+    \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}p\rbrack,\;
+    ..,\;
+    \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}2\rbrack,\;
+    \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}1\rbrack
+  )
+] cannot be found anywhere in the pattern in full,
+let's try to align the pattern in such way that its beginning is also the ending of S.
+If there are multiple such alignments, we need to choose the longest matching sequence
+(corresponding to the shortest shift) in order not to miss possible answer.
+In the example below, we hit mismatch when comparing \'a' with \'u'.
+Now we need to find string S="ubra" inside the pattern, but there is no such string occurs.
+The shortest shift of interest is to align the pattern so that the prefix "bra"
+of the pattern matches the same sequence of characters in the text:
+
+image::match-partial.svg[width=90%,align=center]
+
+In the best case, when neither of the above two cases produce a shift,
+the smallest possible shift is by the whole pattern length |P|:
+
+image::match-none.svg[width=90%,align=center]
+
+Working with pattern every time we hit mismatch is not very efficient.
+But since the number of possible mismatch states is fixed at |A|x|P|,
+we can precompute all possible shifts into lookup table (LUT).
+For example, for the pattern "bragracadabra", +lut[\'g'][2]=7+ means that
+in a situation when 2 pattern characters matched successfully and the sixth character
+of the text (\'g') mismatched (S="gra"), we shift pattern by 7 characters and
+start matching all over again.
+
+image::bragracadabra.svg[width=35%,align=center]
+
+[options="header",width="1%",cols=">,>,>,>,>,>,>,>,>,>,>,>,>,>"]
+|====
+||0|1|2|3|4|5|6|7|8|9|10|11|12
+|*...*|||||||||||||
+|*a*|&mdash;|13|13|&mdash;|10|&mdash;|10|&mdash;|10|10|&mdash;|10|10
+|*b*|2|13|&mdash;|10|10|10|10|10|10|10|10|10|&mdash;
+|*c*|6|5|13|10|10|10|&mdash;|10|10|10|10|10|10
+|*d*|4|3|13|10|&mdash;|10|10|10|10|10|10|10|10
+|*e*|13|13|13|10|10|10|10|10|10|10|10|10|10
+|*g*|9|13|7|10|10|10|10|10|10|&mdash;|10|10|10
+|*r*|1|&mdash;|13|10|10|10|10|10|&mdash;|10|10|&mdash;|10
+|*u*|13|13|13|10|10|10|10|10|10|10|10|10|10
+|*...*|||||||||||||
+|====
+
+When the goal is to search for a substring in a huge dataset that is
+thousands or, even better, millions of times larger than the pattern,
+performance of the preprocessing stage is of no importance,
+and any simple algorithm to fill in the table may be used.
+Examples of such applications would be "Find" tool in a browser
+(searching for a substring in a very long PDF document)
+or database query engine (apply predicate +WHERE name CONTAINS "abc"+ in
+a collection of millions of strings).
+However, when text size is small or prior knowledge of lengths
+of pattern and text is not known (e.g. implementing canonical
+libc +strstr()+ function), preprocessing step becomes a bottleneck
+and should be carefully implemented.
+Good implementation of preprocessing is not simple and is out of scope
+of this article.
+
+After LUT has been constructed, matching algorithm is simple to implement:
+
+[source,java,numbered]
+-----
+int strstr(String pattern, String text) {
+  int[][] table = build_table(pattern); // table[c][p] => shift
+
+  int offset = 0;
+  outer:
+  while (offset <= text.length() - pattern.length()) {
+    for (int i = pattern.length() - 1; i >= 0; i--) {
+      if (text[offset+i] != pattern[i]) {
+        char c = text[offset+i]; // mismatched character
+        int p = pattern.length() - i - 1; // length of the matched suffix
+        offset += table[c][p];
+        goto outer;
+      }
+    }
+    return offset;
+  }
+
+  return -1;
+}
+-----
+
+Above algorithm is one the most efficient among all algorithms which
+perform comparisons right-to-left and is very natural at the same time.
+But why "one of the most"?
+It still has a flaw: it drops all accumulated information after making a shift
+and starts comparing characters all over again.
+Or, in another words, matching "sessions" are independent and do not
+carry information from one to another.
+This is the trait shared between all applied substring search algorithms,
+including BM, KMP and naive O(|P|*|T|) algorithm.
+To demonstrate the case, recall one of the previous examples.
+The sequence "bra" from the text will be compared twice: first time during the original --
+unsuccessful -- alignment and second time during the second -- successful -- alignment.
+
+image::compare-twice.svg[width=90%,align=center]
+
+.3. Issues with the above algorithm
+
+The algorithm constructed above is very natural and, at first glance,
+algorithmically fast.
+However, it has two issues making it impractical.
+Both issues are caused by the too large LUT size.
+
+The first issue was already discussed earlier: because of large
+number of LUT entries, preprocessing takes too much time.
+This pushes minimal volume of data to make this algorithm worse of using
+to enormously high values, like hundreds of kilobytes.
+While it is still a good choice for large-scale processing (database engines),
+it is of no use for solving ad-hoc +strstr()+ problems.
+You do not want to spend on preprocessing 100x time than actual search would take.
+
+The second issue relates to hardware.
+Large LUTs are not cache-friendly.
+For example, if pattern consists of 32 single-byte characters,
+then table size is
+256 [small]#[alphabet size]# * 32 [small]#[pattern length]# * (32/8) [small]#[bytes/entry]# = 32 KiB.
+Such LUT would occupy entire L1d cache!
+OK, I acknowledge that this may be an overestimation.
+Typically not all of the characters of the alphabet are present in the text.
+For example, for ASCII text, characters with codes above 127 most likely won't
+occur in text at all.
+But even if only half of LUT is accessed often,
+it is too huge to be efficiently cached.
+Remember that search algorithm rarely works alone.
+Input data must be retrieved from somewhere, possibly decompressed
+and/or transformed in other ways.
+All these pieces of code also compete for cache.
+There are high chances that LUT entries will constantly flip back and forth
+between being cached and evicted, thus decreasing cache efficiency.
+
+
+.4. Fixing baseline algorithm
+
+You can think of BM as of baseline algorithm with fixes for the above issues.
+The idea of BM is to split single large LUT of size |A|x|P| into two much smaller,
+independent LUTs of size |A| and |P| respectively.
+These two tables are entirely independent and do not know anything about one another.
+
+The first linear LUT of size |P| is used to implemented so-called "good suffix" heuristic.
+For every suffix length math:[p], it returns the next possible shift,
+but it doesn't know anything about the character that caused mismatch.
+It knows only the suffix length.
+It is computed in the same way as the "big" LUT, but instead of computing shifts for every string
+math:[
+  (c,\;
+    \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}p\rbrack,\;
+    ..,\;
+    \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}2\rbrack,\;
+    \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}1\rbrack
+  )
+] we need to compute shifts for every string
+math:[
+  (
+    \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}p\rbrack,\;
+    ..,\;
+    \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}2\rbrack,\;
+    \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}1\rbrack
+  )
+].
+In special case when math:[p=0] table entry is set to 1, indicating minimal possible shift.
+
+Another linear LUT of size |A| is used to implement "bad character" heuristic
+and deals with character mismatches.
+Given some alphabet character math:[c], it returns such shift that would align
+pattern so that rightmost occurrence of the character math:[c] in the pattern is strictly
+under the text's math:[c].
+But it doesn't know anything about how many characters matched successfully
+before we hit mismatch.
+To compute this table, we need just to find the positions of the right-most occurrences
+of every character in alphabet.
+When some character math:[c] doesn't occur in pattern, table entry is set to -1,
+like if the character existed in pattern in position -1.
+This allows to avoid conditional code in the matching function.
+
+Such approach reduces table sizes from |A|*|P| down to |A|+|P| at the cost of slightly worse
+theoretical performance (demonstrated a bit later).
+
+image::bragracadabra.svg[width=35%,align=center]
+
+[options="header",width="100%"]
+|====
+|good suffix length|&nbsp;0|&nbsp;1|&nbsp;2|&nbsp;3|&nbsp;4|&nbsp;5|&nbsp;6|&nbsp;7|&nbsp;8|&nbsp;9|10|11|12
+|shift|&nbsp;1|&nbsp;3|&nbsp;7|10|10|10|10|10|10|10|10|10|10
+|====
+
+[options="header",width="100%"]
+|====
+|bad character|*...*|&nbsp;a|&nbsp;b|&nbsp;c|&nbsp;d|&nbsp;e|&nbsp;g|&nbsp;r|&nbsp;u|*...*
+|right-most position|...|12|10|&nbsp;6|&nbsp;8|&nbsp;-1|&nbsp;3|11|&nbsp;-1|...
+|====
+
+Matching algorithm must be slightly modified.
+As before, we align pattern and compare characters of the pattern right to left
+until we hit mismatch.
+When this has happened, we query both tables: matched suffix length is passed
+to "good suffix" LUT, while mismatched character math:[c] from the text
+is passed to "bad character" LUT.
+Effective shift is the maximum of the two shifts returned by these tables.
+
+[source,java,numbered]
+-----
+
+int strstr(String pattern, String text) {
+  // good_suffix_table[p] => shift
+  int[] good_suffix_table = build_good_suffix_table(pattern);
+  // bad_character_table[c] => right-most position of c
+  int[] bad_character_table = build_bad_character_table(pattern);
+
+  int offset = 0;
+  outer:
+  while (offset <= text.length() - pattern.length()) {
+    for (int i = pattern.length() - 1; i >= 0; i--) {
+      if (text[offset+i] != pattern[i]) {
+        char c = text[offset+i]; // mismatched character
+        int p = pattern.length() - i - 1; // length of the matched suffix
+        offset += Math.max(
+          good_suffix_table[p],
+          i - bad_character_table[c]
+        );
+        goto outer;
+      }
+    }
+    return offset;
+  }
+
+  return -1;
+}
+-----
+
+
+.5. Why does such simplification work well?
+
+At first glance, decoupling composite state math:[(p,c)] into two independent
+smaller states should lead to significant performance penalty.
+However, in real-world applications it doesn't do so.
+The key observation is that at any given moment during the matching process
+at least one of the tables produces long shift.
+
+When we align pattern with the text and immediately hit mismatch,
+matched suffix is of length 0, meaning that good suffix heuristic doesn't
+result in any meaningful shift at all.
+Effective shift entirely comes from the bad character heuristic,
+which at this moment works very well.
+In the best case, when text character that caused mismatch cannot be found
+anywhere in the pattern, the shift is of length |P|,
+thus skipping large portion of the text.
+
+However, bad character heuristic performs progressively poorer with increase
+in matched length suffix.
+Recall that bad character heuristic doesn't know anything about the length of the
+matched suffix.
+Whether matched suffix is of length 0, of length 15, or of length 1000, it returns
+the same shift: it will align the problematic character math:[c] with its rightmost
+occurrence in the pattern.
+In worst case, when the character math:[c] occurs somewhere in already matched suffix,
+the shift is _negative_ and is of no use to us.
+To demonstrate, consider the following example.
+We matched successfully the suffix "adabra", but failed at \'r'.
+Bad character heuristic knows only one piece of information, the character \'r',
+and instructs us to realign pattern so that rightmost occurrence of the \'r' in the pattern
+is under currently observed \'r' in the text.
+Because \'r' occurs in already matched suffix, this results in negative shift.
+
+
+image::negative-shift.svg[width=90%,align=center]
+
+The good thing is that with the increase of the matched suffix length,
+good suffix heuristic becomes more useful.
+Indeed, the longer the matched suffix is, the less chances that it occurs anywhere
+in the pattern again.
+So, good suffix heuristic will produce long shifts in such cases.
+
+Combined, two heuristics result in that no matter what matched suffix length is,
+one or another of them produces long shift:
+
+image::max-shift-graph.svg[width=70%,align=center]
+
+Of course, there are still cases when neither of the two heuristics is able to produce
+long shift, but their combination (as in the baseline algorithm) would do so.
+In the example below, good suffix heuristic ("er") returns a shift of only 2,
+while bad character heuristic (\'e') returns negative shift.
+Thus, we would shift only by two characters: not so great.
+On the other hand, the combined LUT would produce a shift by the whole pattern (+12),
+because neither "eer" occurs in the pattern, nor there is non-empty prefix in the
+pattern that is also the suffix of "eer".
+This is much better.
+
+image::combined-better.svg[width=90%,align=center]
+
+
+.6. Modifications
+
+Vanilla BM is not the holy grail.
+It can be freely modified to adjust it to a particular problem.
+Depending on volume of data, alphabet cardinality, pattern length and hardware,
+one or another modification may perform even better.
+Here is a list of a few ideas to start with:
+
+ * Use only bad character heuristic.
+   Preprocessing stage becomes very easy to code.
+ * Use only good suffix heuristic.
+   This makes sense if alphabet cardinality is tiny,
+   because the same identical characters would appear multiple times in the pattern,
+   thus nullifying benefits of bad character heuristic.
+ * Do not shift after first mismatch.
+   Instead, use additional heuristic based on the character immediately left
+   of the mismatched character, which may or may not mismatch.
+ * Use baseline algorithm described in the beginning of the article.
+   You can control LUT size by using hashing: +shift = lut[hash(s*13+p) % desired_size]+.
+
+However, BM demonstrated high efficiency in large variety of cases, which makes it
+the first-choice +strstr()+ algorithm even in situations when you do not
+have prior knowledge of the data you will stream through it.
+

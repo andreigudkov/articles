@@ -15,6 +15,7 @@ modules="
   $root/smine
   $root/srvsup
   $root/sspar
+  $root/bm
 "
 if [ -L $0 ]; then
   modules=$(readlink -f $PWD)

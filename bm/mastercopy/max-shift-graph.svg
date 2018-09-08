@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="53cm" height="24cm" viewBox="450 483 1049 471" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g id="Background">
+    <g>
+      <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="520" y1="511" x2="520" y2="920"/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="525,511 520,501 515,511 "/>
+    </g>
+    <g>
+      <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="520" y1="920" x2="1249" y2="920"/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="1249,925 1259,920 1249,915 "/>
+    </g>
+    <path style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" d="M 560 520 C 560,700 1000,880 1200,880"/>
+    <text font-size="22.5778" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="776" y="948">
+      <tspan x="776" y="948">Number of compared characters until mismatch</tspan>
+    </text>
+    <text font-size="22.5778" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="450" y="530">
+      <tspan x="450" y="530">Shift</tspan>
+    </text>
+    <text font-size="18.0622" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:700" x="1208" y="888">
+      <tspan x="1208" y="888">Bad character heuristic</tspan>
+    </text>
+    <path style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" d="M 560 880 C 560,700 1000,520 1240,520"/>
+    <text font-size="18.0622" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:700" x="1252" y="528">
+      <tspan x="1252" y="528">Good suffix heuristic</tspan>
+    </text>
+    <path style="fill: none; stroke-opacity: 1; stroke-width: 4; stroke: #7e0021" d="M 568 524 C 568,604 664,672 680,684 C 696,696 688,692 716,676 C 744,660 756,648 848,608 C 940,568 1064,520 1240,512"/>
+    <text font-size="18.0622" style="fill: #7e0021; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:700" x="1250" y="500">
+      <tspan x="1250" y="500">Effective shift = max(...)</tspan>
+    </text>
+    <g>
+      <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke-dasharray: 4; stroke: #000000" x1="690" y1="704.472" x2="690" y2="915.528"/>
+      <polyline style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" points="694,710.236 690,702.236 686,710.236 "/>
+      <polyline style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" points="686,909.764 690,917.764 694,909.764 "/>
+    </g>
+  </g>
+</svg>
