@@ -251,7 +251,7 @@ the smallest possible shift is by the whole pattern length |P|:</p>
 But since the number of possible mismatch states is fixed at |A|x|P|,
 we can precompute all possible shifts into lookup table (LUT).
 For example, for the pattern "bragracadabra", <code>lut['g'][2]=7</code> means that
-in a situation when 2 pattern characters matched successfully and the sixth character
+in a situation when 2 pattern characters matched successfully and the next character
 of the text ('g') mismatched (S="gra"), we shift pattern by 7 characters and
 start matching all over again.</p>
 </div>
@@ -900,7 +900,7 @@ have prior knowledge of the data you will stream through it.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-08 10:09:54 UTC
+Last updated 2018-11-15 07:54:43 UTC
 </div>
 </div>
 </body>

@@ -1,0 +1,372 @@
+Dangers of linking inline functions
+===================================
+:source-highlighter: pygments
+
+Andrei Gudkov <gudokk@gmail.com>
+
+
+Software developers often forget about existence of linker.
+However, it is an essential step in producing executables.
+Linker along with ELF format provide rather complex platform,
+required by a compiler to correctly implement programming
+language features.
+It is relatively easy to understand the source of an error
+when only single object file is linked,
+but with many object files, the odds of encountering non-trivial
+error increase.
+Here I will demonstrate and explain two such errors.
+First one relates to inlining or, actually, to a situation when inlining fails
+and linker reports that there is an undefined reference to inline function.
+C and pass:[C++] work differently regarding inlining.
+Second problem is a subtle one.
+It relates to pass:[C++] only and results in that wrong function is used when called.
+Program compiles and links fine, but may crash in runtime or, even worse,
+work incorrectly.
+
+
+.Object file basics
+
+First of all we need to understand object files on a basic level.
+Semantically, the heart of an object file is a dictionary of tuples {+symbol_name+, +symbol_type+, +symbol_body+}.
+Command line utility `nm <path>` can be used to dump what's inside an object file.
+For example:
+
+----
+0000000000000000 T _Z10total_costdi
+                 U _Z12adjust_priceP4Item
+0000000000000037 T _Z9min_priceRKSt6vectorI4ItemSaIS0_EE
+000000000000001c t _ZL13adjust_amountP4Item
+0000000000000008 r _ZL2PI
+0000000000000000 W _ZNKSt6vectorI4ItemSaIS0_EE4sizeEv
+0000000000000000 W _ZNKSt6vectorI4ItemSaIS0_EEixEm
+0000000000000000 r _ZStL19piecewise_construct
+----
+
+Every symbol is a function or a variable.
+
+Symbol name is chosen by compiler.
+Different compilers and languages have different rules for naming.
+In C, where overloading is not allowed, names are exactly the same as given by a programmer.
+In pass:[C++] we have overloading, resulting in that there may be many functions with the same name
+but with different number and types of arguments.
+To uniquely distinguish between them, naming scheme is more complex in pass:[C++].
+Symbol names for pass:[C++] functions also include namespace name and argument types.
+For example, the function +double total_cost(double price, int count);+
+has the very same symbol name +total_cost+ if compiled by gcc,
+but much more complex name +_Z10total_costdi+ if compiled by g++.
+
+Symbol body contains either the machine code (for functions) or binary value (for variables).
+
+The most mysterious part is symbol type.
+It should not be confused with programming language types, such as integers and floats.
+Symbol type instructs linker on how to deal with this symbol during linking.
+There are many symbol types (see manual page +nm(1)+ for all of them),
+but we will be interested only in the following few of them:
+
+ * *T* -- Global symbol.
+          It can be referenced from all object files, not only the current one.
+          If linker encounters multiple *T* symbols with the same name across object files,
+          it reports an error.
+ * *t* -- Local symbol.
+          It can be referenced only from the current object file.
+          Multiple *t* symbols with the same name are fine, provided they are located
+          inside different object files.
+ * *W* -- Weak global symbol.
+          It can be referenced globally, similar to *T*.
+          The difference is that if there are multiple weak symbols with the same name across object files,
+          linker retains only single copy, and this copy is used by all functions from all object files.
+
+General rule is that uppercase characters stand for global symbol types,
+while lowercase characters denote local symbol types.
+As such, fourth variant, *w*, also exists but it is not very useful.
+Neither C nor pass:[C++] have a need for deduplicating symbols inside single object file
+because ODR rule prohibits multiple definitions of the same symbol
+inside single translation unit.
+If a programmer mistakenly created multiple definitions of the same variable or function
+in single translation unit,
+such error would be detected earlier, during compilation stage.
+
+During linking, a number of error messages can be reported.
+The most common are:
+
+1. Undefined reference to +<symbol_name>+.
+   This means that there was declaration of a symbol, it was actually referenced
+   from somewhere, but definition was not found in any of the object files
+   passed to the linker.
+
+2. Multiple definition of +<symbol_name>+.
+   This means that there are multiple entries of some symbol name across
+   object files and they cannot be deduplicated because of their types.
+   For example, such error would be reported if these symbols had types *T*, *T*.
+   However, *W*, *W*, *T*, *W* would be fine; *W*, *W*, *W* would also be fine.
+   Linker retains only single body in the last two cases.
+
+
+.When inlining fails [C]
+
+Now let's focus on the scope of the article: the errors.
+Imagine the following piece of C code:
+
+[source,c,numbered]
+----
+/* util.h */
+#ifndef __UTIL_H__
+#define __UTIL_H__
+inline double circle_area(double r) {
+  static const double pi = 3.14159;
+  return 2.0 * pi * r;
+}
+#endif /* __UTIL_H__ */
+
+/* big.c */
+#include "big.h"
+#include "util.h"
+#include <stdio.h>
+void print_big_pizza_area() {
+  printf("%f\n", circle_area(50));
+}
+
+/* small.c */
+#include "small.h"
+#include "util.h"
+#include <stdio.h>
+void print_small_pizza_area() {
+  printf("%f\n", circle_area(30));
+}
+
+/* main.c */
+void print_big_pizza_area();
+void print_small_pizza_area();
+int main(int argc, char* argv[]) {
+  print_small_pizza_area();
+  print_big_pizza_area();
+  return 0;
+}
+----
+
+As you can see, there are two +print_*+ functions, and each of them calls inline function +circle_area()+.
+The program above compiles and executes perfectly fine... until
+compiled with optimizations disabled (+-O0+).
+When compiled with +-O3+, compiler optimizations are in effect,
+and almost all functions declared as inline are actually inlined.
+Thus, the body of the function +circle_area()+ will be expanded in all functions where
+it is referenced, namely +print_small_pizza_area()+ and +print_big_pizza_area()+.
+Compiler won't generate any symbols for +circle_area()+.
+There is just no need for that.
+Executable file will contain symbols for +main()+, +print_small_pizza_area()+ and +print_big_pizza_area()+,
+but not for +circle_area()+.
+
+No-optimization build is entirely different.
+Compilers usually do not perform inlining in this mode.
+Instead, they treat inline function definitions as _declarations_ only.
+In rare circumstances this happens even with +-O3+.
+For example, this happens when function recursively calls itself.
+Or when a function is too big but is referenced multiple times:
+compiler concludes that it is cheaper to call separate function instead of inlining it
+in all places.
+Inline keyword is a mere hint.
+If you need guaranteed inlining, you have to use compiler-dependent extensions,
+such as +&#95;&#95;attribute&#95;&#95;\((alway_inline))+ in gcc.
+
+When compiler decides not to inline a function, it generates a standard call
+and ignores the body of the inline function entirely.
+Now, when linker tries to produce executable file, it will see that
+function +circle_area()+ is called, but it is itself not present in any of
+the object files.
+Linker reports "undefined reference" error.
+
+There are two possible solutions.
+First one is to use +inline+ together with +static+:
+
+[source,c]
+----
+inline static double circle_size(double r);
+----
+
+Now if compiler decides not to inline a function, it will instantiate
+function in every object file where it is referenced from.
+It will assign symbol type *t* -- local symbol -- to instantiated functions.
+Linker, in turn, will include both functions into executable and link
+functions +print_big_pizza_area()+ and +print_small_pizza_area()+ with respective +circle_area()+ copies,
+even though these copies are identical.
+
+image::static.svg[width=60%,align=center]
+
+Second possible solution is to explicitly instantiate inline function
+in one (and only one) of the translation units by using +extern+ keyword.
+For example, it would be natural to include source file +util.c+
+into above program and instantiate +pizza_area()+ there.
+Of course, we want it to be globally visible, so no +static+ is used.
+
+[source,c]
+----
+#include "util.h"
+extern inline double circle_size(double r);
+----
+
+image::extern.svg[width=60%,align=center]
+
+Both approaches have drawbacks.
+Declaring inline functions as +static+ leads to code size bloat.
+However, this is typically not an issue because failure to inline functions
+rarely happens in +-O3+ mode used for production builds.
+On the other hand, explicit instantiation of inline functions with +extern+ requires
+programmers to keep declarations in sync in multiple places.
+Extern declarations must be updated every time new inline function is added
+or the signature of existing inline function is changed.
+
+
+.When inlining fails [pass:[C++]]
+
+pass:[C++] is different.
+There is no need to add +static+ to inline functions in pass:[C++].
+When pass:[C++] compiler decides not to inline function, it automatically
+instantiates it with weak symbol type, *W*.
+Every object file where inline function is instantiated, gets such symbol.
+When linker assembles final executable, it retains only single version of every weak symbol,
+and this version is used whenever the function is referenced.
+
+----
+$ nm big.o
+0000000000000000 W _Z11circle_aread
+0000000000000000 T _Z20print_big_pizza_areav
+
+$ nm small.o
+0000000000000000 W _Z11circle_aread
+0000000000000000 T _Z22print_small_pizza_areav
+
+$ nm main.o
+0000000000000000 T main
+
+$ nm main
+00000000000006f0 T _Z20print_big_pizza_areav
+000000000000073d T _Z22print_small_pizza_areav
+00000000000006d0 T main
+0000000000000721 W _Z11circle_aread
+----
+
+
+Why does pass:[C++] use weak symbols?
+Mechanism of weak symbols is required not because of inlining, but because of templates.
+Templates are very similar to inline functions in that they are both forms of automatic code generation.
+Template functions and classes may be instantiated multiple times
+and with different sets of arguments.
+The author of the template may not know all the combinations
+and is not able to explicitly instantiate all combinations in source files.
+Definitions of functions and methods go directly to header files instead.
+When compiler sees that some template function or class is used with specific
+set of arguments, it automatically instantiates it in object file where it is used.
+For example, if 20 translation units use +std::vector<int>+, then all
+20 object files will get symbols for +std::vector<int>::push_back()+, +std::vector<int>::size()+, etc.
+(That's the reason why pass:[C++] projects take so much time to compile.)
+
+ 
+pass:[C++] compiler avoids "multiple definition of ..." linking error by marking
+instantiated template functions and template class members with symbol type *W*.
+The same is true for inline functions, when they are not actually
+inlined but instantiated.
+Linker retains only single version of each weak symbol and uses it everywhere
+when it is referenced.
+Thus, whether optimization mode is +-O0+ or +-O3+, linker succeeds without any errors.
+No +static+ or +extern+ is required.
+
+
+.Wrong function body is used
+
+At this point it should appear that pass:[C++] approach is more robust compared to C.
+Alas, weak symbols may create more subtle errors.
+It is relatively easy to create identically named but differently implemented inline functions,
+template functions or template classes in different translation units.
+All of them will be instantiated with *W* symbol type,
+and linker will erroneously retain only single version, which will be used everywhere.
+It won't check that their bodies are different.
+Consider this example that seems harmless at first glance:
+
+[source,cpp,numbered]
+----
+// source1.cc
+#include <iostream>
+inline double constant() { return 3.14159; }
+void print_pi() {
+  std::cout << constant() << std::endl;
+}
+
+// source2.cc
+#include <iostream>
+inline double constant() { return 2.71828; }
+void print_e() {
+  std::cout << constant() << std::endl;
+}
+
+// main.cc
+void print_e();
+void print_pi();
+
+int main() {
+  print_e();
+  print_pi();
+  return 0;
+}
+----
+
+
+After compiling with +-O0+, both +source1.o+ and +source2.o+ object files will contain
+symbol for function +constant()+ with type *W*, but with different implementations.
+Linker will retain only one of these versions and generate a call to this
+version from both +print_e()+ and +print_pi()+ functions.
+Which function will be eliminated and which one will be preserved is undefined,
+but at least if using GNU linker it appears that the order of object files on the command line matters.
+In both cases the program works incorrectly:
+
+----
+$ g++ source1.cc -c -O0
+$ g++ source2.cc -c -O0
+$ g++ main.cc -c -O0
+$
+$ g++ main.o source1.o source2.o -o main
+$ ./main 
+3.14159
+3.14159
+$
+$ g++ main.o source2.o source1.o -o main
+$ ./main 
+2.71828
+2.71828
+----
+
+It is not very hard to stumble upon such error in large projects.
+Multiple programmers can easily create differently implemented
+inline functions with the same common name and argument types,
+such as `inline int64_t current_time()` or `inline void escape(std::string* s)`.
+Unit tests for every single component will work fine, but when all components
+are linked together into single executable, program will demonstrate unexpected behavior.
+And good luck with debugging it!
+
+The correct solution is to never litter global namespace.
+There are multiple ways to achieve it.
+One way is to use C approach and declare functions as +static+,
+but pass:[C++] provides more elegant way of isolation: named and anonymous namespaces.
+Using any of these three approaches fixes the error.
+
+[source,cpp,numbered]
+----
+// static
+inline static double constant() { return 2.71828; }
+
+// named namespace
+namespace source1_private_ns {
+  inline double constant() { return 2.71828; }
+}
+
+// anonymous namespace
+namespace {
+  inline double constant() { return 2.71828; }
+}
+----
+
+Using +static+ will produce local (*t*) symbols instead of weak symbols (*W*).
+Using named namespace will incorporate namespace into symbol name, so that
+identically named functions will get differently named symbols.
+The same thing will happen if anonymous namespace is used,
+with added benefit that you do not need to choose a name for namespace yourself.
+

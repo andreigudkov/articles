@@ -141,7 +141,7 @@ Working with pattern every time we hit mismatch is not very efficient.
 But since the number of possible mismatch states is fixed at |A|x|P|,
 we can precompute all possible shifts into lookup table (LUT).
 For example, for the pattern "bragracadabra", +lut[\'g'][2]=7+ means that
-in a situation when 2 pattern characters matched successfully and the sixth character
+in a situation when 2 pattern characters matched successfully and the next character
 of the text (\'g') mismatched (S="gra"), we shift pattern by 7 characters and
 start matching all over again.
 
