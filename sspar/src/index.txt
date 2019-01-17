@@ -19,7 +19,7 @@ Extra complexity comes from the fact that there currently coexist two types of d
 Each of them has unique set of benefits and drawbacks.
 This results in terribly inefficient software designs sometimes.
 Hardware planning also becomes more like a game of guessing rather than logical reasoning.
-Under- and over- provisioning may easily happen, latter leading to project failure in worst case.
+Over- and under- provisioning may easily happen, latter leading to project failure in worst case.
 
 Goal of this article is to provide overall coverage of storage subsystem with main focus on performance.
 It is split into theoretical and practical parts.
@@ -40,7 +40,7 @@ IO stack overview
 ~~~~~~~~~~~~~~~~~
 
 Let's look at what happens when application makes IO request, such +read(2)+.
-Each time request is issued, it passes through following layers:
+Each time request is issued, it passes through the following layers:
 
 .IO susbystem stack
 image::the-stack.svg[width=30%,align=center]
@@ -49,7 +49,7 @@ First, request in the form of call to C function goes from userspace process int
 Server oriented Linux distributions use GNU libc (glibc), but others may use different 
 implementation, such as Bionic libc used in Android.
 (g)libc role is to provide convenient means of interacting with kernel: it checks arguments 
-for invalid values, manipulates with registers to satisfy kernel calling conventions 
+for invalid values, manipulates with registers to satisfy kernel calling conventions (ABI)
 and sets +errno+ on return.
 Without (g)libc, software engineers would have to write architecture-dependent assembler code 
 to perform syscalls themselves.
@@ -246,7 +246,7 @@ Most of real world applications generate IO requests belonging to strictly one o
 
 Sequential access::
 
-Sequential access arises when requests are large enough so that access time plays little role;
+Sequential access arises when requests are large enough so that access time plays truly little role;
 response time is dominated by time it takes to transfer data from storage media to application 
 or vice versa.
 Throughput (MB/s) is the main metric for such type of pattern.
@@ -254,16 +254,16 @@ This is optimal mode of operation for storage devices -- throughput efficiency i
 in the right part of above graph and is close to 100%.
 All following tasks cause sequential access:
 
-* making a copy of large file (in contrast to copying a lot of small files)
-* making backup of raw block device or partition
-* loading database index file into memory
+* making a copy of a large file (in contrast to copying a lot of small files)
+* making backup of a raw block device or a partition
+* loading database index into memory
 * running web server to stream HD-quality movies
 
 
 Random access::
 
 Random access is the opposite of sequential access.
-Requests are so small that second summand of above formula -- access time -- plays primary role.
+Requests are so small that second summand of the above formula -- access time -- plays primary role.
 IOPS and response time percentile metrics become more important.
 Random access is less efficient but is inevitable in wide range of applications, such as:
 
@@ -389,7 +389,7 @@ Instead, it makes a copy of user supplied data into kernel buffer and returns co
 to application immediately.
 Copying to RAM is very fast compared to access to storage and has to be done anyway 
 because hardware (DMA) requires that buffer has specific alignment and location in physical memory.
-Actual write happens at some point later in background (typically in no more that in couple of seconds 
+Actual write happens at some point later in background (typically in no more than in couple of seconds
 after requested), concurrently with unblocked application.
 Hence, the terms *writeback* and *write buffering*.
 Such approach reduces running time to 50% in best case for applications which would be otherwise 
@@ -2732,7 +2732,7 @@ It is able to request all information directly from drives with option +-I+.
 This information includes model name, sector sizes, supported features, security status and the like -- 
 everything you may want to know about the drive.
 Do not confuse options: +-i+ will print only basic information, which is retrieved from kernel, rather than information
-from drive directly.
+from the drive directly.
 +
 ----
 # /sbin/hdparm -I /dev/sda
@@ -2769,8 +2769,8 @@ Sector Size:      512 bytes logical/physical
 
 /dev/disk/by-id/::
 Root access required: *no*.
-Block devices are listed in +/dev/disk+ subdirectories multiple times by using different ways of classification.
-In particular, directory +/dev/disk/by-id+ lists drives by their IDs, which are created 
+Block devices are listed in +/dev/disk/+ subdirectories multiple times by using different ways of classification.
+In particular, directory +/dev/disk/by-id/+ lists drives by their IDs, which are created
 by concatenating subsystem name and model string.
 Note that this approach will get you only model string and nothing more -- all other characteristics 
 must be searched on the web.
