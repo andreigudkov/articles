@@ -5,7 +5,7 @@ Andrei Gudkov <gudokk@gmail.com>
 :figure-caption!:
 :table-caption!:
 
-A collection of common questions and dirty tricks.
+A collection of common questions and workarounds.
 
 .Is it OK to set +mapreduce.{map|reduce}.failures.maxpercent+ > 0?
 
@@ -209,3 +209,90 @@ JVM installs signal handler for SIGQUIT that dumps stacktraces of all threads to
 You can capture the output from web UI (-> logs -> stdout) or directly from task attempt
 local log file in the server where you logged in.
 Stack trace should give you enough information about where you should focus on finding the bug.
+
+
+.I am tired of implementing +Writable+ interface. Can we do better?
+
+Manual implementation of +Writable+ interface makes sense only for very small classes
+and typically only for keys (to speed up comparison).
+For larger classes it is cheaper to use codegenerating with serialization, like probotuf or thrift
+along with Twitter's https://github.com/twitter/elephant-bird/[elephant-bird] wrapper.
+
+More than that, I advise to incapsulate all classes used in the whole data pipeline into single
+outer class (I call it +Any+ in the example below).
+Rationale is to reduce number of entities and, in turn, number of errors
+related to incorrect specification of +setOutputKeyClass()+, +setMapOutputKeyClass()+ and so on.
+If single outer class is used, then you can always store data in sequence files in format
+(+NullWritable+, +ProtobufWritable<Any>+).
+If you add more jobs to your dataflow, you just need to add additional fields into +Any+ class.
+Without +Any+, you probably would need to create at least two seperate message classes for every job:
+one is to act as map output value class, and another one is for job output value class.
+
+Below is the skeleton for a job that takes an HTML page
+and tries to parse it as an article into title, keywords and so on.
+First of all we create a protobuf message:
+
+[source,proto,numbered]
+----
+message Keyword {
+  required string keyword = 1;
+  required double weight = 2;
+}
+
+message Point {
+  required double lat = 1;
+  required double lon = 2;
+}
+
+message Location {
+  required string name = 1;
+  repeated Point polygon = 2;
+}
+
+message Any {
+  optional string url = 1;
+  optional string html = 2;
+
+  optional string title = 3;
+  repeated Keyword keywords = 4;
+  optional Location location = 5;
+  optional bytes image = 6;
+
+  // next ID to use: 7
+  // this message can be really huge
+}
+----
+
+Input collection is stored as sequence file of +NullWritable+ as key and +Any{url, html}+ as a value,
+meaning that only two fields are set.
+Output of the job is stored as sequence file of +NullWritable+ and +Any{url, title, keywords, location, image}+.
+
+
+[source,java,numbered]
+----
+public static class MapperImpl extends Mapper<NullWritable, ProtobufWritable<Any>, NullWritable, ProtobufWritable<Any>> {
+  @Override
+  protected void map(NullWritable key, ProtobufWritable<Any> value, Mapper<NullWritable, ProtobufWritable<Any>, NullWritable, ProtobufWritable<Any>>.Context context)
+      throws IOException, InterruptedException {
+    
+    ParseContext pc = new ParseContext(value.get().getHtml());
+    if (pc.parses()) {
+      Any any = Any.newBuilder()
+                   .setUrl(value.get().getUrl())
+                   .addAllKeywords(...)
+                   .setLocation(...)
+                   .build();
+      context.write(NullWritable.get(), new ProtobufWritable<Any>(any, new TypeRef<Any>(){}));
+    }
+  }
+}
+
+...
+
+job.setOutputKeyClass(NullWritable.class);
+job.setOutputValueClass(ProtobufWritable.class);
+job.setOutputFormatClass(SequenceFileOutputFormat.class);
+SequenceFileOutputFormat.setOutputPath(job, new Path("hdfs://..."));
+SequenceFileOutputFormat.setCompressOutput(job, true);
+SequenceFileOutputFormat.setOutputCompressionType(job, CompressionType.BLOCK);
+----
