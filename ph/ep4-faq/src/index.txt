@@ -1,13 +1,15 @@
 Practical Hadoop, episode 4: Practical FAQ
 ==========================================
 Andrei Gudkov <gudokk@gmail.com>
+:toc:
+:toclevels: 4
 :source-highlighter: pygments
 :figure-caption!:
 :table-caption!:
 
-A collection of common questions and workarounds.
 
-.Is it OK to set +mapreduce.{map|reduce}.failures.maxpercent+ > 0?
+Is it OK to set +mapreduce.{map|reduce}.failures.maxpercent+ > 0?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Above pair of options (which were previously named +mapred.{min|max}.{map|reduce}.failures.percent+)
 allow some tasks to fail without aborting the whole job.
@@ -53,7 +55,8 @@ Second job processes only records (A, B, C, E) and decides to retain E.
 Combined, these two jobs delete all five records from the database, hence breaking the very purpose of database cleanup.
 
 
-.Hadoop kills my job because of custom output format. What should I do?
+Hadoop kills my job because of custom output format
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 It is common problem that you want to save data in some special format,
 and this format is not of "streaming" type, i.e. it accumulates all key/values
@@ -182,7 +185,8 @@ public static class DictionaryCompressedOutputFormat extends FileOutputFormat<Nu
 }
 ----
 
-.One of my task attempts is hung. What should I do?
+One of my task attempts is hung
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Debugging bigdata applications is tedious job.
 No matter how hard you test your application, there is always a chance that it will work incorrectly
@@ -211,7 +215,8 @@ local log file in the server where you logged in.
 Stack trace should give you enough information about where you should focus on finding the bug.
 
 
-.I am tired of implementing +Writable+ interface. Can we do better?
+I am tired of implementing +Writable+ interface
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Manual implementation of +Writable+ interface makes sense only for very small classes
 and typically only for keys (to speed up comparison).

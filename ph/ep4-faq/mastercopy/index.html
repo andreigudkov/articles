@@ -89,13 +89,20 @@
 <span id="author" class="author">Andrei Gudkov</span><br>
 <span id="email" class="email"><a href="mailto:gudokk@gmail.com">gudokk@gmail.com</a></span><br>
 </div>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel3">
+<li><a href="#_is_it_ok_to_set_code_mapreduce_map_reduce_failures_maxpercent_code_0">Is it OK to set <code>mapreduce.{map|reduce}.failures.maxpercent</code> &gt; 0?</a></li>
+<li><a href="#_hadoop_kills_my_job_because_of_custom_output_format">Hadoop kills my job because of custom output format</a></li>
+<li><a href="#_one_of_my_task_attempts_is_hung">One of my task attempts is hung</a></li>
+<li><a href="#_i_am_tired_of_implementing_code_writable_code_interface">I am tired of implementing <code>Writable</code> interface</a></li>
+</ul>
+</div>
 </div>
 <div id="content">
+<div class="sect3">
+<h4 id="_is_it_ok_to_set_code_mapreduce_map_reduce_failures_maxpercent_code_0">Is it OK to set <code>mapreduce.{map|reduce}.failures.maxpercent</code> &gt; 0?</h4>
 <div class="paragraph">
-<p>A collection of common questions and workarounds.</p>
-</div>
-<div class="paragraph">
-<div class="title">Is it OK to set <code>mapreduce.{map|reduce}.failures.maxpercent</code> &gt; 0?</div>
 <p>Above pair of options (which were previously named <code>mapred.{min|max}.{map|reduce}.failures.percent</code>)
 allow some tasks to fail without aborting the whole job.
 Normally, if at least one task fails (because all of its attempts failed) then the whole
@@ -141,8 +148,10 @@ One possible scenario is that first job observes and processes only records (A, 
 Second job processes only records (A, B, C, E) and decides to retain E.
 Combined, these two jobs delete all five records from the database, hence breaking the very purpose of database cleanup.</p>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_hadoop_kills_my_job_because_of_custom_output_format">Hadoop kills my job because of custom output format</h4>
 <div class="paragraph">
-<div class="title">Hadoop kills my job because of custom output format. What should I do?</div>
 <p>It is common problem that you want to save data in some special format,
 and this format is not of "streaming" type, i.e. it accumulates all key/values
 of a single reducer in memory, then performs some complex aggregate analysis on it,
@@ -367,8 +376,10 @@ and stopped immediately after exiting it.</p>
 </td></tr></table></code></pre>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_one_of_my_task_attempts_is_hung">One of my task attempts is hung</h4>
 <div class="paragraph">
-<div class="title">One of my task attempts is hung. What should I do?</div>
 <p>Debugging bigdata applications is tedious job.
 No matter how hard you test your application, there is always a chance that it will work incorrectly
 on production data.
@@ -408,8 +419,10 @@ You can capture the output from web UI (&#8594; logs &#8594; stdout) or directly
 local log file in the server where you logged in.
 Stack trace should give you enough information about where you should focus on finding the bug.</p>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_i_am_tired_of_implementing_code_writable_code_interface">I am tired of implementing <code>Writable</code> interface</h4>
 <div class="paragraph">
-<div class="title">I am tired of implementing <code>Writable</code> interface. Can we do better?</div>
 <p>Manual implementation of <code>Writable</code> interface makes sense only for very small classes
 and typically only for keys (to speed up comparison).
 For larger classes it is cheaper to use codegenerating with serialization, like probotuf or thrift
@@ -549,9 +562,10 @@ Output of the job is stored as sequence file of <code>NullWritable</code> and <c
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-01-17 17:15:06 UTC
+Last updated 2019-01-17 17:22:07 UTC
 </div>
 </div>
 </body>
