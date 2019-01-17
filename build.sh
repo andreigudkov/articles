@@ -11,6 +11,7 @@ modules="
   $root/ph/ep1-join
   $root/ph/ep2-select
   $root/ph/ep3-stability
+  $root/ph/ep4-faq
   $root/scrumdysf
   $root/smine
   $root/srvsup

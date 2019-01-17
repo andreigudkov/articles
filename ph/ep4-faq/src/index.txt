@@ -1,0 +1,211 @@
+Practical Hadoop, episode 4: Practical FAQ
+==========================================
+Andrei Gudkov <gudokk@gmail.com>
+:source-highlighter: pygments
+:figure-caption!:
+:table-caption!:
+
+A collection of common questions and dirty tricks.
+
+.Is it OK to set +mapreduce.{map|reduce}.failures.maxpercent+ > 0?
+
+Above pair of options (which were previously named +mapred.{min|max}.{map|reduce}.failures.percent+)
+allow some tasks to fail without aborting the whole job.
+Normally, if at least one task fails (because all of its attempts failed) then the whole
+job is terminated immediately.
+But when the above options are set to values higher than zero, the job is allowed
+to succeed even when some percentage of the tasks fails, meaning that
+some portion of input data may be skipped.
+Most of the time this is unacceptable, but there are also cases when it is
+helpful, typically in dirty data mining.
+
+For example, consider the task of parsing and analyzing billions of binary files
+crawled from the web by using random walk, like images or Excel spreadsheats.
+Web is really dirty.
+There are high chances that input data contains some malicious files
+which will cause parser to fail with segfault or with out of memory error.
+What are we going to do in this case?
+Isolating malicious file, debugging and fixing the parser would be complete waste of time.
+And if we manage to do so, there is no guarantee that the parser wouldn't fail again
+in another place when parsing another malicious file.
+We need more robust solution.
+This is when +failures.maxpercent+ becomes handy.
+We can solve our problem much easier just by adding single line to our job configuration:
++job.setInt("mapreduce.map.failures.maxpercent", 2);+.
+Now the job will succeed even if up to 2% of tasks fail (which can be translated to 2% of input data).
+
+One non-obvious downside of +failures.maxpercent+ is that it may break further steps in
+data pipeline due to idempotency violation.
+You would normally expect that if you run the same job twice with the same input data,
+then it will produce identical outputs.
+However, in case when +failures.maxpercent+ is higher than zero, this is not true.
+Multiple runs with the same input data may produce different results.
+This may create hard-to-debug issues.
+How about a job that deletes records in a database except the "best ones"?
+Consider the following workflow.
+First we make a dump of the database into HDFS.
+Then we run a job that reads this dump and decides for every group of records,
+which one record must be retained and which ones must be deleted from the database.
+Now, for some reason, we run the job twice, and we do so with +failures.maxpercent+ enabled.
+If some tasks fail, it will have the effect as if two job instances observed slightly different input.
+One possible scenario is that first job observes and processes only records (A, B, C, D) and decides to retain B.
+Second job processes only records (A, B, C, E) and decides to retain E.
+Combined, these two jobs delete all five records from the database, hence breaking the very purpose of database cleanup.
+
+
+.Hadoop kills my job because of custom output format. What should I do?
+
+It is common problem that you want to save data in some special format,
+and this format is not of "streaming" type, i.e. it accumulates all key/values
+of a single reducer in memory, then performs some complex aggregate analysis on it,
+and only then dumps the data.
+It is also quite common that it is performed by some third party library,
+possibly written in C or C&plus;&plus;, maybe even proprietary,
+which has absolutely no knowledge of and no reference to Hadoop.
+For example, consider some library that takes long list of string values,
+then builds optimal compression dictionary of it (at least O(n^2) time),
+and only then dumps string values in compressed format.
+Building compression dictionary is the troublesome step because it will
+block the execution of the task attempt for quite long time.
+Provided that the amount of input data is huge, it will take more time
+than +mapreduce.task.timeout+, after which Hadoop framework will kill the attempt
+because no +progress()+ was made in that amount of time.
+
+
+The straightworward solution would be just to increase +mapreduce.task.timeout+
+to a higher value or to disable timeout altogether by setting option value to 0.
+However, such approach is not very robust:
+
+ 1. You may not know in advance the upper boundary of time it takes to perform non-progressable operation.
+    And if you do, it would be only a rough guess because actual timing depends
+    on the resource usage by adjacent tasks, which is unpredictable.
+
+ 2. It affects other steps of MR job, including IO, +map()+ and +reduce()+ functions and so on.
+    Thus, Hadoop framework won't be able to kill an attempt if it truly hangs.
+
+The better solution is to spawn hearbeat thread that would call +progress()+
+every couple of seconds while non-progressable operation is running.
+Heartbeat thread should be started immedately before entering non-progressable section
+and stopped immediately after exiting it.
+
+[source,java,numbered]
+----
+public class AutoProgress {
+  private Thread t;
+  private Object o = new Object();
+  private boolean isStopping = false;
+  private TaskAttemptContext ctx;
+
+  public AutoProgress(TaskAttemptContext ctx) {
+    this.ctx = ctx;
+  }
+
+  public void start() {
+    t = new Thread() {
+      @Override
+      public void run() {
+        while (true) {
+          synchronized (o) {
+            if (isStopping) {
+              return;
+            }
+            ctx.progress();
+            try {
+              o.wait(1000);
+            } catch (InterruptedException exc) {
+              return;
+            }
+          }
+        }
+      }
+    };
+    t.setName("AutoProgress");
+    t.setDaemon(true);
+    t.start();
+  }
+
+  public void stop() {
+    synchronized (o) {
+      isStopping = true;
+      o.notify();
+    }
+    while (t.isAlive());
+  }
+}
+
+// custom format
+public static class DictionaryCompressedOutputFormat extends FileOutputFormat<NullWritable, Text> {
+  public DictionaryCompressedOutputFormat() {
+    super();
+  }
+
+  @Override
+  public RecordWriter<NullWritable, Text> getRecordWriter(TaskAttemptContext ctx)
+      throws IOException, InterruptedException {
+    
+    Configuration conf = ctx.getConfiguration();
+    Path path = getDefaultWorkFile(ctx, ".bin");
+    FileSystem fs = path.getFileSystem(conf);
+    final FSDataOutputStream stream = fs.create(path, false);
+    
+    return new RecordWriter<NullWritable, Text>() {
+      private List<String> values = new ArrayList<String>();
+      
+      @Override
+      public void write(NullWritable key, Text value) throws IOException, InterruptedException {
+        values.add(value.toString());
+      }
+      
+      @Override
+      public void close(TaskAttemptContext ctx) throws IOException, InterruptedException {
+        AutoProgress p = new AutoProgress(ctx);
+        p.start();
+
+        Dictionary dict = null;
+        try {
+          dict = Dictionary.buildOptimalDictionary(values);
+        } finally {
+          p.stop();
+        }
+        
+        stream.writeInt(values.size());
+        for (String value : values) {
+          byte[] data = dict.encode(value);
+          stream.writeInt(data.length);
+          stream.write(data);
+        }
+
+        stream.close();
+      }
+    };
+  }
+}
+----
+
+.One of my task attempts is hung. What should I do?
+
+Debugging bigdata applications is tedious job.
+No matter how hard you test your application, there is always a chance that it will work incorrectly
+on production data.
+This is simply because tests are performed on some very limited dataset compared to production volumes.
+
+If some task attempt is hung, usually the fastest way you can learn more about it is to find out its stack trace.
+In all versions of Hadoop you can you do this the hard way:
+
+  1. Locate task attempt in the web UI.
+     You will need to traverse along a long list of links, something like this:
+     YARN resource manager UI
+       -> application_xxxxxx
+       -> appattempt_xxxxxx
+       -> Tracking URL: Appliation Master
+       -> job_xxxxxx
+       -> Reduce running tasks (1)
+       -> task_xxxxxx
+  2. Log in to the server where task attempt is running: +ssh <Node>+
+  3. Find out PID of the process with +ps aux | grep <Attempt>+
+  4. Send SIGQUIT to it: +kill -3 <pid>+
+
+JVM installs signal handler for SIGQUIT that dumps stacktraces of all threads to stdout.
+You can capture the output from web UI (-> logs -> stdout) or directly from task attempt
+local log file in the server where you logged in.
+Stack trace should give you enough information about where you should focus on finding the bug.
