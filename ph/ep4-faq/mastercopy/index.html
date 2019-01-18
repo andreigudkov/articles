@@ -121,7 +121,7 @@ helpful, typically in dirty data mining.</p>
 </div>
 <div class="paragraph">
 <p>For example, consider the task of parsing and analyzing billions of binary files
-crawled from the web by using random walk, like images or Excel spreadsheats.
+crawled from the web by using random walk, like images or Excel spreadsheets.
 Web is really dirty.
 There are high chances that input data contains some malicious files
 which will cause parser to fail with segfault or with out of memory error.
@@ -175,7 +175,7 @@ than <code>mapreduce.task.timeout</code>, after which Hadoop framework will kill
 because no <code>progress()</code> was made in that amount of time.</p>
 </div>
 <div class="paragraph">
-<p>The straightworward solution would be just to increase <code>mapreduce.task.timeout</code>
+<p>The straightforward solution would be just to increase <code>mapreduce.task.timeout</code>
 to a higher value or to disable timeout altogether by setting option value to 0.
 However, such approach is not very robust:</p>
 </div>
@@ -193,9 +193,9 @@ Thus, Hadoop framework won&#8217;t be able to kill an attempt if it truly hangs.
 </ol>
 </div>
 <div class="paragraph">
-<p>The better solution is to spawn hearbeat thread that would call <code>progress()</code>
+<p>The better solution is to spawn heartbeat thread that would call <code>progress()</code>
 every couple of seconds while non-progressable operation is running.
-Heartbeat thread should be started immedately before entering non-progressable section
+Heartbeat thread should be started immediately before entering non-progressable section
 and stopped immediately after exiting it.</p>
 </div>
 <div class="listingblock">
@@ -431,18 +431,18 @@ Stack trace should give you enough information about where you should focus on f
 <div class="paragraph">
 <p>Manual implementation of <code>Writable</code> interface makes sense only for very small classes
 and typically only for keys (to speed up comparison).
-For larger classes it is cheaper to use codegenerating with serialization, like probotuf or thrift
+For larger classes it is cheaper to use codegenerating with serialization, like protobuf or thrift
 along with Twitter&#8217;s <a href="https://github.com/twitter/elephant-bird/">elephant-bird</a> wrapper.</p>
 </div>
 <div class="paragraph">
-<p>More than that, I advise to incapsulate all classes used in the whole data pipeline into single
+<p>More than that, I advise to encapsulate all classes used in the whole data pipeline into single
 outer class (I call it <code>Any</code> in the example below).
 Rationale is to reduce number of entities and, in turn, number of errors
 related to incorrect specification of <code>setOutputKeyClass()</code>, <code>setMapOutputKeyClass()</code> and so on.
 If single outer class is used, then you can always store data in sequence files in format
 (<code>NullWritable</code>, <code>ProtobufWritable&lt;Any&gt;</code>).
 If you add more jobs to your dataflow, you just need to add additional fields into <code>Any</code> class.
-Without <code>Any</code>, you probably would need to create at least two seperate message classes for every job:
+Without <code>Any</code>, you probably would need to create at least two separate message classes for every job:
 one is to act as map output value class, and another one is for job output value class.</p>
 </div>
 <div class="paragraph">
@@ -710,7 +710,7 @@ If cluster resources are ample at this moment, then they all will start.</p>
 Because only 5% of the mappers are finished, reducers won&#8217;t be able to do anything
 useful apart from occasionally fetching data from recently completed mappers.
 All other time they will be simply idling.
-But they still occupy cluster resources, leading to resouce underutilization and
+But they still occupy cluster resources, leading to resource underutilization and
 preventing other jobs from being executed.</p>
 </div>
 <div class="paragraph">
@@ -803,7 +803,7 @@ no matter how many job tasks are running on the node.</p>
 Put your data into HDFS and set some option in your job configuration to let
 mappers and reducers know where to look for the data.
 Next you can use this data in any way you wish.
-But bear in mind that order in which mappers and reducers are launched is unpredicatable,
+But bear in mind that order in which mappers and reducers are launched is unpredictable,
 and that tasks can fail and can also be executed speculatively (multiple identical tasks
 running at the same time, as soon as one of the tasks completes successfully, other tasks
 become unnecessary and are killed).
@@ -853,7 +853,7 @@ This doesn&#8217;t mean that cluster won&#8217;t work with aliases, but avoiding
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-01-18 15:12:16 UTC
+Last updated 2019-01-18 20:47:40 UTC
 </div>
 </div>
 </body>

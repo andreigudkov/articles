@@ -22,7 +22,7 @@ Most of the time this is unacceptable, but there are also cases when it is
 helpful, typically in dirty data mining.
 
 For example, consider the task of parsing and analyzing billions of binary files
-crawled from the web by using random walk, like images or Excel spreadsheats.
+crawled from the web by using random walk, like images or Excel spreadsheets.
 Web is really dirty.
 There are high chances that input data contains some malicious files
 which will cause parser to fail with segfault or with out of memory error.
@@ -75,7 +75,7 @@ than +mapreduce.task.timeout+, after which Hadoop framework will kill the attemp
 because no +progress()+ was made in that amount of time.
 
 
-The straightworward solution would be just to increase +mapreduce.task.timeout+
+The straightforward solution would be just to increase +mapreduce.task.timeout+
 to a higher value or to disable timeout altogether by setting option value to 0.
 However, such approach is not very robust:
 
@@ -86,9 +86,9 @@ However, such approach is not very robust:
  2. It affects other steps of MR job, including IO, +map()+ and +reduce()+ functions and so on.
     Thus, Hadoop framework won't be able to kill an attempt if it truly hangs.
 
-The better solution is to spawn hearbeat thread that would call +progress()+
+The better solution is to spawn heartbeat thread that would call +progress()+
 every couple of seconds while non-progressable operation is running.
-Heartbeat thread should be started immedately before entering non-progressable section
+Heartbeat thread should be started immediately before entering non-progressable section
 and stopped immediately after exiting it.
 
 [source,java,numbered]
@@ -220,17 +220,17 @@ I am tired of implementing +Writable+ interface
 
 Manual implementation of +Writable+ interface makes sense only for very small classes
 and typically only for keys (to speed up comparison).
-For larger classes it is cheaper to use codegenerating with serialization, like probotuf or thrift
+For larger classes it is cheaper to use codegenerating with serialization, like protobuf or thrift
 along with Twitter's https://github.com/twitter/elephant-bird/[elephant-bird] wrapper.
 
-More than that, I advise to incapsulate all classes used in the whole data pipeline into single
+More than that, I advise to encapsulate all classes used in the whole data pipeline into single
 outer class (I call it +Any+ in the example below).
 Rationale is to reduce number of entities and, in turn, number of errors
 related to incorrect specification of +setOutputKeyClass()+, +setMapOutputKeyClass()+ and so on.
 If single outer class is used, then you can always store data in sequence files in format
 (+NullWritable+, +ProtobufWritable<Any>+).
 If you add more jobs to your dataflow, you just need to add additional fields into +Any+ class.
-Without +Any+, you probably would need to create at least two seperate message classes for every job:
+Without +Any+, you probably would need to create at least two separate message classes for every job:
 one is to act as map output value class, and another one is for job output value class.
 
 Below is the skeleton for a job that takes an HTML page
@@ -427,7 +427,7 @@ The term "to start" is an overstatement.
 Because only 5% of the mappers are finished, reducers won't be able to do anything
 useful apart from occasionally fetching data from recently completed mappers.
 All other time they will be simply idling.
-But they still occupy cluster resources, leading to resouce underutilization and
+But they still occupy cluster resources, leading to resource underutilization and
 preventing other jobs from being executed.
 
 In order to prevent reducers from idling,
@@ -491,7 +491,7 @@ Finally, you can always use HDFS directly.
 Put your data into HDFS and set some option in your job configuration to let
 mappers and reducers know where to look for the data.
 Next you can use this data in any way you wish.
-But bear in mind that order in which mappers and reducers are launched is unpredicatable,
+But bear in mind that order in which mappers and reducers are launched is unpredictable,
 and that tasks can fail and can also be executed speculatively (multiple identical tasks
 running at the same time, as soon as one of the tasks completes successfully, other tasks
 become unnecessary and are killed).
