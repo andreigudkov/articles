@@ -497,3 +497,29 @@ running at the same time, as soon as one of the tasks completes successfully, ot
 become unnecessary and are killed).
 To be independent from the task execution order, you should keep data in HDFS read-only.
 
+
+How do I correctly configure DNS?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Arguably, DNS is the most troublesome piece of setup for any distributed system,
+not only Hadoop.
+To ensure smooth operation, you should do all of the following:
+
+ 1. Select unique hostname for every cluster node, e.g. "node1", "node2", and so on.
+ 2. Ensure that every node "knows" its own hostname correctly.
+    Command `hostname` must returned the hostname you selected and not something else.
+    To change hostname, you typically (depends on Linux distribution) need to
+    edit +/etc/hostname+ and reboot the machine.
+ 3. Ensure that your DNS server is configured properly for forward lookup.
+    This means that no matter which node your are currently logged in to,
+    the command +nslookup <nodename>+ returns the primary IP address of the respective node
+    for every node in the cluster.
+ 4. Ensure that DNS server is configured properly for reverse lookup.
+    No matter which node you are currently logged in to,
+    the command +nslookup <primary_ip_address>+ must return selected hostname.
+ 5. Use selected hostnames in all Hadoop configuration files (+/etc/hadoop/slaves+,
+    +hdfs-site.xml+, etc) and in paths (+hdfs://node1:9000/a/b/c+).
+
+You should ideally avoid aliases.
+This doesn't mean that cluster won't work with aliases, but avoiding aliases will make setup easier.
+

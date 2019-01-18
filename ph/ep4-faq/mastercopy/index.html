@@ -101,6 +101,7 @@
 <li><a href="#_what_compression_settings_to_use">What compression settings to use?</a></li>
 <li><a href="#_idling_reducers_prevent_other_jobs_from_running">Idling reducers prevent other jobs from running</a></li>
 <li><a href="#_how_do_i_pass_data_from_job_driver_to_the_tasks">How do I pass data from job driver to the tasks?</a></li>
+<li><a href="#_how_do_i_correctly_configure_dns">How do I correctly configure DNS?</a></li>
 </ul>
 </div>
 </div>
@@ -809,10 +810,50 @@ become unnecessary and are killed).
 To be independent from the task execution order, you should keep data in HDFS read-only.</p>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_how_do_i_correctly_configure_dns">How do I correctly configure DNS?</h4>
+<div class="paragraph">
+<p>Arguably, DNS is the most troublesome piece of setup for any distributed system,
+not only Hadoop.
+To ensure smooth operation, you should do all of the following:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Select unique hostname for every cluster node, e.g. "node1", "node2", and so on.</p>
+</li>
+<li>
+<p>Ensure that every node "knows" its own hostname correctly.
+Command <code>hostname</code> must returned the hostname you selected and not something else.
+To change hostname, you typically (depends on Linux distribution) need to
+edit <code>/etc/hostname</code> and reboot the machine.</p>
+</li>
+<li>
+<p>Ensure that your DNS server is configured properly for forward lookup.
+This means that no matter which node your are currently logged in to,
+the command <code>nslookup &lt;nodename&gt;</code> returns the primary IP address of the respective node
+for every node in the cluster.</p>
+</li>
+<li>
+<p>Ensure that DNS server is configured properly for reverse lookup.
+No matter which node you are currently logged in to,
+the command <code>nslookup &lt;primary_ip_address&gt;</code> must return selected hostname.</p>
+</li>
+<li>
+<p>Use selected hostnames in all Hadoop configuration files (<code>/etc/hadoop/slaves</code>,
+<code>hdfs-site.xml</code>, etc) and in paths (<code>hdfs://node1:9000/a/b/c</code>).</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>You should ideally avoid aliases.
+This doesn&#8217;t mean that cluster won&#8217;t work with aliases, but avoiding aliases will make setup easier.</p>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-01-18 13:49:09 UTC
+Last updated 2019-01-18 15:12:16 UTC
 </div>
 </div>
 </body>
