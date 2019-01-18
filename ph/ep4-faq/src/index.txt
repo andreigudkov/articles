@@ -1,5 +1,5 @@
-Practical Hadoop, episode 4: Practical FAQ
-==========================================
+Practical Hadoop: FAQ
+=====================
 Andrei Gudkov <gudokk@gmail.com>
 :toc:
 :toclevels: 4
@@ -301,3 +301,114 @@ SequenceFileOutputFormat.setOutputPath(job, new Path("hdfs://..."));
 SequenceFileOutputFormat.setCompressOutput(job, true);
 SequenceFileOutputFormat.setOutputCompressionType(job, CompressionType.BLOCK);
 ----
+
+
+My MR job uses only single mapper for every input file
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Your input files are not in splittable format.
+The most probable cause is that they are in ".txt.gz" format.
+You would be fine if you used raw text files or if you used +SequenceFile+
+(with any compression type and codec), but not gzipped text files.
+
+When job is started, Hadoop generates a number of splits for every input file,
+one split is for one mapper.
+Single split is a tuple of (path, offset, length) except for some exotic input formats.
+You would expect that a split is created by key/value boundary, but it is not true.
+The reason is that in order for split to be created by key/value boundary,
+the file must be read entirely in advance, which is unacceptable.
+Instead, every file is divided into splits of exactly block size bytes,
+ignoring the fact that single key/value pair may easily span two adjacent splits.
+Now, when mapper starts, it opens the file, seeks offset, and then _synchronizes_
+to the beginning of the next record.
+
+[source,java]
+----
+KeyValueInputStream stream = inputFormat.open(...);
+stream.seek(split.offset());
+stream.synchronizeUntilNextRecord();
+while (stream.position() < split.offset() + split.length()) {
+  handle(stream.readRecord());
+}
+----
+
+Such algorithm guarantees that every record will be process once and only once.
+
+image::splits.svg[width=80%,align=center]
+
+Synchronization implementation depends on file format.
+In plain text files, for example, every single line is a single key/value.
+To synchronize to the next record from arbitrary binary position, you just need
+to read bytes until \'\n' is encountered.
++SequenceFile+ implements synchronization by incorporating special unique binary markers between key/values.
+But there is no way to synchronize to the next record in gzipped text files
+without reading the file from the very beginning.
+Thus, for every *.txt.gz., Hadoop creates single split (path, offset=0, length=path.size())
+no matter how large the file is.
+
+
+Where can I find all configuration options?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+All options, their default values and descriptions reside inside +*-default.xml+ files:
++core-default.xml+, +hdfs-default.xml+, +mapred-default.xml+, +yarn-default.xml+.
+Hadoop web site hosts most recent version of every default configuration file rendered
+into easily readable HTML table.
+So, the easiest way to find full list of options is just to search for one of the above
+files on the web.
+
+Another way is to extract default configuration file directly from respective JAR file.
+This will get you exactly the version used in your environment.
+For example, +mapred-default.xml+ file is packaged inside +hadoop-mapreduce-client-core+ JAR
+and can be extracted with the following commands:
+
+----
+$ cd $HADOOP_HOME
+$ find . -name "hadoop-mapreduce-client-core*"
+./share/hadoop/mapreduce/sources/hadoop-mapreduce-client-core-2.9.2-sources.jar
+./share/hadoop/mapreduce/sources/hadoop-mapreduce-client-core-2.9.2-test-sources.jar
+./share/hadoop/mapreduce/hadoop-mapreduce-client-core-2.9.2.jar
+$ cp hadoop-mapreduce-client-core-2.9.2.jar /tmp/
+$ cd /tmp
+$ jar xvf hadoop-mapreduce-client-core-2.9.2.jar
+<all files are extracted into current directory>
+$ cat mapred-default.xml
+----
+
+
+What compression settings to use?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You most likely want to compress output files,
+but not the intermediate files between mappers and reducers (+mapreduce.map.output.compress+).
+
+When using compression, do not use heavy codecs like bz2.
+If you're working with Hadoop, then capacity and throughput are not the issues.
+The bottleneck is CPU time it takes to compress and decompress the data.
+So, stick with faster codecs like lz4, lzo or snappy.
+
+Use block compression instead of per-record.
+If records are small, then compressing every single record independently
+won't provide any reduction in size.
+There is not way codec is able to build sufficiently large dictionary over such small piece of data.
+But it will anyway consume CPU cycles.
+Record compression makes sense only when records are large enough and +SequenceFile+ is used
+as random-access key-value storage, like in +MapFile+.
+In other cases block compression is better because it compresses every decently-sized group of records,
+thus giving codec more opportunity to build high-quality dictionary.
+   
+Finally, watch out for warnings about inability to load native libraries.
+You definitely want to use fast native libraries for compression and not slow pure java implementations.
+
+Assuming that output format is +SequenceFile+, the following piece of code
+demonstrates sane compression settings:
+
+[source,java,numbered]
+----
+job.setOutputFormatClass(SequenceFileOutputFormat.class);
+SequenceFileOutputFormat.setOutputPath(job, new Path("hdfs://.../output_dir"));
+SequenceFileOutputFormat.setCompressOutput(job, true);
+SequenceFileOutputFormat.setOutputCompressionType(job, CompressionType.BLOCK);
+SequenceFileOutputFormat.setOutputCompressorClass(job, Lz4Codec.class);
+----
+
