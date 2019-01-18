@@ -55,8 +55,8 @@ Second job processes only records (A, B, C, E) and decides to retain E.
 Combined, these two jobs delete all five records from the database, hence breaking the very purpose of database cleanup.
 
 
-Hadoop kills my job because of custom output format
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Hadoop kills my job because of timeout in custom output format
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 It is common problem that you want to save data in some special format,
 and this format is not of "streaming" type, i.e. it accumulates all key/values
@@ -185,8 +185,8 @@ public static class DictionaryCompressedOutputFormat extends FileOutputFormat<Nu
 }
 ----
 
-One of my task attempts is hung
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+One of task attempts is hung
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Debugging bigdata applications is tedious job.
 No matter how hard you test your application, there is always a chance that it will work incorrectly
@@ -437,4 +437,63 @@ and they will have immediately a lot of work to do.
 Alternatively, you can put a limit on a number of running reducers per job with the option
 +mapreduce.job.running.reduce.limit+, or to tune the scheduler.
 
+
+How do I pass data from job driver to the tasks?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It is quite common that you need to pass some data, such as runtime parameters,
+from job driver to mappers and reducers.
+There are a lot of ways to achieve this depending on data size.
+If the data is just a couple of primitive values, you can put them directly into job's +Configuration+
+one by one by unique names and retrieve later in +Mapper.setup()+ and +Reducer.setup()+ methods.
+
+For more complex data you can create separate class, serialize it into base64
+and pass to +Configuration+ as a single option, as demonstrated below.
+Obviously, this approach should be used only if data size is relatively small,
+up to 100 kilobytes.
+
+[source,java,numbered]
+----
+public static class Coeffs implements Serializable {
+  private static final long serialVersionUID = 1L;
+  private static final String CONF_NAME = "job.coeffs";
+
+  public double[][] transform_mat;
+  public double threshold_x;
+  public double threshold_y;
+  public double threshold_z;
+  
+  public static void store(Configuration conf, Coeffs data) throws IOException {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    ObjectOutputStream oos = new ObjectOutputStream(baos);
+    oos.writeObject(data);
+    oos.close();
+    String x = Base64.getEncoder().encodeToString(baos.toByteArray());
+    conf.set(CONF_NAME, x);
+  }
+  
+  public static Coeffs load(Configuration conf) throws IOException, ClassNotFoundException {
+    String x = conf.get(CONF_NAME);
+    ByteArrayInputStream bais = new ByteArrayInputStream(Base64.getDecoder().decode(x));
+    ObjectInputStream ois = new ObjectInputStream(bais);
+    return (Coeffs)ois.readObject();
+  }
+}
+----
+
+For even larger data sizes, MapReduce framework provides +DistributedCache+.
+See its API reference for detailed instructions.
+Data that you pass via distributed cache is copied onto local filesystem of every node.
+The benefit of using distributed cache is that only single copy of data per node is made,
+no matter how many job tasks are running on the node.
+
+Finally, you can always use HDFS directly.
+Put your data into HDFS and set some option in your job configuration to let
+mappers and reducers know where to look for the data.
+Next you can use this data in any way you wish.
+But bear in mind that order in which mappers and reducers are launched is unpredicatable,
+and that tasks can fail and can also be executed speculatively (multiple identical tasks
+running at the same time, as soon as one of the tasks completes successfully, other tasks
+become unnecessary and are killed).
+To be independent from the task execution order, you should keep data in HDFS read-only.
 
