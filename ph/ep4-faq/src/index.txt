@@ -412,3 +412,29 @@ SequenceFileOutputFormat.setOutputCompressionType(job, CompressionType.BLOCK);
 SequenceFileOutputFormat.setOutputCompressorClass(job, Lz4Codec.class);
 ----
 
+
+Idling reducers prevent other jobs from running
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The most probable cause is that you use default value for option
++mapreduce.job.reduce.slowstart.completedmaps+, which is 0.05.
+While the number of completed map tasks is less than 5%, no reducers are started.
+But as soon as 5% mappers are finished, reducers are launched.
+There is not limit on the number of started reducers.
+If cluster resources are ample at this moment, then they all will start.
+
+The term "to start" is an overstatement.
+Because only 5% of the mappers are finished, reducers won't be able to do anything
+useful apart from occasionally fetching data from recently completed mappers.
+All other time they will be simply idling.
+But they still occupy cluster resources, leading to resouce underutilization and
+preventing other jobs from being executed.
+
+In order to prevent reducers from idling,
+increase the aforementioned option to much higher value, 0.8 or even 0.95.
+Reducers will start only after 80% (95%) of mappers are finished,
+and they will have immediately a lot of work to do.
+Alternatively, you can put a limit on a number of running reducers per job with the option
++mapreduce.job.running.reduce.limit+, or to tune the scheduler.
+
+

@@ -99,6 +99,7 @@
 <li><a href="#_my_mr_job_uses_only_single_mapper_for_every_input_file">My MR job uses only single mapper for every input file</a></li>
 <li><a href="#_where_can_i_find_all_configuration_options">Where can I find all configuration options?</a></li>
 <li><a href="#_what_compression_settings_to_use">What compression settings to use?</a></li>
+<li><a href="#_idling_reducers_prevent_other_jobs_from_running">Idling reducers prevent other jobs from running</a></li>
 </ul>
 </div>
 </div>
@@ -692,10 +693,37 @@ demonstrates sane compression settings:</p>
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_idling_reducers_prevent_other_jobs_from_running">Idling reducers prevent other jobs from running</h4>
+<div class="paragraph">
+<p>The most probable cause is that you use default value for option
+<code>mapreduce.job.reduce.slowstart.completedmaps</code>, which is 0.05.
+While the number of completed map tasks is less than 5%, no reducers are started.
+But as soon as 5% mappers are finished, reducers are launched.
+There is not limit on the number of started reducers.
+If cluster resources are ample at this moment, then they all will start.</p>
+</div>
+<div class="paragraph">
+<p>The term "to start" is an overstatement.
+Because only 5% of the mappers are finished, reducers won&#8217;t be able to do anything
+useful apart from occasionally fetching data from recently completed mappers.
+All other time they will be simply idling.
+But they still occupy cluster resources, leading to resouce underutilization and
+preventing other jobs from being executed.</p>
+</div>
+<div class="paragraph">
+<p>In order to prevent reducers from idling,
+increase the aforementioned option to much higher value, 0.8 or even 0.95.
+Reducers will start only after 80% (95%) of mappers are finished,
+and they will have immediately a lot of work to do.
+Alternatively, you can put a limit on a number of running reducers per job with the option
+<code>mapreduce.job.running.reduce.limit</code>, or to tune the scheduler.</p>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-01-18 09:06:25 UTC
+Last updated 2019-01-18 09:45:35 UTC
 </div>
 </div>
 </body>
