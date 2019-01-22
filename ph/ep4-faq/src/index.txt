@@ -194,7 +194,7 @@ on production data.
 This is simply because tests are performed on some very limited dataset compared to production volumes.
 
 If some task attempt is hung, usually the fastest way you can learn more about it is to find out its stack trace.
-In all versions of Hadoop you can you do this the hard way:
+In all versions of Hadoop you can do this the hard way:
 
   1. Locate task attempt in the web UI.
      You will need to traverse along a long list of links, something like this:
@@ -332,7 +332,7 @@ while (stream.position() < split.offset() + split.length()) {
 }
 ----
 
-Such algorithm guarantees that every record will be process once and only once.
+Such algorithm guarantees that every record will be processed once and only once.
 
 image::splits.svg[width=80%,align=center]
 
@@ -434,7 +434,7 @@ In order to prevent reducers from idling,
 increase the aforementioned option to much higher value, 0.8 or even 0.95.
 Reducers will start only after 80% (95%) of mappers are finished,
 and they will have immediately a lot of work to do.
-Alternatively, you can put a limit on a number of running reducers per job with the option
+Alternatively, you can put a limit on a number of simultaneously running reducers per job with the option
 +mapreduce.job.running.reduce.limit+, or to tune the scheduler.
 
 
