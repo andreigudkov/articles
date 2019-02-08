@@ -18,6 +18,7 @@ modules="
   $root/sspar
   $root/bm
   $root/inline
+  $root/tcp
 "
 if [ -L $0 ]; then
   modules=$(readlink -f $PWD)

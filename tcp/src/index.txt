@@ -1,0 +1,235 @@
+Common pitfalls of using TCP
+============================
+Andrei Gudkov <gudokk@gmail.com>
+:source-highlighter: pygments
+:figure-caption!:
+:table-caption!:
+
+
+.1. Why 750ms connect timeout is a bad idea
+
+One of the benefits of TCP is that it is a reliable communication protocol.
+No need to worry about data being lost, rearranged or duplicated:
+receiving application reads exactly the same sequence of bytes that was written by sending application.
+Reliability doesn't come for free, though.
+To provide reliability, TCP uses acknowledges (ACK) under the hood.
+Sending host keeps copy of sent data in the buffer up to the moment when it receives
+ACK from receiving host that acknowledges the delivery of the data.
+If ACK was not received in some amount of time after the data was sent,
+then sending host assumes that data was lost in transit and retransmits it from the buffer.
+
+
+The question is: how long does sending host is going to wait for ACK before retransmission?
+It is obvious that network latency (commonly defined as round-trip time, RTT) is the key to this timeout.
+If retransmit timeout is shorter than RTT, then sender will unnecessary send the same data multiple times.
+If it is larger than RTT, then detection of lost data will be delayed.
+Both situations are not healthy.
+Thus, learning RTT for a TCP connection is crucial for defining optimal retransmit timeout.
+
+
+RTT significantly depends on the geographical distance between sending and receiving hosts,
+on the number of router-to-router hops and on the network technology.
+It takes less than 1 millisecond to ping/pong a host connected to the same switch over Ethernet.
+At the same time, RTT between two hosts located on the opposite sides of the globe can be as large as one second.
+This is a three orders of magnitude difference.
+TCP learns and updates RTT dynamically by remembering send and receive timestamps.
+When the connection is being established, one of the hosts sends SYN and another one responds with ACK/SYN
+during 3-way handshake.
+This first round trip is enough to derive approximate RTT value.
+Further deliveries are used to compute more precise RTT values and to handle possible sudden changes in RTT.
+Hence, retransmit timeout value is kept sane for the whole duration of the TCP connection.
+
+
+There is still one problem left.
+What happens when the very first SYN segment is lost?
+When remote port is closed or destination IP address is unreachable,
+correctly configured network sends ICMP notification back,
+signaling that connection couldn't be established,
+which is immediately propagated to the user program as an error.
+But situation is different if no explicit notification is sent back.
+There is a variety of reasons why this can happen.
+Remote host may be down, or it may appear as a black hole (no ICMP notifications) because of firewall rules,
+or network may be overloaded.
+Because sender of the very first SYN didn't receive anything in response,
+it can't figure out RTT of the network.
+You, as the developer, may know that transmitting packet from 192.168.22.5 to 192.168.22.6 takes
+only couple of milliseconds because these two addresses are both on the local network,
+but TCP engine has no knowledge of that.
+When connection is being established, RTT is not known yet, and TCP treats all destinations
+identically: it defines retransmit timeout to a fixed, very high for a local network, value.
+On Linux this timeout is initially 1 second and is progressively increased by a factor of two after
+each unsuccessful retransmit attempt.
+Thus, if the remote host doesn't respond, SYN segment is retransmitted at timepoints of 0 seconds, 1, 3, 7, 15, and so on.
+Below is the example:
+
+image::retran.png[width=100%,align=center]
+
+What it means is that setting connect timeout to values like 750 milliseconds
+for hosts on local network is nonsense.
+If connection wasn't established in, let's say, 50 milliseconds, it won't happen in the next 950 milliseconds either.
+There is no need in waiting.
+You'd better close the socket and retry connection from the very beginning.
+Below piece of pseudocode demonstrates the logic:
+
+[source,c]
+----
+long deadline = getCurrentTime() + kConnectTimeout;
+while (getCurrentTime() < deadline) {
+  int fd = socket();
+  int status = connect(socket, address, 50 /*ms*/); // couple of times larger than true RTT
+  if (status == OK) {
+    return fd;
+  }
+  close(fd);
+  if (status != TIMEOUT) {
+    return status;
+  }
+}
+return TIMEOUT;
+----
+
+
+
+.2. 64K ports should be enough for everybody
+
+Developers often forget than spare port is required not only for listening servers,
+but also for outgoing connections.
+When you create a server, you have to explicitly bind a socket to a given pair of IP address and port,
+simply because you want a server to be reachable on some well-known port.
+But when you establish outgoing connections, you do not care very much about what local port will be used:
+any would be fine.
+Operating system automatically selects free ports for outgoing connections during +connect()+.
+If there are 100 simultaneous client connections, then they will occupy 100 ports in total,
+no matter whether they connect to the same remote service or to the different services.
+One port is for one connection.
+
+
+Operating system chooses ports for outgoing connections from the range of ephemeral ("dynamical") ports,
+which in Linux occupies about half of all possible ports by default: 32768-60999.
+This doesn't cause any harm if you are running only well-known services,
+because traditionally they listen to the ports below 32000.
+However, in modern days of multicore CPUs and microservices it is typical
+to run dozens of daemons on the same host.
+Remembering all port numbers is hard, so developers often create
+some easy-to-remember schemes of assigning ports to daemons.
+For example, all instances of daemon type A should listen to the ports starting from 40000,
+while all instances of daemon B should listen to the ports starting with 50000.
+Rationale for using large numbers is to avoid possible collisions with well-known services.
+However, such large numbers do create collisions with the range of ephemeral ports.
+
+image::prange.svg[width=90%,align=center]
+
+Collisions with ephemeral ports can go unnoticed for long time.
+A socket can be still bound to the ephemeral port if it is not occupied.
+Operating system doesn't warn about that.
+A daemon listening to ephemeral port can work for years without troubles.
+But at some unlucky day, after manual or automatic shutdown,
+you may find out that it failed to start again because of EADDRINUSE error, "Address already in use".
+This means that some outgoing connection acquired port that was meant to be used solely by the daemon.
+
+
+One possible solution is just not to use ephemeral range of ports (32768-60999) for daemons.
+But since non-ephemeral ports may collide with well-known system services
+(something that we wanted to avoid in the first place),
+a better solution would be to adjust the list of ephemeral ports itself,
+i.e. to exclude port numbers of interest from it.
+In Linux, it is done by adjusting
+https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt[the options]
++ip_local_reserved_ports+ and +ip_local_port_range+.
+For example, assuming that there would be no more than 100 instances of daemon of each type,
+we could permanently set +net.ipv4.ip_local_reserved_ports=40000-40099,50000-50099+ in +/etc/sysctl.conf+.
+Ports listed in this option are not considered ephemeral.
+
+
+Very rarely the opposite issue can happen: when the number of outgoing connections
+is so big that default number of approximately 32K ephemeral ports is not enough.
+For example, this may happen if you operate large-scale web robot.
+When a new connection is initiated and there is no free ephemeral port available,
+application gets EADDRNOTAVAIL error ("Cannot assign requested address").
+As a quick fix, +ip_local_port_range+ can be used to increase the range of ephemeral ports.
+But since number of ephemeral ports can be increased only twice, up to 64K,
+a better solution would be to allocate more IP addresses and use them in round-robin fashion.
+
+
+.3. Improving throughput of high-RTT connections
+
+Default buffer sizes are meant to be used for connections with typical RTTs and network bandwidths.
+If actual connection characteristics fall under the definition of "typical", no adjustment is required.
+But when RTT is too high, which happens for example during transmission between two data centers located
+on the opposite sides of the Earth, default buffer sizes become a bottleneck that limits effective throughput.
+It is critically important to adjust both send and receive buffer sizes with respect to RTT and network bandwidth
+in such case.
+
+
+image::buffering.svg[width=90%,align=center]
+
+When application calls +write()+ or similar syscall, data is not immediately sent
+but is copied into in-kernel buffer instead.
+Operating system transmits data from this buffer in background.
+Parts of the buffer are cleared only when ACK is received informing OS that corresponding piece of
+data was successfully delivered.
+Till then, data is kept in buffer for the purpose of retransmission if delivery fails.
+Such mode of operation can severely limit throughput in high-RTT networks
+if send buffer size is not adjusted for RTT.
+When RTT is large (hundreds of milliseconds), acknowledges are received with significant delay.
+Consequently, if buffer size is of default value, then at some point during a call to +write()+,
+OS won't be able to copy data immediately from application buffer to kernel buffer
+because there will be no free space in in-kernel buffer.
+OS will have to wait until it gets ACK that will allow it to free some space in buffer and continue IO.
+This will limit throughput.
+The solution is to increase send buffer size to a value large enough so that it won't be a bottleneck.
+For example, if true network throughput is 100Mb/s and RTT is 200ms, then
+acknowledge for the very first sent portion of data will be delivered no faster than in 200ms.
+This period of time would be enough to transmit 100Mb/s / 8 * 0.2 = 2.5MB of data, provided that send buffer size
+is at least this large.
+
+
+Situation with receive buffer is no better.
+Operating system on receiving side doesn't know how fast application will extract data from the buffer.
+And obviously it would be a bad idea to send more data than there is free space in receive buffer.
+In order not to overwhelm receive buffer, receive side notifies sending side how much
+data it can accept by sending "window" value.
+Under optimal circumstances, if application reads the data as soon as it gets into the buffer,
+receiving host will advertise its window equal to the receive buffer size.
+Hence it is not enough to increase the sending buffer size: receive buffer size must be adjusted as well.
+
+
+In Linux, two things must be done to override buffer sizes.
+First of all, system-wide options +net.core.wmem_max+ and +net.core.rmem_max+ must be increased to reasonably high values.
+They control maximum allowed buffer size per socket.
+After that, applications can increase actual buffer sizes by calling +setsockopt(fd, SOL_SOCKET, ...)+ with options
++SO_SNDBUF+ and +SO_RCVBUF+ respectively.
+Of course, you have to keep in mind that if you have a lot of sockets, then you can't
+set too large buffer sizes since they will occupy too much RAM.
+Also it doesn't make any sense to override buffer sizes if you can control only one side of the connection.
+It won't provide any benefits but will consume extra RAM.
+
+
+.4. Client requests are delayed
+
+By default, data is not sent immediately after you +write()+ it.
+OS postpones sending data if amount of buffered data is small.
+This is called Nagle's algorithm.
+The rationale is that sending small portions of data is inefficient,
+so let's wait for more data from application.
+Delay can rich hundreds of milliseconds.
+The downside of Nagle's algorithm is that in client/server applications
+requests may be unexpectedly delayed.
+For example, this happens to HTTP requests because they are relatively small even with large number of HTTP fields.
+
+Nagle's algorithm can be easily disabled by setting +SO_NODELAY+ socket option.
+Once you do this, of course, you should avoid issuing a lot of small writes.
+Instead, you should combine data yourself into buffer no smaller than MSS before writing.
+
+
+.5. Daemon fails to restart
+
+When daemon is restarted and listening TCP socket is closed, port is not immediately available for reuse.
+There may be some orphan packets still traveling in the network which have relation to this port.
+Immediately allowing reuse of the port could theoretically lead to unexpected consequences.
+While such behavior may sound reasonable, it makes fast daemon restart impossible.
+The attempt to bind socket to recently closed port results in an error.
+Think about this functionality as about anachronism implemented for backward compatibility.
+Listening sockets should always be configured with +SO_REUSEADDR+ option.
+
+

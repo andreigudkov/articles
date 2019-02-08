@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="66cm" height="9cm" viewBox="70 284 1311 180" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g id="Background">
+    <g>
+      <rect style="fill: #ff5959; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="380" y="380" width="22" height="40" rx="0" ry="0"/>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="391" y="403.9">
+        <tspan x="391" y="403.9"></tspan>
+      </text>
+    </g>
+    <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="960" y="360">
+      <tspan x="960" y="360">Ephemeral ports</tspan>
+    </text>
+    <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="420" y="340">
+      <tspan x="420" y="340">Less common services</tspan>
+    </text>
+    <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="70" y="310">
+      <tspan x="70" y="310">Most common services</tspan>
+    </text>
+    <g>
+      <rect style="fill: #ffbfbf; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1320" y="380" width="60" height="40" rx="0" ry="0"/>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1350" y="403.9">
+        <tspan x="1350" y="403.9"></tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #ffbfbf; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="400" y="380" width="420" height="40" rx="0" ry="0"/>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="610" y="403.9">
+        <tspan x="610" y="403.9"></tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #e6e6e6; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="820" y="380" width="500" height="40" rx="0" ry="0"/>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1070" y="403.9">
+        <tspan x="1070" y="403.9"></tspan>
+      </text>
+    </g>
+    <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="820" y1="420" x2="820" y2="440"/>
+    <text font-size="18.0622" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:700" x="800" y="460">
+      <tspan x="800" y="460">32768</tspan>
+    </text>
+    <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="400" y1="420" x2="400" y2="440"/>
+    <text font-size="18.0622" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:700" x="380" y="460">
+      <tspan x="380" y="460">1000</tspan>
+    </text>
+    <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="1320" y1="420" x2="1320" y2="440"/>
+    <text font-size="18.0622" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:700" x="1300" y="460">
+      <tspan x="1300" y="460">61000</tspan>
+    </text>
+    <text font-size="22.5778" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="410" y="370">
+      <tspan x="410" y="370">(mysql, postresql, nfs, openvpn)</tspan>
+    </text>
+    <text font-size="22.5778" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="110" y="340">
+      <tspan x="110" y="340">(ssh, ftp, http, https)</tspan>
+    </text>
+    <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="80" y1="350" x2="370" y2="350"/>
+    <g>
+      <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="370" y1="350" x2="386.986" y2="374.265"/>
+      <polygon style="fill: #000000; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" points="384.528,375.986 390.427,379.181 389.443,372.545 "/>
+    </g>
+  </g>
+</svg>
