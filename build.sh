@@ -19,6 +19,7 @@ modules="
   $root/bm
   $root/inline
   $root/tcp
+  $root/thumbnail
 "
 if [ -L $0 ]; then
   modules=$(readlink -f $PWD)
@@ -84,7 +85,7 @@ function build_module {
   else
     local txt="${module}/src/index.txt"
     local html="${module}/mastercopy/index.html"
-    local images=$(sed -rn '/^image::(.*(\.svg|\.png)).*$$/s//\1/p' ${txt})
+    local images=$(sed -rn '/^image::(.*(\.svg|\.png|\.jpg|\.gif)).*$$/s//\1/p' ${txt})
 
     build $html \
       "TZ=UTC MATH_OUTPUT=${module}/mastercopy ${processor} -a stylesheet=${stylesheet} -o $html $txt" \
