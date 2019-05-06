@@ -255,7 +255,7 @@ then actual image size must be 200x200 for ordinary displays, 300x300 for displa
 with +devicePixelRatio=1.5+ and 400x400 for displays with +devicePixelRatio=2+.
 From backend point of view,
 you can either pregenerate thumbnails of different sizes for well-known device pixel ratios,
-or you can setup a server that will create thumbnails of required size of the fly
+or you can setup a server that will create thumbnails of required size on the fly
 (+/get_thumbnail?id=2e3a9a76d071&w=320&h=240+).
 Performance is typically not an issue in latter case.
 Since modern JPEG libraries and image processing software are both SIMD-optimized,
