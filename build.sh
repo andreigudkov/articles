@@ -20,6 +20,7 @@ modules="
   $root/inline
   $root/tcp
   $root/thumbnail
+  $root/codesearch
 "
 if [ -L $0 ]; then
   modules=$(readlink -f $PWD)

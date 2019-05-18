@@ -1,0 +1,204 @@
+Linux power tools: get and search source code in two minutes
+============================================================
+:source-highlighter: pygments
+:pygments-style: default
+Andrei Gudkov <gudokk@gmail.com>
+
+
+Quick retrieving and searching source code is an underestimated skill.
+For example, do you know the default user agent of wget?
+You might want to know this to create +robots.txt+ for your website.
+Or have you ever wondered how random number generator is implemented in your favorite language?
+Usually such questions are left without answers because
+of the fears that it would take too much time to find out this information.
+However, with the knowledge of proper linux commands you can find answer to any such question
+in just couple of minutes and without leaving the console window.
+I use the workflow described below so often that I find code search skill to be no
+less important than the ability to solve algorithmic problems or use a debugger.
+
+
+I will demonstrate workflow by example.
+I use +top+ command everyday.
+Among other things, it displays load average numbers.
+I would like to know where these numbers come from.
+Is this some system call? Or does +top+ compute these numbers itself?
+I am interested in it because I want to reuse the same data source in my own monitoring dashboard.
+For demonstration, I will use Debian as my favorite Linux flavor.
+However, the commands are identical for all deb-based distributions including widespread Ubuntu.
+
+image::top.png[width=75%,align=center]
+
+.1. Find the executable
+
+My first step is to figure out the full path to the executable:
+
+[source,console]
+----
+gudok@gudok6:~$ whereis top
+top: /usr/bin/top /usr/share/man/man1/top.1.gz
+gudok@gudok6:~$ readlink -f /usr/bin/top
+/usr/bin/top
+----
+
++readlink+ command resolves any possible ambiguity that might be caused by symlinks.
+Linux distributions use symlinks as a mechanism of switching between 
+multiple different executables which provide similar functionality.
+For example +gcc+ on my system resolves to the executable file through the following series of symlinks:
++/usr/bin/gcc+ -> +/usr/bin/gcc-6+ -> +/usr/bin/x86_64-linux-gnu-gcc-6+.
+But on some other system it can point to other version of GCC or clang.
++readlink -f+ follows all symlinks iteratively until it finds regular file.
+The path that it prints is free of symlink components.
+
+
+.2. Find the package
+
+My next step is to find the package that installed the executable file.
+The command varies across Linux distributions.
+In Debian, Ubuntu and other deb-based distributives, it is `dpkg -S`.
+The command accepts full path to some file in a filesystem and
+prints package name file belongs to.
+
+[source,console]
+----
+gudok@gudok6:~$ dpkg -S /usr/bin/top
+procps: /usr/bin/top
+----
+
+Now I know that +top+ is part of +procps+ package.
+
+
+.3. Download source code of the package
+
+Once I know the package name, I can now instruct +apt-get+ to download its source code.
+This is as easy as installing or removing packages: +apt-get source <package>+.
+More than that, any user is entitled to use +source+ subcommand, not only the root.
+The command downloads the source package, unpacks it and even applies Debian patches.
+So, in the end I have ready-to-use directory with the source code waiting for grepping.
+
+[source,console]
+----
+gudok@gudok6:~$ cd /tmp/
+gudok@gudok6:/tmp$ apt-get source procps
+Reading package lists... Done
+Need to get 876 kB of source archives.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main procps 2:3.3.12-3+deb9u1 (dsc) [2,333 B]
+Get:2 http://cdn-fastly.deb.debian.org/debian stretch/main procps 2:3.3.12-3+deb9u1 (tar) [841 kB]
+Get:3 http://cdn-fastly.deb.debian.org/debian stretch/main procps 2:3.3.12-3+deb9u1 (diff) [33.3 kB]
+Fetched 876 kB in 0s (1,068 kB/s) 
+dpkg-source: info: extracting procps in procps-3.3.12
+dpkg-source: info: unpacking procps_3.3.12.orig.tar.xz
+dpkg-source: info: unpacking procps_3.3.12-3+deb9u1.debian.tar.xz
+----
+
+Keep in mind that source code download is available only if +/etc/apt/sources.list+ is configured correctly,
+meaning that for every "deb" entry there should be an associated +deb-src+ entry.
+Like this:
+
+----
+deb http://httpredir.debian.org/debian/ stretch main contrib non-free
+deb-src http://httpredir.debian.org/debian/ stretch main contrib non-free
+
+deb http://httpredir.debian.org/debian/ stretch-updates main
+deb-src http://httpredir.debian.org/debian/ stretch-updates main
+----
+
+In (hopefully) rare cases +sources.list+ lacks deb-src entries
+and there is no root access to fix it.
+Package source code can be still downloaded in a hard way by using web UI.
+Point you browser to https://packages.debian.org[packages.debian.org]
+(or https://packages.ubuntu.org[packages.ubuntu.org])
+and use search form.
+Eventually, you should come across package page that lists URL to the source code archive among other things:
+
+image::procps.png[width=80%,align=center]
+
+The first URL points to the actual source code of the package,
+while the second one is a small archive that contains Debian related scripts and patches.
+Typically you need to download only the first one.
+
+
+.4. Grepping the code
+
+Now it's just a matter of choosing robust keywords and fast typing.
+It seems to me that the starting point would be to locate the literal string "load average:",
+because it the string that I see in the UI.
+
+[source,console]
+----
+gudok@gudok6:/tmp/procps-3.3.12$ grep -R 'load average:' .
+Binary file ./po/pl.gmo matches
+./po/uk.po:"   color - 04:25:44 up 8 days, 50 min,  7 users,  load average:\n"
+./po/de.po:"   color - 04:25:44 up 8 days, 50 min,  7 users,  load average:\n"
+Binary file ./po/vi.gmo matches
+...
+----
+
+First attempt produces too many false positives from documentation and translation files.
+So, I rerun the search but limit search scope only to source and header files:
+
+[source,console]
+----
+gudok@gudok6:/tmp/procps-3.3.12$ grep -R 'load average:' $(find . -name "*.[hc]")
+./top/top_nls.c:      "   color - 04:25:44 up 8 days, 50 min,  7 users,  load average:\n"
+./proc/whattime.c:    pos += sprintf(buf + pos, " load average: %.2f, %.2f, %.2f",
+----
+
+This is much better.
+There are only two matches.
+And it is obvious that the second one is the one I need.
+Let's look inside it:
+
+[source,console]
+----
+gudok@gudok6:/tmp/procps-3.3.12$ grep -C 4 'load average:' proc/whattime.c 
+    pos += sprintf(buf + pos, "%2d user%s, ", numuser, numuser == 1 ? "" : "s");
+
+    loadavg(&av[0], &av[1], &av[2]);
+
+    pos += sprintf(buf + pos, " load average: %.2f, %.2f, %.2f",
+                   av[0], av[1], av[2]);
+  }
+
+  if (human_readable) {
+----
+
+All three load average values come from +loadavg()+ function.
+Let's search for its definition.
+We are lucky that procps coding style puts open curly bracket on the same line as function name.
+This allows me to use basic regular expression:
+
+[source,console]
+----
+gudok@gudok6:/tmp/procps-3.3.12$ grep -R 'loadavg.*{' $(find . -name "*.[hc]")
+./proc/sysinfo.c:void loadavg(double *restrict av1, double *restrict av5, double *restrict av15) {
+----
+
+Finally, +sysinfo.c+ source code reveals that the values come from +/proc/loadavg+.
+
+[source,c]
+----
+#define LOADAVG_FILE "/proc/loadavg"
+...
+void loadavg(double *restrict av1, double *restrict av5, double *restrict av15) {
+    ...
+    FILE_TO_BUF(LOADAVG_FILE,loadavg_fd);
+    if (sscanf(buf, "%lf %lf %lf", &avg_1, &avg_5, &avg_15) < 3) {
+----
+
+Task is complete.
+
+.Exercises
+
+Answer the questions by following the above workflow:
+
+ 1. How is `strstr()` library function implemented in glibc?
+ 2. What is the default seed value in +java.util.Random+?
+    Will two different invocations of +new Random().nextInt()+ produce identical results?
+    And what if they were invoked in different threads?
+ 3. What is the default User-Agent of wget? Of curl?
+ 4. Find out inside linux kernel which factors affect the process that is killed
+    when system runs out of memory (so-called OOM killer).
+    Hint: every process has +/proc/<fd>/oom_score_adj+ file that allows to tweak
+    OOM score.
+    You can use this file name as starting point of your searches.
+
