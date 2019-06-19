@@ -1,0 +1,261 @@
+Efficient implementation of MinHash, part 1
+===========================================
+:source-highlighter: pygments
+:pygments-style: default
+Andrei Gudkov <gudokk@gmail.com>
+
+
+MinHash is a technique widely used to compare texts for similarity.
+For example, in web search it is used to detect mirror sites.
+Mirror is a site that clones the contents of another site either
+verbatim or very closely.
+Web search engines are interested in mirror detection because of two reasons.
+First of all, it significantly reduces cost of maintaining search engine.
+Search engines typically index contents of only the primary web site (highestly ranked)
+and ignore all its mirrors.
+Secondly, mirrors to well-known sites often indicate phishing,
+which raises red flags and requires manual review from security team.
+Another application of MinHash is plagiarism detection.
+Universities and scientific magazines are interested to automatically recognize
+copypasted papers and thesises.
+
+
+MinHash algorithm has a number of variations.
+In this article I will focus on the MinHash variation that uses single hash function.
+Such type of MinHash is computationally fast to construct, but computation of similarity
+score is slow, in particularly when the goal is to find distances between one new document
+and all the documents from preexisting collection.
+This variation is suitable for ad-hoc similarity computation between a single pair of documents
+or between one document and all the documents from collection of small to moderate size.
+
+
+The workflow is the following: for every text you have,
+split it into sequence of words, then create a set of every triplet of adjacent words
+(every such triplet is called a _shingle_),
+then hash these shingles, and finally select smallest unique N shingles.
+These N shingles become the fingerprint (MinHash) of the text.
+N is chosen typically from about 50 to a couple of hundreds
+depending on median size of the text of the corpus.
+
+image::dataflow.png[width=100%,align=center]
+
+Once fingerprints are generated for every text,
+we can compute similarity for any pair of texts by computing Jaccard distance
+of their fingerprints:
+
+[math,align=center]
+----
+J(t_1, t_2) = \frac
+{\left | \mathrm{Fingerprint}(t_1) \cap \mathrm{Fingerprint}(t_2) \right |}
+{\left | \mathrm{Fingerprint}(t_1) \cup \mathrm{Fingerprint}(t_2) \right |}
+\in \left [ 0.0\,..\,1.0 \right ]
+----
+
+It can be stastically proved that the closer Jaccard distance to one, the closer the texts are.
+For example, we can set threshold value to 0.9.
+If Jaccard distance exceeds 0.9, then we conclude that two texts are nearly identical.
+
+
+The good thing about MinHash is that it is robust to minor modifications to the text.
+Web pages often contain some elements which become different when site is mirrored, such
+as current timestamp, domain name or manually added disclaimers.
+Just comparing texts character-by-character would not be enough.
+Another good thing about MinHash is that no matter how large input texts are,
+the fingperprints it computes are of fixed, short lengths.
+Fingprint consisting of 128 32-bit hashes is only one 512 bytes.
+
+
+However, even this "computationally cheap" variant is expensive in practice.
+In this article I will demonstrate efficient implementation of fingerprint generation and pair-wise
+computation of math:[J(t_1, t_2)].
+
+
+.Tokenizing text
+
+First task is tokenizing text into words.
+Usually high-quality text analysis requires NLP-based models.
+For example, it is desirable to treat "N.B.A." identically to "NBA" rather
+than consisting of three distinct tokens "N", "B", "A".
+Similarily, words "happy" and "happiness" are better to be stemmed to the same root "happi".
+Luckily, in similarity detection we don't need this level of complexity due
+to probabilistc nature of the algorithm, and can define a word simply
+as a sequence of adjacent alphanumerical characters.
+Remaining (non-alphanum) characters are the delimeters.
+
+
+Assuming that text is a sequence of 16-bit unicode code points,
+the number of alphanumerical characters is extermely large and they do not
+form adjacent region.
+In the image below, there is one pixel per every 16-bit code point.
+Red pixels denote alphanumerical code points.
+
+image::isalphanum.png[align=center]
+
+As such, the only reasonable way to store this information is in a lookup table with one bit
+per every code point.
+The table below was prebuilt in Java by probing code points with +Character.isLetterOrDigit(char c)+.
+
+
+[source,cpp]
+----
+__attribute__((aligned(64))) const uint64_t kAlphanumTable[] = {
+  0x03ff000000000000, 0x07fffffe07fffffe, 0x0420040000000000, 0xff7fffffff7fffff,
+  0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff,
+  0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff, 0x0000501f0003ffc3,
+  0x0000000000000000, 0x3cdf000000000000, 0xfffffffbffffd740, 0xffbfffffffffffff,
+  0xffffffffffffffff, 0xffffffffffffffff, 0xfffffffffffffc03, 0xffffffffffffffff,
+  0xfffe00ffffffffff, 0xfffffffe027fffff, 0x00000000000000ff, 0x000707ffffff0000,
+  /* ... */
+  0x3fffffffffffffff, 0xffffffffffff0000, 0xfffffffffffcffff, 0x0fff0000000000ff,
+  0x0000000000000000, 0xffdf000000000000, 0xffffffffffffffff, 0x1fffffffffffffff,
+  0x07fffffe03ff0000, 0xffffffc007fffffe, 0x7fffffffffffffff, 0x000000001cfcfcfc,
+};
+
+inline bool IsAlphanum(unsigned int c) {
+  return (kAlphanumTable[c/64] >> (c%64)) & 0x1;
+}
+----
+
+
+.Choosing hash function
+
+Before we continue forward, let's choose hash function.
+We want it to be relatively fast to compute but complex enough to be robust to permutations,
+e.g. "word1 word2 word3" and "word1 word3 word2" must be almost always hashed to different values.
+Thus, per-character XOR is a bad idea.
+Taking into consideration the above requirements, I chose
+https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function[FNV-1a].
+It is well studied, widely used in practice (glibc implements +std::hash<T>+ by using it),
+not very expensive (two multiplications per character), and also easy to code.
+
+
+[source,cpp]
+----
+uint32_t fnv1a(const uint16_t* str, int len) {
+  uint32_t hash = 2166136261;
+  for (size_t i = 0; i < len; i++) {
+    uint16_t c = str[i];
+    hash = hash ^ (c & 0xff);
+    hash = hash * 16777619;
+    hash = hash ^ (c >> 16);
+    hash = hash * 16777619;
+  }
+  return hash;
+}
+----
+
+
+.Generating shingles
+
+The first place where we can get major significatn performance gains/improvmenets is shingle generating algorithm.
+Below pseudocode displays naive implementation.
+It is implemented exactly as visualzed in the first image.
+First, text iss split into a vector of separate words.
+Next Just iterate over every sequence of three adjacent words, compute and emit hash.
+
+split into words
+for i 0 .. words.length():
+  hash = ...;
+  for j 0..2:
+    for int k = 0; words[i+j].lenth();
+      update_hash(hash, word[][]);
+  collector.collect(hash)
+    
+
+The first obvious thing that we would like to avoid is copying.
+It shouldn't be very hard to do since shingling is a type of streaming aglrotihgm,
+i.e. we need only to keep track on a window of three consecuteive words at a time.
+
+
+A bit more subtle way is that in the algorithm above we process every character
+multiple times.
+
+
+pipelineing
+tmplateinzing
+
+
+What we are woul like to achieve is to use every character only once.
+template is better since K  is small and allows for the compiler to unroll the loop.
+
+The optimization is possible because we can use pipelining to process only single character at a time
+and never return to it.
+
+We store K partially computed hashes.
+All hashes are simultaneously and inependeintly are updated when we read new alphanumeric character.
+When word is over, this means that head of the pipline is the hash for the last K words,
+head-1 is for the last K-1 words and so on.
+When non-alphanum character is encountered, we eject head of the pipleine and shift
+the remaining hashes.
+
+// image pipeline
+
+text.....
+         
+   hash0
+   hash1
+   hash2
+
+The optimization comes for at least two resons: every character is processed only once.
+Seconly, because there is not dpeenedncy between ccles of the hash update,
+compiler can unroll the loop, and the cpu OOO can execute it truly in parallel way.
+
+
+// advanced code (the main loop)
+
+// disassembler
+
+
+
+
+// speedup
+
+
+.Selecting smallest hashes
+
+This is the second major imporeenetn.
+
+
+Since this algorithm is quadratic, it can be troublesome.
+There is not much we can do with SSE.
+Better to stick to correct high-level algorithm.
+
+First of all, let's (mentally, on paper) try common algorithsm.
+If we knew that shingles are unique, we could use just heap (priority queue).
+Also we could use partial_sort.
+Partial_sort can be adapted to non-unique, but anyway it requires fully buffered,
+and we will try to avoid that.
+After a lot of epxerimenting, following solutions can to my mind:
+ 1. sorted vector. checking is lograithmic. insertion is slow.
+ 2. attempt to guard sorted vector with simple hash table with true positives:
+    this significatly reduces amount of time required to check
+ 3. prioarity_queue with classical hash table.
+
+Eventually soution that won is the following
+Hash table usess linear probing and doesn't support element-wise removal.
+
+Some of the implemented and versions are providded below with tests:
+
+// fully sorted (for ref)
+// table; stdset (for ref)
+// sorted list
+// sorted list with 4 slots table
+// heap with hash table
+
+
+
+
+// shingle distirbutions?
+
+
+//esstinally? effectively is a single shuffle operation + epiploge
+//however, must be very careful about bit ordering
+we can fuse 
+
+// summary of the timings
+// graph
+
+.Pair-wise computation
+
+TBD
+

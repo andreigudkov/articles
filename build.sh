@@ -21,6 +21,7 @@ modules="
   $root/tcp
   $root/thumbnail
   $root/codesearch
+  $root/minhash1
 "
 if [ -L $0 ]; then
   modules=$(readlink -f $PWD)
