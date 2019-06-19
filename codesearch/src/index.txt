@@ -106,7 +106,7 @@ In (hopefully) rare cases +sources.list+ lacks deb-src entries
 and there is no root access to fix it.
 Package source code can be still downloaded in a hard way by using web UI.
 Point you browser to https://packages.debian.org[packages.debian.org]
-(or https://packages.ubuntu.org[packages.ubuntu.org])
+(or https://packages.ubuntu.com[packages.ubuntu.com])
 and use search form.
 Eventually, you should come across package page that lists URL to the source code archive among other things:
 
