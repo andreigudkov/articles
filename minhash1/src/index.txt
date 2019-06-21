@@ -322,11 +322,11 @@ varying in size from 16KB to 540KB.
 
 [width=70%,cols="<,>,>,>",options=header]
 |=====
-|     |Time [s]  |MChars/s|Speedup
-|naive| 0.939594 | 52.7   | 1.0
-|pipeline + sort| 0.513581 | 96.3   | 1.8
-|pipeline + heap + unordered_set| 0.276099 | 179.2  | 3.4
-|pipeline + heap + custom htable| 0.177911 | 278.1  | 5.3
+|                                |Time [s]  |MChars/s |Speedup
+|naive                           | 0.939594 | 52.7    | 1.0
+|pipeline + sort                 | 0.513581 | 96.3    | 1.8
+|pipeline + unordered_set + heap | 0.276099 | 179.2   | 3.4
+|pipeline + custom htable + heap | 0.177911 | 278.1   | 5.3
 |=====
 
 First version is the most basic, reference implementation of everything.
