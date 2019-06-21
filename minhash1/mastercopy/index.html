@@ -113,12 +113,12 @@ Such type of MinHash is computationally fast to construct, but computation of si
 score is slow, in particularly when the goal is to find distances between one new document
 and all the documents from preexisting collection.
 This variation is suitable for ad-hoc similarity computation between a single pair of documents
-or between one document and all the documents from collection of small to moderate size.</p>
+or between one document and all the documents from the collection of moderate size.</p>
 </div>
 <div class="paragraph">
 <p>The workflow is the following: for every text you have,
-split it into sequence of words, then create a set of every triplet of adjacent words
-(every such triplet is called a <em>shingle</em>),
+split it into sequence of words, then create a set of every K-tuple of adjacent words
+(K=3 below; every such triplet is called a <em>shingle</em>),
 then hash these shingles, and finally select smallest unique N shingles.
 These N shingles become the fingerprint (MinHash) of the text.
 N is chosen typically from about 50 to a couple of hundreds
@@ -126,7 +126,7 @@ depending on median size of the text of the corpus.</p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="dataflow.png" alt="dataflow" width="100%">
+<img src="overview.png" alt="overview" width="100%">
 </div>
 </div>
 <div class="paragraph">
@@ -143,7 +143,8 @@ of their fingerprints:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>It can be stastically proved that the closer Jaccard distance to one, the closer the texts are.
+<p>It can be stastically proved that the closer Jaccard distance between two fingerprints to one,
+the closer Jaccard distance between two texts.
 For example, we can set threshold value to 0.9.
 If Jaccard distance exceeds 0.9, then we conclude that two texts are nearly identical.</p>
 </div>
@@ -154,7 +155,7 @@ as current timestamp, domain name or manually added disclaimers.
 Just comparing texts character-by-character would not be enough.
 Another good thing about MinHash is that no matter how large input texts are,
 the fingperprints it computes are of fixed, short lengths.
-Fingprint consisting of 128 32-bit hashes is only one 512 bytes.</p>
+Fingerprint consisting of 128 32-bit hashes is only one 512 bytes.</p>
 </div>
 <div class="paragraph">
 <p>However, even this "computationally cheap" variant is expensive in practice.
@@ -169,16 +170,16 @@ For example, it is desirable to treat "N.B.A." identically to "NBA" rather
 than consisting of three distinct tokens "N", "B", "A".
 Similarily, words "happy" and "happiness" are better to be stemmed to the same root "happi".
 Luckily, in similarity detection we don&#8217;t need this level of complexity due
-to probabilistc nature of the algorithm, and can define a word simply
-as a sequence of adjacent alphanumerical characters.
-Remaining (non-alphanum) characters are the delimeters.</p>
+to probabilistic nature of the algorithm, and can define a word simply
+as a sequence of adjacent alphanumeric characters.
+Remaining (non-alphanumic) characters are the delimeters.</p>
 </div>
 <div class="paragraph">
 <p>Assuming that text is a sequence of 16-bit unicode code points,
-the number of alphanumerical characters is extermely large and they do not
+the number of alphanumeric characters is large and, worse, they do not
 form adjacent region.
 In the image below, there is one pixel per every 16-bit code point.
-Red pixels denote alphanumerical code points.</p>
+Red pixels denote alphanumeric code points.</p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
@@ -196,9 +197,6 @@ The table below was prebuilt in Java by probing code points with <code>Character
   <span class="tok-mh">0x03ff000000000000</span><span class="tok-p">,</span> <span class="tok-mh">0x07fffffe07fffffe</span><span class="tok-p">,</span> <span class="tok-mh">0x0420040000000000</span><span class="tok-p">,</span> <span class="tok-mh">0xff7fffffff7fffff</span><span class="tok-p">,</span>
   <span class="tok-mh">0xffffffffffffffff</span><span class="tok-p">,</span> <span class="tok-mh">0xffffffffffffffff</span><span class="tok-p">,</span> <span class="tok-mh">0xffffffffffffffff</span><span class="tok-p">,</span> <span class="tok-mh">0xffffffffffffffff</span><span class="tok-p">,</span>
   <span class="tok-mh">0xffffffffffffffff</span><span class="tok-p">,</span> <span class="tok-mh">0xffffffffffffffff</span><span class="tok-p">,</span> <span class="tok-mh">0xffffffffffffffff</span><span class="tok-p">,</span> <span class="tok-mh">0x0000501f0003ffc3</span><span class="tok-p">,</span>
-  <span class="tok-mh">0x0000000000000000</span><span class="tok-p">,</span> <span class="tok-mh">0x3cdf000000000000</span><span class="tok-p">,</span> <span class="tok-mh">0xfffffffbffffd740</span><span class="tok-p">,</span> <span class="tok-mh">0xffbfffffffffffff</span><span class="tok-p">,</span>
-  <span class="tok-mh">0xffffffffffffffff</span><span class="tok-p">,</span> <span class="tok-mh">0xffffffffffffffff</span><span class="tok-p">,</span> <span class="tok-mh">0xfffffffffffffc03</span><span class="tok-p">,</span> <span class="tok-mh">0xffffffffffffffff</span><span class="tok-p">,</span>
-  <span class="tok-mh">0xfffe00ffffffffff</span><span class="tok-p">,</span> <span class="tok-mh">0xfffffffe027fffff</span><span class="tok-p">,</span> <span class="tok-mh">0x00000000000000ff</span><span class="tok-p">,</span> <span class="tok-mh">0x000707ffffff0000</span><span class="tok-p">,</span>
   <span class="tok-cm">/* ... */</span>
   <span class="tok-mh">0x3fffffffffffffff</span><span class="tok-p">,</span> <span class="tok-mh">0xffffffffffff0000</span><span class="tok-p">,</span> <span class="tok-mh">0xfffffffffffcffff</span><span class="tok-p">,</span> <span class="tok-mh">0x0fff0000000000ff</span><span class="tok-p">,</span>
   <span class="tok-mh">0x0000000000000000</span><span class="tok-p">,</span> <span class="tok-mh">0xffdf000000000000</span><span class="tok-p">,</span> <span class="tok-mh">0xffffffffffffffff</span><span class="tok-p">,</span> <span class="tok-mh">0x1fffffffffffffff</span><span class="tok-p">,</span>
@@ -214,12 +212,12 @@ The table below was prebuilt in Java by probing code points with <code>Character
 <div class="title">Choosing hash function</div>
 <p>Before we continue forward, let&#8217;s choose hash function.
 We want it to be relatively fast to compute but complex enough to be robust to permutations,
-e.g. "word1 word2 word3" and "word1 word3 word2" must be almost always hashed to different values.
+e.g. we want for "word1 word2 word3" and "word1 word3 word2" to be hashed to different values.
 Thus, per-character XOR is a bad idea.
 Taking into consideration the above requirements, I chose
 <a href="https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function">FNV-1a</a>.
 It is well studied, widely used in practice (glibc implements <code>std::hash&lt;T&gt;</code> by using it),
-not very expensive (two multiplications per character), and also easy to code.</p>
+not very expensive (two multiplications per 16-bit character), and also easy to code.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -238,95 +236,248 @@ not very expensive (two multiplications per character), and also easy to code.</
 </div>
 <div class="paragraph">
 <div class="title">Generating shingles</div>
-<p>The first place where we can get major significatn performance gains/improvmenets is shingle generating algorithm.
-Below pseudocode displays naive implementation.
-It is implemented exactly as visualzed in the first image.
-First, text iss split into a vector of separate words.
-Next Just iterate over every sequence of three adjacent words, compute and emit hash.</p>
+<p>First place where we can get significant gains in performance is shingle generation algorithm.
+Below pseudocode demonstrates naive implementation.
+It is implemented exactly as visualized in the very first image.
+First, we split text into an array of separate words.
+Next we are iterating over every sequence of K=3 adjacent words, compute and emit hash.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code>words[] = Tokenize(text)
+for i := 0 .. words.length()-3:
+  hash = InitHash()
+  for k := 0 .. 2:
+    for j := 0 .. words[i+k].length
+      hash = UpdateHash(hash, words[i+k][j])
+  Collect(hash)</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>split into words
-for i 0 .. words.length():
-  hash = &#8230;&#8203;;
-  for j 0..2:
-    for int k = 0; words[i+j].lenth();
-      update_hash(hash, word[][]);
-  collector.collect(hash)</p>
+<p>Noticeable issue is that a copy of input text is made into the words array.
+It shouldn&#8217;t be very hard to avoid copying because shingling is a type of streaming algorithm,
+i.e. we need only to keep track of a window of K=3 consecutive words at a time.</p>
 </div>
 <div class="paragraph">
-<p>The first obvious thing that we would like to avoid is copying.
-It shouldn&#8217;t be very hard to do since shingling is a type of streaming aglrotihgm,
-i.e. we need only to keep track on a window of three consecuteive words at a time.</p>
-</div>
-<div class="paragraph">
-<p>A bit more subtle way is that in the algorithm above we process every character
-multiple times.</p>
-</div>
-<div class="paragraph">
-<p>pipelineing
-tmplateinzing</p>
-</div>
-<div class="paragraph">
-<p>What we are woul like to achieve is to use every character only once.
-template is better since K  is small and allows for the compiler to unroll the loop.</p>
-</div>
-<div class="paragraph">
-<p>The optimization is possible because we can use pipelining to process only single character at a time
-and never return to it.</p>
-</div>
-<div class="paragraph">
-<p>We store K partially computed hashes.
-All hashes are simultaneously and inependeintly are updated when we read new alphanumeric character.
-When word is over, this means that head of the pipline is the hash for the last K words,
-head-1 is for the last K-1 words and so on.
-When non-alphanum character is encountered, we eject head of the pipleine and shift
+<p>But we can do even better by implementing pipeline.
+To do this, we are going to store K=3 partially computed hashes.
+All these hashes are updated every time we read new alphanumeric character.
+When the word is over, the head of the pipline is the full hash of the previous K words,
+next element after the head is the partial hash for the last K-1 words, and so on.
+So, when the word is over, we eject the head of the pipeline and shift
 the remaining hashes.</p>
 </div>
-<div class="paragraph">
-<p>text&#8230;&#8203;..</p>
-</div>
-<div class="literalblock">
+<div class="imageblock" style="text-align: center">
 <div class="content">
-<pre>hash0
-hash1
-hash2</pre>
+<img src="pipeline.png" alt="pipeline" width="80%">
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="cpp"><span class="tok-k">template</span><span class="tok-o">&lt;</span><span class="tok-kt">int</span> <span class="tok-n">K</span><span class="tok-o">&gt;</span> <span class="tok-c1">// shingle length in words, e.g. K=3</span>
+<span class="tok-k">const</span> <span class="tok-kt">uint16_t</span><span class="tok-o">*</span> <span class="tok-n">txt</span><span class="tok-p">;</span> <span class="tok-c1">// arg</span>
+<span class="tok-kt">int</span> <span class="tok-n">txt_length</span><span class="tok-p">;</span> <span class="tok-c1">// arg</span>
+<span class="tok-p">...</span>
+
+<span class="tok-c1">// main loop</span>
+<span class="tok-kt">size_t</span> <span class="tok-n">i</span> <span class="tok-o">=</span> <span class="tok-mi">0</span><span class="tok-p">;</span>
+<span class="tok-kt">uint32_t</span> <span class="tok-n">pipeline</span><span class="tok-p">[</span><span class="tok-n">K</span><span class="tok-p">];</span>
+<span class="tok-k">while</span> <span class="tok-p">(</span><span class="tok-n">i</span> <span class="tok-o">&lt;</span> <span class="tok-n">txt_length</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+  <span class="tok-c1">// process next word</span>
+  <span class="tok-k">while</span> <span class="tok-p">(</span><span class="tok-n">i</span> <span class="tok-o">&lt;</span> <span class="tok-n">txt_length</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-n">IsAlphanum</span><span class="tok-p">(</span><span class="tok-n">txt</span><span class="tok-p">[</span><span class="tok-n">i</span><span class="tok-p">]))</span> <span class="tok-p">{</span>
+    <span class="tok-kt">uint16_t</span> <span class="tok-n">c</span> <span class="tok-o">=</span> <span class="tok-n">txt</span><span class="tok-p">[</span><span class="tok-n">i</span><span class="tok-p">];</span>
+    <span class="tok-k">for</span> <span class="tok-p">(</span><span class="tok-kt">int</span> <span class="tok-n">k</span> <span class="tok-o">=</span> <span class="tok-mi">0</span><span class="tok-p">;</span> <span class="tok-n">k</span> <span class="tok-o">&lt;</span> <span class="tok-n">K</span><span class="tok-p">;</span> <span class="tok-n">k</span><span class="tok-o">++</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+      <span class="tok-n">pipeline</span><span class="tok-p">[</span><span class="tok-n">k</span><span class="tok-p">]</span> <span class="tok-o">=</span> <span class="tok-n">pipeline</span><span class="tok-p">[</span><span class="tok-n">k</span><span class="tok-p">]</span> <span class="tok-o">^</span> <span class="tok-p">(</span><span class="tok-n">c</span> <span class="tok-o">&amp;</span> <span class="tok-mh">0xff</span><span class="tok-p">);</span>
+      <span class="tok-n">pipeline</span><span class="tok-p">[</span><span class="tok-n">k</span><span class="tok-p">]</span> <span class="tok-o">=</span> <span class="tok-n">pipeline</span><span class="tok-p">[</span><span class="tok-n">k</span><span class="tok-p">]</span> <span class="tok-o">*</span> <span class="tok-mi">16777619</span><span class="tok-p">;</span>
+      <span class="tok-n">pipiline</span><span class="tok-p">[</span><span class="tok-n">k</span><span class="tok-p">]</span> <span class="tok-o">=</span> <span class="tok-n">pipeline</span><span class="tok-p">[</span><span class="tok-n">k</span><span class="tok-p">]</span> <span class="tok-o">^</span> <span class="tok-p">(</span><span class="tok-n">c</span> <span class="tok-o">&gt;&gt;</span> <span class="tok-mi">16</span><span class="tok-p">);</span>
+      <span class="tok-n">pipeline</span><span class="tok-p">[</span><span class="tok-n">k</span><span class="tok-p">]</span> <span class="tok-o">=</span> <span class="tok-n">pipeline</span><span class="tok-p">[</span><span class="tok-n">k</span><span class="tok-p">]</span> <span class="tok-o">*</span> <span class="tok-mi">16777619</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span>
+    <span class="tok-n">i</span><span class="tok-o">++</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
+
+  <span class="tok-c1">// collect head of the pipeline</span>
+  <span class="tok-n">Collect</span><span class="tok-p">(</span><span class="tok-n">pipeline</span><span class="tok-p">[</span><span class="tok-mi">0</span><span class="tok-p">]);</span>
+
+  <span class="tok-c1">// shift pipeline</span>
+  <span class="tok-k">for</span> <span class="tok-p">(</span><span class="tok-kt">int</span> <span class="tok-n">k</span> <span class="tok-o">=</span> <span class="tok-mi">0</span><span class="tok-p">;</span> <span class="tok-n">k</span> <span class="tok-o">&lt;</span> <span class="tok-n">K</span><span class="tok-o">-</span><span class="tok-mi">1</span><span class="tok-p">;</span> <span class="tok-n">k</span><span class="tok-o">++</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-n">pipeline</span><span class="tok-p">[</span><span class="tok-n">k</span><span class="tok-p">]</span> <span class="tok-o">=</span> <span class="tok-n">pipeline</span><span class="tok-p">[</span><span class="tok-n">k</span><span class="tok-o">+</span><span class="tok-mi">1</span><span class="tok-p">];</span>
+  <span class="tok-p">}</span>
+  <span class="tok-n">pipeline</span><span class="tok-p">[</span><span class="tok-n">K</span><span class="tok-o">-</span><span class="tok-mi">1</span><span class="tok-p">]</span> <span class="tok-o">=</span> <span class="tok-mi">2166136261</span><span class="tok-p">;</span>
+
+  <span class="tok-c1">// skip delimiter</span>
+  <span class="tok-k">while</span> <span class="tok-p">(</span><span class="tok-n">i</span> <span class="tok-o">&lt;</span> <span class="tok-n">txt_length</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-o">!</span><span class="tok-n">IsAlphanum</span><span class="tok-p">(</span><span class="tok-n">txt</span><span class="tok-p">[</span><span class="tok-n">i</span><span class="tok-p">]))</span> <span class="tok-p">{</span>
+    <span class="tok-n">i</span><span class="tok-o">++</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
+<span class="tok-p">}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The optimization comes for at least two resons: every character is processed only once.
-Seconly, because there is not dpeenedncy between ccles of the hash update,
-compiler can unroll the loop, and the cpu OOO can execute it truly in parallel way.</p>
+<p>It is important that K is known at compile time and is not a runtime argument.
+Because K is small (K=3 in our case), compiler unrolls the loop:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="asm"><span class="tok-nf">xorl</span>  <span class="tok-o">%</span><span class="tok-nb">edx</span><span class="tok-p">,</span> <span class="tok-o">%</span><span class="tok-nb">eax</span>
+<span class="tok-nf">xorl</span>  <span class="tok-o">%</span><span class="tok-nb">edx</span><span class="tok-p">,</span> <span class="tok-o">%</span><span class="tok-nb">r13d</span>
+<span class="tok-nf">xorl</span>  <span class="tok-o">%</span><span class="tok-nb">r12d</span><span class="tok-p">,</span> <span class="tok-o">%</span><span class="tok-nb">edx</span>
+<span class="tok-nf">imull</span> <span class="tok-kc">$</span><span class="tok-mi">637696617</span><span class="tok-p">,</span> <span class="tok-o">%</span><span class="tok-nb">eax</span><span class="tok-p">,</span> <span class="tok-o">%</span><span class="tok-nb">eax</span>
+<span class="tok-nf">imull</span> <span class="tok-kc">$</span><span class="tok-mi">637696617</span><span class="tok-p">,</span> <span class="tok-o">%</span><span class="tok-nb">r13d</span><span class="tok-p">,</span> <span class="tok-o">%</span><span class="tok-nb">r13d</span>
+<span class="tok-nf">imull</span> <span class="tok-kc">$</span><span class="tok-mi">637696617</span><span class="tok-p">,</span> <span class="tok-o">%</span><span class="tok-nb">edx</span><span class="tok-p">,</span> <span class="tok-o">%</span><span class="tok-nb">r12d</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Unrolling has obvious benefit of avoiding conditional check at every iteration.
+But more important is that because iterations are independent from one another,
+CPU can execute instructions in parallel.
+This leads to significant speedup.</p>
 </div>
 <div class="paragraph">
 <div class="title">Selecting smallest hashes</div>
-<p>This is the second major imporeenetn.</p>
+<p>The most naive way would be to collect all hashes into a vector, sort them and then return smallest N hashes.
+Experienced algorithmist may know a way to do this without sorting all hashes, by using <code>std::partial_sort</code>.
+Its idea is similar to quick sort: at every step we choose pivot and exchange
+elements so that in the end array consists of two groups of elements:
+elements which are less or equal to pivot go to the beginning, while elements larger than pivot
+go into the end of the array.
+We repeat the process multiple times always by using left group.
+Right group is of no importance and is ignored.</p>
 </div>
 <div class="paragraph">
-<p>Since this algorithm is quadratic, it can be troublesome.
-There is not much we can do with SSE.
-Better to stick to correct high-level algorithm.</p>
+<p>But <code>std::partial_sort</code> still implies that we need to collect all hashes to somewhere.
+This may be unfeasable for large texts.
+We would like to design streaming algorithm with O(N) space.
+This leads to the idea of storing N smallest hash values in sorted array.
+As such, we can check the presense of an element in O(log N).
+Inserting is more expensive because it requires to shift N/2 elements on average.</p>
 </div>
 <div class="paragraph">
-<p>First of all, let&#8217;s (mentally, on paper) try common algorithsm.
-If we knew that shingles are unique, we could use just heap (priority queue).
-Also we could use partial_sort.
-Partial_sort can be adapted to non-unique, but anyway it requires fully buffered,
-and we will try to avoid that.
-After a lot of epxerimenting, following solutions can to my mind:
- 1. sorted vector. checking is lograithmic. insertion is slow.
- 2. attempt to guard sorted vector with simple hash table with true positives:
-    this significatly reduces amount of time required to check
- 3. prioarity_queue with classical hash table.</p>
+<p>Even better idea is to use heap.
+It would make insert really fast.
+But the trouble is that our values are not unique,
+and checking for element existance in a heap is O(N) time.
+To avoid such expensive check, in addition to heap we can maintain
+a hash table that would guard heap from receiving duplicate elements.
+So, now the algorithm becomes like this: for every incoming hash,
+check that it is smaller than <code>heap.peek()</code>,
+check that it is not present in the hash table,
+and if both conditions are satisfied, then update both heap and hash table by removing
+<code>heap.peek()</code> element and inserting hash at hand.</p>
 </div>
 <div class="paragraph">
-<p>Eventually soution that won is the following
-Hash table usess linear probing and doesn&#8217;t support element-wise removal.</p>
+<p>This version is asymptocitally optimal, but it still has some problems related to the nature of hash table.
+Classical hash table uses dynamical memory allocations, linked lists and it also hashes value,
+even though our elements are already high quality hashes.
+What if we could replace classical hash table with a simpler one?
+We know the number of elements we are going to store in it in advance and also we have
+copy of all elements in a heap, so we have something to offer in return.
+After some time spent on thinking and benchmarking, this leads to the following solution.
+Classical hash table is replaced with manually created hash table with the following properties:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>It is just an array of 4N uint32_t slots.
+No more than 2N elements are going to be stored at any given time to ensure search/insert in O(1) time.</p>
+</li>
+<li>
+<p>Special uint32_t value denotes empty slot.</p>
+</li>
+<li>
+<p>Elements are inserted by using linear probing: if the desired slot is occupied,
+we scan table below until we find free slot.
+This is safe because no more than 2N elements will ever be stored there.</p>
+</li>
+</ol>
 </div>
 <div class="paragraph">
-<p>Some of the implemented and versions are providded below with tests:</p>
+<p>The tradeoff is that such implementation doesn&#8217;t allow deletions.
+But this is not a problem.
+As soon as table becomes 2N full, we just remove all elements from the table and repopulate it from the heap.
+As such, load factor of the table oscillates betwen 0.25 and 0.5.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="dataflow.png" alt="dataflow" width="100%">
+</div>
 </div>
 <div class="paragraph">
-<p>we can fuse</p>
+<p>Below is the pseudo-code for the main loop:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code>def Collect(h):
+  if h &lt; heap[0]:
+    if !htable.contains(h):
+      htable.insert(h)
+      heap.pop(heap)
+      heap.push(heap, h)
+
+      if htable.size() &gt;= N*2:
+        htable.clear()
+        for i := 0 .. heap.size()-1:
+          htable.insert(heap[i])</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the result we have a solution with O(1) time to check whether an element exists,
+and with O(log N) insertion time.
+Occasionally hash table must be repopulated, but this happens rarely and thus
+its contribution to the total time is negligible.</p>
+</div>
+<div class="paragraph">
+<div class="title">Evaluation</div>
+<p>Test collection consists of 1000 long articles from wikipedia,
+varying in size from 16KB to 540KB.</p>
+</div>
+<table class="tableblock frame-all grid-all" style="width: 70%;">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-right valign-top">Time [s]</th>
+<th class="tableblock halign-right valign-top">MChars/s</th>
+<th class="tableblock halign-right valign-top">Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">naive</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.939594</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">52.7</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">1.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pipeline + sort</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.513581</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">96.3</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">1.8</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pipeline + heap + unordered_set</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.276099</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">179.2</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">3.4</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pipeline + heap + custom htable</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.177911</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">278.1</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">5.3</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>First version is the most basic, reference implementation of everything.
+Second version uses pipelined shingle generation, but still collects and sorts all hashes to find N smallest.
+Third version uses heap to find N smallest hashes, guarded by <code>std::unordered_set&lt;uint32_t&gt;</code>.
+Final version is the modification where unordered set is replaced with custom hash table.
+It reaches throughput of 278M characters per second&#8201;&#8212;&#8201;more than enough not to be a bottleneck
+in the data pipeline.</p>
 </div>
 <div class="paragraph">
 <div class="title">Pair-wise computation</div>
@@ -335,7 +486,7 @@ Hash table usess linear probing and doesn&#8217;t support element-wise removal.<
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-06-19 16:37:08 UTC
+Last updated 2019-06-21 15:15:43 UTC
 </div>
 </div>
 </body>

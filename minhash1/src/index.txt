@@ -26,18 +26,18 @@ Such type of MinHash is computationally fast to construct, but computation of si
 score is slow, in particularly when the goal is to find distances between one new document
 and all the documents from preexisting collection.
 This variation is suitable for ad-hoc similarity computation between a single pair of documents
-or between one document and all the documents from collection of small to moderate size.
+or between one document and all the documents from the collection of moderate size.
 
 
 The workflow is the following: for every text you have,
-split it into sequence of words, then create a set of every triplet of adjacent words
-(every such triplet is called a _shingle_),
+split it into sequence of words, then create a set of every K-tuple of adjacent words
+(K=3 below; every such triplet is called a _shingle_),
 then hash these shingles, and finally select smallest unique N shingles.
 These N shingles become the fingerprint (MinHash) of the text.
 N is chosen typically from about 50 to a couple of hundreds
 depending on median size of the text of the corpus.
 
-image::dataflow.png[width=100%,align=center]
+image::overview.png[width=100%,align=center]
 
 Once fingerprints are generated for every text,
 we can compute similarity for any pair of texts by computing Jaccard distance
@@ -51,7 +51,8 @@ J(t_1, t_2) = \frac
 \in \left [ 0.0\,..\,1.0 \right ]
 ----
 
-It can be stastically proved that the closer Jaccard distance to one, the closer the texts are.
+It can be stastically proved that the closer Jaccard distance between two fingerprints to one,
+the closer Jaccard distance between two texts.
 For example, we can set threshold value to 0.9.
 If Jaccard distance exceeds 0.9, then we conclude that two texts are nearly identical.
 
@@ -62,7 +63,7 @@ as current timestamp, domain name or manually added disclaimers.
 Just comparing texts character-by-character would not be enough.
 Another good thing about MinHash is that no matter how large input texts are,
 the fingperprints it computes are of fixed, short lengths.
-Fingprint consisting of 128 32-bit hashes is only one 512 bytes.
+Fingerprint consisting of 128 32-bit hashes is only one 512 bytes.
 
 
 However, even this "computationally cheap" variant is expensive in practice.
@@ -78,16 +79,17 @@ For example, it is desirable to treat "N.B.A." identically to "NBA" rather
 than consisting of three distinct tokens "N", "B", "A".
 Similarily, words "happy" and "happiness" are better to be stemmed to the same root "happi".
 Luckily, in similarity detection we don't need this level of complexity due
-to probabilistc nature of the algorithm, and can define a word simply
-as a sequence of adjacent alphanumerical characters.
-Remaining (non-alphanum) characters are the delimeters.
+to probabilistic nature of the algorithm, and can define a word simply
+as a sequence of adjacent alphanumeric characters.
+Remaining (non-alphanumic) characters are the delimeters.
 
 
 Assuming that text is a sequence of 16-bit unicode code points,
-the number of alphanumerical characters is extermely large and they do not
+the number of alphanumeric characters is large and, worse, they do not
 form adjacent region.
 In the image below, there is one pixel per every 16-bit code point.
-Red pixels denote alphanumerical code points.
+Red pixels denote alphanumeric code points.
+
 
 image::isalphanum.png[align=center]
 
@@ -102,9 +104,6 @@ __attribute__((aligned(64))) const uint64_t kAlphanumTable[] = {
   0x03ff000000000000, 0x07fffffe07fffffe, 0x0420040000000000, 0xff7fffffff7fffff,
   0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff,
   0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff, 0x0000501f0003ffc3,
-  0x0000000000000000, 0x3cdf000000000000, 0xfffffffbffffd740, 0xffbfffffffffffff,
-  0xffffffffffffffff, 0xffffffffffffffff, 0xfffffffffffffc03, 0xffffffffffffffff,
-  0xfffe00ffffffffff, 0xfffffffe027fffff, 0x00000000000000ff, 0x000707ffffff0000,
   /* ... */
   0x3fffffffffffffff, 0xffffffffffff0000, 0xfffffffffffcffff, 0x0fff0000000000ff,
   0x0000000000000000, 0xffdf000000000000, 0xffffffffffffffff, 0x1fffffffffffffff,
@@ -121,12 +120,12 @@ inline bool IsAlphanum(unsigned int c) {
 
 Before we continue forward, let's choose hash function.
 We want it to be relatively fast to compute but complex enough to be robust to permutations,
-e.g. "word1 word2 word3" and "word1 word3 word2" must be almost always hashed to different values.
+e.g. we want for "word1 word2 word3" and "word1 word3 word2" to be hashed to different values.
 Thus, per-character XOR is a bad idea.
 Taking into consideration the above requirements, I chose
 https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function[FNV-1a].
 It is well studied, widely used in practice (glibc implements +std::hash<T>+ by using it),
-not very expensive (two multiplications per character), and also easy to code.
+not very expensive (two multiplications per 16-bit character), and also easy to code.
 
 
 [source,cpp]
@@ -147,113 +146,195 @@ uint32_t fnv1a(const uint16_t* str, int len) {
 
 .Generating shingles
 
-The first place where we can get major significatn performance gains/improvmenets is shingle generating algorithm.
-Below pseudocode displays naive implementation.
-It is implemented exactly as visualzed in the first image.
-First, text iss split into a vector of separate words.
-Next Just iterate over every sequence of three adjacent words, compute and emit hash.
+First place where we can get significant gains in performance is shingle generation algorithm.
+Below pseudocode demonstrates naive implementation.
+It is implemented exactly as visualized in the very first image.
+First, we split text into an array of separate words.
+Next we are iterating over every sequence of K=3 adjacent words, compute and emit hash.
 
-split into words
-for i 0 .. words.length():
-  hash = ...;
-  for j 0..2:
-    for int k = 0; words[i+j].lenth();
-      update_hash(hash, word[][]);
-  collector.collect(hash)
+[source]
+----
+words[] = Tokenize(text)
+for i := 0 .. words.length()-3:
+  hash = InitHash()
+  for k := 0 .. 2:
+    for j := 0 .. words[i+k].length
+      hash = UpdateHash(hash, words[i+k][j])
+  Collect(hash)
+----
     
 
-The first obvious thing that we would like to avoid is copying.
-It shouldn't be very hard to do since shingling is a type of streaming aglrotihgm,
-i.e. we need only to keep track on a window of three consecuteive words at a time.
+Noticeable issue is that a copy of input text is made into the words array.
+It shouldn't be very hard to avoid copying because shingling is a type of streaming algorithm,
+i.e. we need only to keep track of a window of K=3 consecutive words at a time.
 
-
-A bit more subtle way is that in the algorithm above we process every character
-multiple times.
-
-
-pipelineing
-tmplateinzing
-
-
-What we are woul like to achieve is to use every character only once.
-template is better since K  is small and allows for the compiler to unroll the loop.
-
-The optimization is possible because we can use pipelining to process only single character at a time
-and never return to it.
-
-We store K partially computed hashes.
-All hashes are simultaneously and inependeintly are updated when we read new alphanumeric character.
-When word is over, this means that head of the pipline is the hash for the last K words,
-head-1 is for the last K-1 words and so on.
-When non-alphanum character is encountered, we eject head of the pipleine and shift
+But we can do even better by implementing pipeline.
+To do this, we are going to store K=3 partially computed hashes.
+All these hashes are updated every time we read new alphanumeric character.
+When the word is over, the head of the pipline is the full hash of the previous K words,
+next element after the head is the partial hash for the last K-1 words, and so on.
+So, when the word is over, we eject the head of the pipeline and shift
 the remaining hashes.
 
-// image pipeline
+image::pipeline.png[width=80%,align=center]
 
-text.....
-         
-   hash0
-   hash1
-   hash2
+[source,cpp]
+----
+template<int K> // shingle length in words, e.g. K=3
+const uint16_t* txt; // arg
+int txt_length; // arg
+...
 
-The optimization comes for at least two resons: every character is processed only once.
-Seconly, because there is not dpeenedncy between ccles of the hash update,
-compiler can unroll the loop, and the cpu OOO can execute it truly in parallel way.
+// main loop
+size_t i = 0;
+uint32_t pipeline[K];
+while (i < txt_length) {
+  // process next word
+  while (i < txt_length && IsAlphanum(txt[i])) {
+    uint16_t c = txt[i];
+    for (int k = 0; k < K; k++) {
+      pipeline[k] = pipeline[k] ^ (c & 0xff);
+      pipeline[k] = pipeline[k] * 16777619;
+      pipiline[k] = pipeline[k] ^ (c >> 16);
+      pipeline[k] = pipeline[k] * 16777619;
+    }
+    i++;
+  }
+
+  // collect head of the pipeline
+  Collect(pipeline[0]);
+
+  // shift pipeline
+  for (int k = 0; k < K-1; k++) {
+    pipeline[k] = pipeline[k+1];
+  }
+  pipeline[K-1] = 2166136261;
+
+  // skip delimiter
+  while (i < txt_length && !IsAlphanum(txt[i])) {
+    i++;
+  }
+}
+----
 
 
-// advanced code (the main loop)
+It is important that K is known at compile time and is not a runtime argument.
+Because K is small (K=3 in our case), compiler unrolls the loop:
 
-// disassembler
+[source,asm]
+----
+xorl  %edx, %eax
+xorl  %edx, %r13d 
+xorl  %r12d, %edx
+imull $637696617, %eax, %eax
+imull $637696617, %r13d, %r13d 
+imull $637696617, %edx, %r12d 
+----
 
-
-
-
-// speedup
+Unrolling has obvious benefit of avoiding conditional check at every iteration.
+But more important is that because iterations are independent from one another,
+CPU can execute instructions in parallel.
+This leads to significant speedup.
 
 
 .Selecting smallest hashes
 
-This is the second major imporeenetn.
+The most naive way would be to collect all hashes into a vector, sort them and then return smallest N hashes.
+Experienced algorithmist may know a way to do this without sorting all hashes, by using +std::partial_sort+.
+Its idea is similar to quick sort: at every step we choose pivot and exchange
+elements so that in the end array consists of two groups of elements:
+elements which are less or equal to pivot go to the beginning, while elements larger than pivot
+go into the end of the array.
+We repeat the process multiple times always by using left group.
+Right group is of no importance and is ignored.
 
 
-Since this algorithm is quadratic, it can be troublesome.
-There is not much we can do with SSE.
-Better to stick to correct high-level algorithm.
-
-First of all, let's (mentally, on paper) try common algorithsm.
-If we knew that shingles are unique, we could use just heap (priority queue).
-Also we could use partial_sort.
-Partial_sort can be adapted to non-unique, but anyway it requires fully buffered,
-and we will try to avoid that.
-After a lot of epxerimenting, following solutions can to my mind:
- 1. sorted vector. checking is lograithmic. insertion is slow.
- 2. attempt to guard sorted vector with simple hash table with true positives:
-    this significatly reduces amount of time required to check
- 3. prioarity_queue with classical hash table.
-
-Eventually soution that won is the following
-Hash table usess linear probing and doesn't support element-wise removal.
-
-Some of the implemented and versions are providded below with tests:
-
-// fully sorted (for ref)
-// table; stdset (for ref)
-// sorted list
-// sorted list with 4 slots table
-// heap with hash table
+But +std::partial_sort+ still implies that we need to collect all hashes to somewhere.
+This may be unfeasable for large texts.
+We would like to design streaming algorithm with O(N) space.
+This leads to the idea of storing N smallest hash values in sorted array.
+As such, we can check the presense of an element in O(log N).
+Inserting is more expensive because it requires to shift N/2 elements on average.
 
 
+Even better idea is to use heap.
+It would make insert really fast.
+But the trouble is that our values are not unique,
+and checking for element existance in a heap is O(N) time.
+To avoid such expensive check, in addition to heap we can maintain
+a hash table that would guard heap from receiving duplicate elements.
+So, now the algorithm becomes like this: for every incoming hash,
+check that it is smaller than +heap.peek()+,
+check that it is not present in the hash table, 
+and if both conditions are satisfied, then update both heap and hash table by removing
++heap.peek()+ element and inserting hash at hand.
 
 
-// shingle distirbutions?
+This version is asymptocitally optimal, but it still has some problems related to the nature of hash table.
+Classical hash table uses dynamical memory allocations, linked lists and it also hashes value,
+even though our elements are already high quality hashes.
+What if we could replace classical hash table with a simpler one?
+We know the number of elements we are going to store in it in advance and also we have
+copy of all elements in a heap, so we have something to offer in return.
+After some time spent on thinking and benchmarking, this leads to the following solution.
+Classical hash table is replaced with manually created hash table with the following properties:
+
+ 1. It is just an array of 4N uint32_t slots.
+    No more than 2N elements are going to be stored at any given time to ensure search/insert in O(1) time.
+ 2. Special uint32_t value denotes empty slot.
+ 3. Elements are inserted by using linear probing: if the desired slot is occupied,
+    we scan table below until we find free slot.
+    This is safe because no more than 2N elements will ever be stored there.
+
+The tradeoff is that such implementation doesn't allow deletions.
+But this is not a problem.
+As soon as table becomes 2N full, we just remove all elements from the table and repopulate it from the heap. 
+As such, load factor of the table oscillates betwen 0.25 and 0.5.
+
+image::dataflow.png[width=100%,align=center]
+
+Below is the pseudo-code for the main loop:
+[source]
+----
+def Collect(h):
+  if h < heap[0]:
+    if !htable.contains(h):
+      htable.insert(h)
+      heap.pop(heap)
+      heap.push(heap, h)
+
+      if htable.size() >= N*2:
+        htable.clear()
+        for i := 0 .. heap.size()-1:
+          htable.insert(heap[i])
+----
+
+In the result we have a solution with O(1) time to check whether an element exists,
+and with O(log N) insertion time.
+Occasionally hash table must be repopulated, but this happens rarely and thus 
+its contribution to the total time is negligible.
 
 
-//esstinally? effectively is a single shuffle operation + epiploge
-//however, must be very careful about bit ordering
-we can fuse 
+.Evaluation
 
-// summary of the timings
-// graph
+Test collection consists of 1000 long articles from wikipedia,
+varying in size from 16KB to 540KB.
+
+[width=70%,cols="<,>,>,>",options=header]
+|=====
+|     |Time [s]  |MChars/s|Speedup
+|naive| 0.939594 | 52.7   | 1.0
+|pipeline + sort| 0.513581 | 96.3   | 1.8
+|pipeline + heap + unordered_set| 0.276099 | 179.2  | 3.4
+|pipeline + heap + custom htable| 0.177911 | 278.1  | 5.3
+|=====
+
+First version is the most basic, reference implementation of everything.
+Second version uses pipelined shingle generation, but still collects and sorts all hashes to find N smallest.
+Third version uses heap to find N smallest hashes, guarded by +std::unordered_set<uint32_t>+.
+Final version is the modification where unordered set is replaced with custom hash table.
+It reaches throughput of 278M characters per second -- more than enough not to be a bottleneck
+in the data pipeline.
 
 .Pair-wise computation
 
