@@ -381,7 +381,7 @@ The problem is that in practice it is usually required to solve one of the follo
  * Given a collection of documents, find all pairs of documents with Jaccard score &ge; threshold
    (clusterization).
 
-Both algorithms are very expensive due large number of Jaccard similarity score computations.
+Both algorithms are very expensive due to large number of Jaccard similarity score computations.
 For example in case of clusterization, if we have 10K documents, it would be necessary to
 compute Jaccard score ~50M times.
 So, it is crucial to optimize the above algorithm.
@@ -499,7 +499,7 @@ of two sorted arrays.
 Alas, +pcmpesmtrm+ works natively only with 8- and 16-bit elements,
 while shingle hashes are 32 bit long.
 If they were 8 or 16 bits, we could just use the code from the article verbatim.
-But because our elements 32 bits, we can use this instruction only as a prefilter:
+But because our elements are 32 bit long, we can use this instruction only as a prefilter:
 we treat every 32-bit hash as a sequence of two 16 bit elements.
 If the instruction returns non-zero mask (some of the 16-bit elements are equal),
 this doesn't prove that there are equal 32-bit elements.
