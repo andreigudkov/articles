@@ -600,5 +600,6 @@ Using the optimized version will allow us to process a collection of ~740K docum
 For larger collections it may be suitable to use MinHash version with multiple hash functions.
 I will describe it later in the next article.
 
-//TODO source code
+.Sources
+C++ source code is located at https://github.com/andreigudkov/articles/[github].
 
