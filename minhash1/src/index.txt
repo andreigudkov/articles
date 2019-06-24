@@ -14,7 +14,7 @@ First of all, it significantly reduces cost of maintaining search engine.
 Search engines typically index contents of only the primary web site (highestly ranked)
 and ignore all its mirrors.
 Secondly, mirrors to well-known sites often indicate phishing,
-which raises red flags and requires manual review from security team.
+which raises red flags for security team.
 Another application of MinHash is plagiarism detection.
 Universities and scientific magazines are interested to automatically recognize
 copypasted papers and thesises.
@@ -23,24 +23,24 @@ copypasted papers and thesises.
 MinHash algorithm has a number of variations.
 In this article I will focus on the MinHash variation that uses single hash function.
 Such type of MinHash is computationally fast to construct, but computation of similarity
-score is slow, in particularly when the goal is to find distances between one new document
-and all the documents from preexisting collection.
-This variation is suitable for ad-hoc similarity computation between a single pair of documents
-or between one document and all the documents from the collection of moderate size.
+score between a pair of documents using their MinHashes is slow.
+This limits application of this variation of MinHash to the collections of documents of small
+to moderate sizes.
 
 
-The workflow is the following: for every text you have,
+The high-level workflow is the following: for every text you have,
 split it into sequence of words, then create a set of every K-tuple of adjacent words
-(K=3 below; every such triplet is called a _shingle_),
-then hash these shingles, and finally select smallest unique N shingles.
+(I will use K=3 below; every such triplet is called a _shingle_),
+then hash these shingles into 32-bit hashes,
+and finally select smallest unique N shingles.
 These N shingles become the fingerprint (MinHash) of the text.
 N is chosen typically from about 50 to a couple of hundreds
-depending on median size of the text of the corpus.
+depending on the median size of the text of the collection.
 
 image::overview.png[width=100%,align=center]
 
 Once fingerprints are generated for every text,
-we can compute similarity for any pair of texts by computing Jaccard distance
+we can compute similarity of any pair of texts by computing their Jaccard score
 of their fingerprints:
 
 [math,align=center]
@@ -51,19 +51,21 @@ J(t_1, t_2) = \frac
 \in \left [ 0.0\,..\,1.0 \right ]
 ----
 
-It can be stastically proved that the closer Jaccard distance between two fingerprints to one,
-the closer Jaccard distance between two texts.
-For example, we can set threshold value to 0.9.
-If Jaccard distance exceeds 0.9, then we conclude that two texts are nearly identical.
+It can be proved that there is correlation between closeness of two texts and their similarity score math:[J(t_1,t_2)].
+For any pair of documents, the closer Jaccard score between their fingerprints to one,
+the closer Jaccard score between their full sets of shingles to one,
+and the closer the texts themselves are.
+For example, we can set threshold value to 0.8.
+If Jaccard score exceeds 0.8, then we conclude that two texts are nearly identical.
 
 
 The good thing about MinHash is that it is robust to minor modifications to the text.
-Web pages often contain some elements which become different when site is mirrored, such
-as current timestamp, domain name or manually added disclaimers.
+For example, web pages often contain some elements which become different when site is mirrored,
+such as current timestamp, domain name or manually added disclaimers.
 Just comparing texts character-by-character would not be enough.
 Another good thing about MinHash is that no matter how large input texts are,
 the fingperprints it computes are of fixed, short lengths.
-Fingerprint consisting of 128 32-bit hashes is only one 512 bytes.
+Fingerprint consisting of 128 32-bit hashes is only 512 bytes.
 
 
 However, even this "computationally cheap" variant is expensive in practice.
@@ -77,11 +79,11 @@ First task is tokenizing text into words.
 Usually high-quality text analysis requires NLP-based models.
 For example, it is desirable to treat "N.B.A." identically to "NBA" rather
 than consisting of three distinct tokens "N", "B", "A".
-Similarily, words "happy" and "happiness" are better to be stemmed to the same root "happi".
+Similarily, words "happy" and "happiness" are usually stemmed to the same root "happi".
 Luckily, in similarity detection we don't need this level of complexity due
 to probabilistic nature of the algorithm, and can define a word simply
 as a sequence of adjacent alphanumeric characters.
-Remaining (non-alphanumic) characters are the delimeters.
+Remaining (non-alphanumeric) characters are the delimeters.
 
 
 Assuming that text is a sequence of 16-bit unicode code points,
@@ -93,7 +95,7 @@ Red pixels denote alphanumeric code points.
 
 image::isalphanum.png[align=center]
 
-As such, the only reasonable way to store this information is in a lookup table with one bit
+The only reasonable way to store this information is in a lookup table with one bit
 per every code point.
 The table below was prebuilt in Java by probing code points with +Character.isLetterOrDigit(char c)+.
 
@@ -166,14 +168,14 @@ for i := 0 .. words.length()-3:
 
 Noticeable issue is that a copy of input text is made into the words array.
 It shouldn't be very hard to avoid copying because shingling is a type of streaming algorithm,
-i.e. we need only to keep track of a window of K=3 consecutive words at a time.
+i.e. we need only to keep track of a sliding window of K=3 consecutive words at a time.
 
 But we can do even better by implementing pipeline.
 To do this, we are going to store K=3 partially computed hashes.
 All these hashes are updated every time we read new alphanumeric character.
 When the word is over, the head of the pipline is the full hash of the previous K words,
 next element after the head is the partial hash for the last K-1 words, and so on.
-So, when the word is over, we eject the head of the pipeline and shift
+When the word is over, we eject the head of the pipeline and shift
 the remaining hashes.
 
 image::pipeline.png[width=80%,align=center]
@@ -239,17 +241,17 @@ This leads to significant speedup.
 
 .Selecting smallest hashes
 
-The most naive way would be to collect all hashes into a vector, sort them and then return smallest N hashes.
+The most simple way would be to collect all hashes into a vector, sort them and then return smallest N hashes.
 Experienced algorithmist may know a way to do this without sorting all hashes, by using +std::partial_sort+.
 Its idea is similar to quick sort: at every step we choose pivot and exchange
 elements so that in the end array consists of two groups of elements:
 elements which are less or equal to pivot go to the beginning, while elements larger than pivot
-go into the end of the array.
+go to the end of the array.
 We repeat the process multiple times always by using left group.
 Right group is of no importance and is ignored.
 
 
-But +std::partial_sort+ still implies that we need to collect all hashes to somewhere.
+But +std::partial_sort+ still implies that we need to collect all hashes somewhere.
 This may be unfeasable for large texts.
 We would like to design streaming algorithm with O(N) space.
 This leads to the idea of storing N smallest hash values in sorted array.
@@ -267,12 +269,12 @@ So, now the algorithm becomes like this: for every incoming hash,
 check that it is smaller than +heap.peek()+,
 check that it is not present in the hash table, 
 and if both conditions are satisfied, then update both heap and hash table by removing
-+heap.peek()+ element and inserting hash at hand.
++heap.peek()+ element and inserting the incoming hash.
 
 
 This version is asymptocitally optimal, but it still has some problems related to the nature of hash table.
-Classical hash table uses dynamical memory allocations, linked lists and it also hashes value,
-even though our elements are already high quality hashes.
+Classical hash table uses dynamical memory allocations, linked lists and it also hashes values,
+even though our elements are already high quality hashes themselves.
 What if we could replace classical hash table with a simpler one?
 We know the number of elements we are going to store in it in advance and also we have
 copy of all elements in a heap, so we have something to offer in return.
@@ -317,7 +319,7 @@ its contribution to the total time is negligible.
 
 .Evaluation
 
-Test collection consists of 1000 long articles from wikipedia,
+Test collection consists of 1000 long articles from Wikipedia,
 varying in size from 16KB to 540KB.
 
 [width=70%,cols="<,>,>,>",options=header]
@@ -329,14 +331,274 @@ varying in size from 16KB to 540KB.
 |pipeline + custom htable + heap | 0.177911 | 278.1   | 5.3
 |=====
 
-First version is the most basic, reference implementation of everything.
+First version is the naive, reference implementation of everything.
 Second version uses pipelined shingle generation, but still collects and sorts all hashes to find N smallest.
 Third version uses heap to find N smallest hashes, guarded by +std::unordered_set<uint32_t>+.
 Final version is the modification where unordered set is replaced with custom hash table.
 It reaches throughput of 278M characters per second -- more than enough not to be a bottleneck
-in the data pipeline.
+in a data pipeline.
+
 
 .Pair-wise computation
 
-TBD
+At this point we have fingerprints for every document of the collection.
+A fingerprint is a sorted array of up to N 32-bit hashes.
+To compute Jaccard similarity score between two documents, we need to find the cardinality
+of their fingerprint intersection.
+This can be done with the classical algorithm:
+
+[source,cpp]
+----
+double JaccardClassical(const uint32_t* fng1, int len1,
+                        const uint32_t* fng2, int len2)
+{
+  int pos1 = 0;
+  int pos2 = 0;
+  int nintersect = 0;
+  while (pos1 < len1 && pos2 < len2) {
+    if (fng1[pos1] == fng2[pos2]) {
+      nintersect++;
+      pos1++;
+      pos2++;
+    } else if (fng1[pos1] < fng2[pos2]) {
+      pos1++;
+    } else {
+      pos2++;
+    }
+  }
+  int nunion = len1 + len2 - nintersect;
+  return nintersect / (double) nunion;
+}
+----
+
+We wouldn't trouble ourselves with optimization of this algorithm if it would be necessary
+to compute Jaccard score for only a pair of documents.
+The problem is that in practice it is usually required to solve one of the following more complex problems:
+
+ * Given a collection of documents and a new document, find all documents in the collection
+   which have Jaccard score with the given document &ge; threshold (e.g. plagiarism detection).
+ 
+ * Given a collection of documents, find all pairs of documents with Jaccard score &ge; threshold
+   (clusterization).
+
+Both algorithms are very expensive due large number of Jaccard similarity score computations.
+For example in case of clusterization, if we have 10K documents, it would be necessary to
+compute Jaccard score ~50M times.
+So, it is crucial to optimize the above algorithm.
+
+We can make two observations.
+First one is that we don't care about Jaccard scores smaller than threshold.
+If at some point during score computation we detect that math:[J(t_1, t_2)] cannot be greater or equal to the threshold,
+we can immediately abort computation and return 0.0.
+Only values higher than the threshold matter.
+
+Let's assume that we have already processed math:[\mathrm{pos}_1] and math:[\mathrm{pos}_2] hashes of the first and second
+fingerprints respectively, and the number of identical hashes was math:[\mathrm{nintersect}].
+Then math:[J(t_1, t_2)] is subject to the following boundaries:
+
+[math]
+----
+\mathrm{min}(\mathrm{J}(t_1,t_2)) = \frac{\mathrm{nintersect}}{\mathrm{len}_1 + \mathrm{len}_2 - \mathrm{nintersect}}
+----
+
+[math]
+----
+\mathrm{max}(\mathrm{J}(t_1,t_2)) =
+\frac{\mathrm{nintersect} + \mathrm{min}(\mathrm{len}_1 - \mathrm{pos}_1, \mathrm{len}_2 - \mathrm{pos}_2)}
+     {\mathrm{len}_1 + \mathrm{len}_2 - \mathrm{nintersect} - \mathrm{min}(\mathrm{len}_1 - \mathrm{pos}_1,\mathrm{len}_2 - \mathrm{pos}_2)}
+----
+
+Let's assume that we are interested only in Jaccard score greater or equal to threshold math:[\alpha].
+If at any step the following condition is satisfied, we can immediately abort computation,
+since we know that final math:[J(t_1,t_2)] will be smaller than the desired threshold:
+
+[math]
+----
+\mathrm{max}(\mathrm{J}(t_1,t_2)) < \alpha
+----
+
+Simplifying:
+
+[math]
+----
+\mathrm{nintersect} + \mathrm{min}(\mathrm{len}_1 - \mathrm{pos}_1, \mathrm{len}_2 - \mathrm{pos}_2) <
+\frac{\alpha}{1 + \alpha} (\mathrm{len}_1 + \mathrm{len}_2)
+----
+
+Since we know that math:[\mathrm{min}(a,b) \leq \frac{a+b}{2}], we can tighten the abort condition
+to get rid of math:[\mathrm{min}] function:
+
+[math]
+----
+\mathrm{nintersect} + \frac{\mathrm{len}_1 + \mathrm{len}_2 - \mathrm{pos}_1 - \mathrm{pos}_2}{2} <
+\frac{\alpha}{1 + \alpha}(\mathrm{len}_1 + \mathrm{len}_2)
+----
+
+[math]
+----
+\mathrm{pos}_1 + \mathrm{pos}_2 - 2\,\mathrm{nintersect} >
+\frac{1 - \alpha}{1 + \alpha}(\mathrm{len}_1 + \mathrm{len}_2)
+----
+
+Again, let's tighten condition, now to avoid working with floating point:
+
+[math]
+----
+\mathrm{pos}_1 + \mathrm{pos}_2 - 2\,\mathrm{nintersect} >
+\left \lceil \frac{1 - \alpha}{1 + \alpha}(\mathrm{len}_1 + \mathrm{len}_2) \right \rceil
+----
+
+Now let's plug the above formula into the classical solution.
+Right-hand side can be computed once we enter the function.
+A new variable, math:[s], stores the value of math:[\mathrm{pos}_1 + \mathrm{pos}_2 - 2\,\mathrm{nintersect}].
+We update it each time we advance the positions.
+If at some point it exceeds precomputed rind-hand side value, we abort the computation.
+
+[source,cpp]
+----
+double JaccardFast(const uint32_t* fng1, int len1,
+                   const uint32_t* fng2, int len2,
+                   double alpha)
+{
+  const int smax = (int)std::ceil((1.0-alpha)/(1.0 + alpha) * (len1 + len2));
+
+  int pos1 = 0;
+  int pos2 = 0;
+  int nintersect = 0;
+  int s = 0;
+  while (pos1 < len1 && pos2 < len2) {
+    if (fng1[pos1] == fng2[pos2]) {
+      nintersect++;
+      pos1++;
+      pos2++;
+      /* s = s + 1 + 1 - 2 = s */
+    } else if (fng1[pos1] < fng2[pos2]) {
+      pos1++;
+      s++;
+    } else {
+      pos2++;
+      s++;
+    }
+    if (s > smax) {
+      return 0.0;
+    }
+  }
+  int nunion = len1 + len2 - nintersect;
+  return nintersect / (double) nunion;
+}
+----
+
+The second significant observation is that in 99% of all cases Jaccard score is smaller than threshold.
+Given a pair of fingperprints of two random documents, very few hashes will be identical among them.
+To skip large blocks of nonintersecting hashes, we can make use of
+https://software.intel.com/sites/landingpage/IntrinsicsGuide/#text=pestr&expand=829[pcmpesmtrm] SSE intruction.
+Its intended application is fast string operations, such as substring search.
+However, other applications were found for this instruction, including
+http://www.adms-conf.org/p1-SCHLEGEL.pdf#Fast%20Sorted-Set%20Intersection%20using%20SIMD%20Instructions[intersecting]
+of two sorted arrays.
+Alas, +pcmpesmtrm+ works natively only with 8- and 16-bit elements,
+while shingle hashes are 32 bit long.
+If they were 8 or 16 bits, we could just use the code from the article verbatim.
+But because our elements 32 bits, we can use this instruction only as a prefilter:
+we treat every 32-bit hash as a sequence of two 16 bit elements.
+If the instruction returns non-zero mask (some of the 16-bit elements are equal),
+this doesn't prove that there are equal 32-bit elements.
+But if returned mask is zero, then definitely none of the 32-bit elements are equal.
+In this case we can advance one of the fingerprint positions by a block of four 32-bit hashes in bulk.
+Taking into account that hashes do match very rarely, such precheck is worse the cost
+paid for +pcmpesmtrm+.
+
+[source,cpp]
+----
+double JaccardTurbo(const uint32_t* fng1, int len1,
+                    const uint32_t* fng2, int len2,
+                    double alpha)
+{
+  int smin = (int)std::ceil((1.0-alpha)/(1.0 + alpha) * (len1 + len2));
+
+  int pos1 = 0;
+  int pos2 = 0;
+  int nintersect = 0;
+  int s = 0;
+  while (pos1+4 <= len1 && pos2+4 <= len2) {
+    __m128i v1 = _mm_loadu_si128((const __m128i*)(fng1 + pos1));
+    __m128i v2 = _mm_loadu_si128((const __m128i*)(fng2 + pos2));
+    uint64_t m = _mm_cvtsi128_si64(_mm_cmpestrm(v1, 8, v2, 8,
+                 _SIDD_UWORD_OPS|_SIDD_CMP_EQUAL_ANY|_SIDD_BIT_MASK));
+    if (m) {
+      // we have possible matches -- using classical algorithm
+      for (int i = 0; i < 4; i++) {
+        if (fng1[pos1] == fng2[pos2]) {
+          nintersect++;
+          pos1++;
+          pos2++;
+        } else if (fng1[pos1] < fng2[pos2]) {
+          pos1++;
+          s++;
+        } else {
+          pos2++;
+          s++;
+        }
+      }
+    } else {
+      // no matches
+      if (fng1[pos1+3] < fng2[pos2+3]) {
+        pos1 += 4;
+      } else {
+        pos2 += 4;
+      }
+      s += 4;
+    }
+    if (s > smax) {
+      return 0.0;
+    }
+  }
+
+  // process up to three remaining hashes
+  while (pos1 < len1 && pos2 < len2) {
+    if (fng1[pos1] == fng2[pos2]) {
+      nintersect++;
+      pos1++;
+      pos2++;
+    } else if (fng1[pos1] < fng2[pos2]) {
+      pos1++;
+    } else {
+      pos2++;
+    }
+  }
+
+  int nunion = len1 + len2 - nintersect;
+  return nintersect / (double) nunion;
+}
+
+----
+
+.Evaluation
+
+The following table summarizes performance results of the above three versions.
+All documents in a collection of 2000 documents were compared pairwise,
+resulting in total of ~2M computations.
+Shingle parameters were N=128 and K=3, threshold value was set to 0.5.
+
+[width=70%,cols="<,>,>,>",options=header]
+|=====
+|                                   |Time [s]  |Computations/s |Speedup
+|classical                          |2.372734  |0.84 M/s       | 1.00
+|classical + fast abort             |1.041861  |1.92 M/s       | 2.28
+|classical + pcmpestrm + fast abort |0.632168  |3.16 M/s       | 3.75
+|=====
+
+Since documents in the collection were Wikipedia pages, you may be interested
+to know which pages had the highest math:[J(t_1,t_2)].
+I found three main caterogries: pages listing rulers for some specific year;
+pages listing animals of African countries;
+and surprisingly similar user discussion pages (probably, created by bots).
+
+To give some understanding of performance limitations, let's assume that we need to clusterize
+large collection of documents and we are alotted a single CPU core for 24 hours.
+Using the optimized version will allow us to process a collection of ~740K documents.
+For larger collections it may be suitable to use MinHash version with multiple hash functions.
+I will describe it later in the next article.
+
+//TODO source code
 

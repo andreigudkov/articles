@@ -101,7 +101,7 @@ First of all, it significantly reduces cost of maintaining search engine.
 Search engines typically index contents of only the primary web site (highestly ranked)
 and ignore all its mirrors.
 Secondly, mirrors to well-known sites often indicate phishing,
-which raises red flags and requires manual review from security team.
+which raises red flags for security team.
 Another application of MinHash is plagiarism detection.
 Universities and scientific magazines are interested to automatically recognize
 copypasted papers and thesises.</p>
@@ -110,19 +110,19 @@ copypasted papers and thesises.</p>
 <p>MinHash algorithm has a number of variations.
 In this article I will focus on the MinHash variation that uses single hash function.
 Such type of MinHash is computationally fast to construct, but computation of similarity
-score is slow, in particularly when the goal is to find distances between one new document
-and all the documents from preexisting collection.
-This variation is suitable for ad-hoc similarity computation between a single pair of documents
-or between one document and all the documents from the collection of moderate size.</p>
+score between a pair of documents using their MinHashes is slow.
+This limits application of this variation of MinHash to the collections of documents of small
+to moderate sizes.</p>
 </div>
 <div class="paragraph">
-<p>The workflow is the following: for every text you have,
+<p>The high-level workflow is the following: for every text you have,
 split it into sequence of words, then create a set of every K-tuple of adjacent words
-(K=3 below; every such triplet is called a <em>shingle</em>),
-then hash these shingles, and finally select smallest unique N shingles.
+(I will use K=3 below; every such triplet is called a <em>shingle</em>),
+then hash these shingles into 32-bit hashes,
+and finally select smallest unique N shingles.
 These N shingles become the fingerprint (MinHash) of the text.
 N is chosen typically from about 50 to a couple of hundreds
-depending on median size of the text of the corpus.</p>
+depending on the median size of the text of the collection.</p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
@@ -131,7 +131,7 @@ depending on median size of the text of the corpus.</p>
 </div>
 <div class="paragraph">
 <p>Once fingerprints are generated for every text,
-we can compute similarity for any pair of texts by computing Jaccard distance
+we can compute similarity of any pair of texts by computing their Jaccard score
 of their fingerprints:</p>
 </div>
 <div class="imageblock" style="text-align: center">
@@ -143,19 +143,21 @@ of their fingerprints:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>It can be stastically proved that the closer Jaccard distance between two fingerprints to one,
-the closer Jaccard distance between two texts.
-For example, we can set threshold value to 0.9.
-If Jaccard distance exceeds 0.9, then we conclude that two texts are nearly identical.</p>
+<p>It can be proved that there is correlation between closeness of two texts and their similarity score <img src="math-34efd6251aa1ff62.svg" class="inlinemath" style="height:1.766ex;vertical-align:-0.391ex;" alt="J(t_1,t_2)"/>.
+For any pair of documents, the closer Jaccard score between their fingerprints to one,
+the closer Jaccard score between their full sets of shingles to one,
+and the closer the texts themselves are.
+For example, we can set threshold value to 0.8.
+If Jaccard score exceeds 0.8, then we conclude that two texts are nearly identical.</p>
 </div>
 <div class="paragraph">
 <p>The good thing about MinHash is that it is robust to minor modifications to the text.
-Web pages often contain some elements which become different when site is mirrored, such
-as current timestamp, domain name or manually added disclaimers.
+For example, web pages often contain some elements which become different when site is mirrored,
+such as current timestamp, domain name or manually added disclaimers.
 Just comparing texts character-by-character would not be enough.
 Another good thing about MinHash is that no matter how large input texts are,
 the fingperprints it computes are of fixed, short lengths.
-Fingerprint consisting of 128 32-bit hashes is only one 512 bytes.</p>
+Fingerprint consisting of 128 32-bit hashes is only 512 bytes.</p>
 </div>
 <div class="paragraph">
 <p>However, even this "computationally cheap" variant is expensive in practice.
@@ -168,11 +170,11 @@ computation of <img src="math-c2b51b5f051a140e.svg" class="inlinemath" style="he
 Usually high-quality text analysis requires NLP-based models.
 For example, it is desirable to treat "N.B.A." identically to "NBA" rather
 than consisting of three distinct tokens "N", "B", "A".
-Similarily, words "happy" and "happiness" are better to be stemmed to the same root "happi".
+Similarily, words "happy" and "happiness" are usually stemmed to the same root "happi".
 Luckily, in similarity detection we don&#8217;t need this level of complexity due
 to probabilistic nature of the algorithm, and can define a word simply
 as a sequence of adjacent alphanumeric characters.
-Remaining (non-alphanumic) characters are the delimeters.</p>
+Remaining (non-alphanumeric) characters are the delimeters.</p>
 </div>
 <div class="paragraph">
 <p>Assuming that text is a sequence of 16-bit unicode code points,
@@ -187,7 +189,7 @@ Red pixels denote alphanumeric code points.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>As such, the only reasonable way to store this information is in a lookup table with one bit
+<p>The only reasonable way to store this information is in a lookup table with one bit
 per every code point.
 The table below was prebuilt in Java by probing code points with <code>Character.isLetterOrDigit(char c)</code>.</p>
 </div>
@@ -256,7 +258,7 @@ for i := 0 .. words.length()-3:
 <div class="paragraph">
 <p>Noticeable issue is that a copy of input text is made into the words array.
 It shouldn&#8217;t be very hard to avoid copying because shingling is a type of streaming algorithm,
-i.e. we need only to keep track of a window of K=3 consecutive words at a time.</p>
+i.e. we need only to keep track of a sliding window of K=3 consecutive words at a time.</p>
 </div>
 <div class="paragraph">
 <p>But we can do even better by implementing pipeline.
@@ -264,7 +266,7 @@ To do this, we are going to store K=3 partially computed hashes.
 All these hashes are updated every time we read new alphanumeric character.
 When the word is over, the head of the pipline is the full hash of the previous K words,
 next element after the head is the partial hash for the last K-1 words, and so on.
-So, when the word is over, we eject the head of the pipeline and shift
+When the word is over, we eject the head of the pipeline and shift
 the remaining hashes.</p>
 </div>
 <div class="imageblock" style="text-align: center">
@@ -333,17 +335,17 @@ This leads to significant speedup.</p>
 </div>
 <div class="paragraph">
 <div class="title">Selecting smallest hashes</div>
-<p>The most naive way would be to collect all hashes into a vector, sort them and then return smallest N hashes.
+<p>The most simple way would be to collect all hashes into a vector, sort them and then return smallest N hashes.
 Experienced algorithmist may know a way to do this without sorting all hashes, by using <code>std::partial_sort</code>.
 Its idea is similar to quick sort: at every step we choose pivot and exchange
 elements so that in the end array consists of two groups of elements:
 elements which are less or equal to pivot go to the beginning, while elements larger than pivot
-go into the end of the array.
+go to the end of the array.
 We repeat the process multiple times always by using left group.
 Right group is of no importance and is ignored.</p>
 </div>
 <div class="paragraph">
-<p>But <code>std::partial_sort</code> still implies that we need to collect all hashes to somewhere.
+<p>But <code>std::partial_sort</code> still implies that we need to collect all hashes somewhere.
 This may be unfeasable for large texts.
 We would like to design streaming algorithm with O(N) space.
 This leads to the idea of storing N smallest hash values in sorted array.
@@ -361,12 +363,12 @@ So, now the algorithm becomes like this: for every incoming hash,
 check that it is smaller than <code>heap.peek()</code>,
 check that it is not present in the hash table,
 and if both conditions are satisfied, then update both heap and hash table by removing
-<code>heap.peek()</code> element and inserting hash at hand.</p>
+<code>heap.peek()</code> element and inserting the incoming hash.</p>
 </div>
 <div class="paragraph">
 <p>This version is asymptocitally optimal, but it still has some problems related to the nature of hash table.
-Classical hash table uses dynamical memory allocations, linked lists and it also hashes value,
-even though our elements are already high quality hashes.
+Classical hash table uses dynamical memory allocations, linked lists and it also hashes values,
+even though our elements are already high quality hashes themselves.
 What if we could replace classical hash table with a simpler one?
 We know the number of elements we are going to store in it in advance and also we have
 copy of all elements in a heap, so we have something to offer in return.
@@ -426,7 +428,7 @@ its contribution to the total time is negligible.</p>
 </div>
 <div class="paragraph">
 <div class="title">Evaluation</div>
-<p>Test collection consists of 1000 long articles from wikipedia,
+<p>Test collection consists of 1000 long articles from Wikipedia,
 varying in size from 16KB to 540KB.</p>
 </div>
 <table class="tableblock frame-all grid-all" style="width: 70%;">
@@ -472,21 +474,323 @@ varying in size from 16KB to 540KB.</p>
 </tbody>
 </table>
 <div class="paragraph">
-<p>First version is the most basic, reference implementation of everything.
+<p>First version is the naive, reference implementation of everything.
 Second version uses pipelined shingle generation, but still collects and sorts all hashes to find N smallest.
 Third version uses heap to find N smallest hashes, guarded by <code>std::unordered_set&lt;uint32_t&gt;</code>.
 Final version is the modification where unordered set is replaced with custom hash table.
 It reaches throughput of 278M characters per second&#8201;&#8212;&#8201;more than enough not to be a bottleneck
-in the data pipeline.</p>
+in a data pipeline.</p>
 </div>
 <div class="paragraph">
 <div class="title">Pair-wise computation</div>
-<p>TBD</p>
+<p>At this point we have fingerprints for every document of the collection.
+A fingerprint is a sorted array of up to N 32-bit hashes.
+To compute Jaccard similarity score between two documents, we need to find the cardinality
+of their fingerprint intersection.
+This can be done with the classical algorithm:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="cpp"><span class="tok-kt">double</span> <span class="tok-nf">JaccardClassical</span><span class="tok-p">(</span><span class="tok-k">const</span> <span class="tok-kt">uint32_t</span><span class="tok-o">*</span> <span class="tok-n">fng1</span><span class="tok-p">,</span> <span class="tok-kt">int</span> <span class="tok-n">len1</span><span class="tok-p">,</span>
+                        <span class="tok-k">const</span> <span class="tok-kt">uint32_t</span><span class="tok-o">*</span> <span class="tok-n">fng2</span><span class="tok-p">,</span> <span class="tok-kt">int</span> <span class="tok-n">len2</span><span class="tok-p">)</span>
+<span class="tok-p">{</span>
+  <span class="tok-kt">int</span> <span class="tok-n">pos1</span> <span class="tok-o">=</span> <span class="tok-mi">0</span><span class="tok-p">;</span>
+  <span class="tok-kt">int</span> <span class="tok-n">pos2</span> <span class="tok-o">=</span> <span class="tok-mi">0</span><span class="tok-p">;</span>
+  <span class="tok-kt">int</span> <span class="tok-n">nintersect</span> <span class="tok-o">=</span> <span class="tok-mi">0</span><span class="tok-p">;</span>
+  <span class="tok-k">while</span> <span class="tok-p">(</span><span class="tok-n">pos1</span> <span class="tok-o">&lt;</span> <span class="tok-n">len1</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-n">pos2</span> <span class="tok-o">&lt;</span> <span class="tok-n">len2</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-k">if</span> <span class="tok-p">(</span><span class="tok-n">fng1</span><span class="tok-p">[</span><span class="tok-n">pos1</span><span class="tok-p">]</span> <span class="tok-o">==</span> <span class="tok-n">fng2</span><span class="tok-p">[</span><span class="tok-n">pos2</span><span class="tok-p">])</span> <span class="tok-p">{</span>
+      <span class="tok-n">nintersect</span><span class="tok-o">++</span><span class="tok-p">;</span>
+      <span class="tok-n">pos1</span><span class="tok-o">++</span><span class="tok-p">;</span>
+      <span class="tok-n">pos2</span><span class="tok-o">++</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span> <span class="tok-k">else</span> <span class="tok-k">if</span> <span class="tok-p">(</span><span class="tok-n">fng1</span><span class="tok-p">[</span><span class="tok-n">pos1</span><span class="tok-p">]</span> <span class="tok-o">&lt;</span> <span class="tok-n">fng2</span><span class="tok-p">[</span><span class="tok-n">pos2</span><span class="tok-p">])</span> <span class="tok-p">{</span>
+      <span class="tok-n">pos1</span><span class="tok-o">++</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span> <span class="tok-k">else</span> <span class="tok-p">{</span>
+      <span class="tok-n">pos2</span><span class="tok-o">++</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span>
+  <span class="tok-p">}</span>
+  <span class="tok-kt">int</span> <span class="tok-n">nunion</span> <span class="tok-o">=</span> <span class="tok-n">len1</span> <span class="tok-o">+</span> <span class="tok-n">len2</span> <span class="tok-o">-</span> <span class="tok-n">nintersect</span><span class="tok-p">;</span>
+  <span class="tok-k">return</span> <span class="tok-n">nintersect</span> <span class="tok-o">/</span> <span class="tok-p">(</span><span class="tok-kt">double</span><span class="tok-p">)</span> <span class="tok-n">nunion</span><span class="tok-p">;</span>
+<span class="tok-p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We wouldn&#8217;t trouble ourselves with optimization of this algorithm if it would be necessary
+to compute Jaccard score for only a pair of documents.
+The problem is that in practice it is usually required to solve one of the following more complex problems:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Given a collection of documents and a new document, find all documents in the collection
+which have Jaccard score with the given document &ge; threshold (e.g. plagiarism detection).</p>
+</li>
+<li>
+<p>Given a collection of documents, find all pairs of documents with Jaccard score &ge; threshold
+(clusterization).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Both algorithms are very expensive due large number of Jaccard similarity score computations.
+For example in case of clusterization, if we have 10K documents, it would be necessary to
+compute Jaccard score ~50M times.
+So, it is crucial to optimize the above algorithm.</p>
+</div>
+<div class="paragraph">
+<p>We can make two observations.
+First one is that we don&#8217;t care about Jaccard scores smaller than threshold.
+If at some point during score computation we detect that <img src="math-c2b51b5f051a140e.svg" class="inlinemath" style="height:1.766ex;vertical-align:-0.391ex;" alt="J(t_1, t_2)"/> cannot be greater or equal to the threshold,
+we can immediately abort computation and return 0.0.
+Only values higher than the threshold matter.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s assume that we have already processed <img src="math-66a010542ea15151.svg" class="inlinemath" style="height:1.469ex;vertical-align:-0.547ex;" alt="\mathrm{pos}_1"/> and <img src="math-d3243da6448b67d3.svg" class="inlinemath" style="height:1.453ex;vertical-align:-0.531ex;" alt="\mathrm{pos}_2"/> hashes of the first and second
+fingerprints respectively, and the number of identical hashes was <img src="math-115718387b3e8d60.svg" class="inlinemath" style="height:1.391ex;vertical-align:-0.016ex;" alt="\mathrm{nintersect}"/>.
+Then <img src="math-c2b51b5f051a140e.svg" class="inlinemath" style="height:1.766ex;vertical-align:-0.391ex;" alt="J(t_1, t_2)"/> is subject to the following boundaries:</p>
+</div>
+<div class="imageblock text-indent">
+<div class="content">
+<img src="math-c29b6dd357e88d1e.svg" alt="\mathrm{min}(\mathrm{J}(t_1,t_2)) = \frac{\mathrm{nintersect}}{\mathrm{len}_1 + \mathrm{len}_2 - \mathrm{nintersect}}" height="38">
+</div>
+</div>
+<div class="imageblock text-indent">
+<div class="content">
+<img src="math-3f56c1c1b3dcbead.svg" alt="\mathrm{max}(\mathrm{J}(t_1,t_2)) =
+\frac{\mathrm{nintersect} + \mathrm{min}(\mathrm{len}_1 - \mathrm{pos}_1, \mathrm{len}_2 - \mathrm{pos}_2)}
+     {\mathrm{len}_1 + \mathrm{len}_2 - \mathrm{nintersect} - \mathrm{min}(\mathrm{len}_1 - \mathrm{pos}_1,\mathrm{len}_2 - \mathrm{pos}_2)}" height="40">
+</div>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s assume that we are interested only in Jaccard score greater or equal to threshold <img src="math-4893e9df8b5496eb.svg" class="inlinemath" style="height:0.922ex;vertical-align:-0.016ex;" alt="\alpha"/>.
+If at any step the following condition is satisfied, we can immediately abort computation,
+since we know that final <img src="math-34efd6251aa1ff62.svg" class="inlinemath" style="height:1.766ex;vertical-align:-0.391ex;" alt="J(t_1,t_2)"/> will be smaller than the desired threshold:</p>
+</div>
+<div class="imageblock text-indent">
+<div class="content">
+<img src="math-79920fc499aea7d9.svg" alt="\mathrm{max}(\mathrm{J}(t_1,t_2)) &lt; \alpha" height="15">
+</div>
+</div>
+<div class="paragraph">
+<p>Simplifying:</p>
+</div>
+<div class="imageblock text-indent">
+<div class="content">
+<img src="math-cd8d558242329cd2.svg" alt="\mathrm{nintersect} + \mathrm{min}(\mathrm{len}_1 - \mathrm{pos}_1, \mathrm{len}_2 - \mathrm{pos}_2) &lt;
+\frac{\alpha}{1 + \alpha} (\mathrm{len}_1 + \mathrm{len}_2)" height="31">
+</div>
+</div>
+<div class="paragraph">
+<p>Since we know that <img src="math-b800664de46817f5.svg" class="inlinemath" style="height:4.141ex;vertical-align:-1.375ex;" alt="\mathrm{min}(a,b) \leq \frac{a+b}{2}"/>, we can tighten the abort condition
+to get rid of <img src="math-ce0891f5c72d7611.svg" class="inlinemath" style="height:1.375ex;vertical-align:-0.0ex;" alt="\mathrm{min}"/> function:</p>
+</div>
+<div class="imageblock text-indent">
+<div class="content">
+<img src="math-43b3e6819b213a44.svg" alt="\mathrm{nintersect} + \frac{\mathrm{len}_1 + \mathrm{len}_2 - \mathrm{pos}_1 - \mathrm{pos}_2}{2} &lt;
+\frac{\alpha}{1 + \alpha}(\mathrm{len}_1 + \mathrm{len}_2)" height="35">
+</div>
+</div>
+<div class="imageblock text-indent">
+<div class="content">
+<img src="math-eefed2630d2b2e2c.svg" alt="\mathrm{pos}_1 + \mathrm{pos}_2 - 2\,\mathrm{nintersect} &gt;
+\frac{1 - \alpha}{1 + \alpha}(\mathrm{len}_1 + \mathrm{len}_2)" height="35">
+</div>
+</div>
+<div class="paragraph">
+<p>Again, let&#8217;s tighten condition, now to avoid working with floating point:</p>
+</div>
+<div class="imageblock text-indent">
+<div class="content">
+<img src="math-8e70faad5194bf6e.svg" alt="\mathrm{pos}_1 + \mathrm{pos}_2 - 2\,\mathrm{nintersect} &gt;
+\left \lceil \frac{1 - \alpha}{1 + \alpha}(\mathrm{len}_1 + \mathrm{len}_2) \right \rceil" height="41">
+</div>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s plug the above formula into the classical solution.
+Right-hand side can be computed once we enter the function.
+A new variable, <img src="math-043a718774c572bd.svg" class="inlinemath" style="height:0.906ex;vertical-align:-0.016ex;" alt="s"/>, stores the value of <img src="math-881dec7a568ffc0c.svg" class="inlinemath" style="height:1.922ex;vertical-align:-0.547ex;" alt="\mathrm{pos}_1 + \mathrm{pos}_2 - 2\,\mathrm{nintersect}"/>.
+We update it each time we advance the positions.
+If at some point it exceeds precomputed rind-hand side value, we abort the computation.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="cpp"><span class="tok-kt">double</span> <span class="tok-nf">JaccardFast</span><span class="tok-p">(</span><span class="tok-k">const</span> <span class="tok-kt">uint32_t</span><span class="tok-o">*</span> <span class="tok-n">fng1</span><span class="tok-p">,</span> <span class="tok-kt">int</span> <span class="tok-n">len1</span><span class="tok-p">,</span>
+                   <span class="tok-k">const</span> <span class="tok-kt">uint32_t</span><span class="tok-o">*</span> <span class="tok-n">fng2</span><span class="tok-p">,</span> <span class="tok-kt">int</span> <span class="tok-n">len2</span><span class="tok-p">,</span>
+                   <span class="tok-kt">double</span> <span class="tok-n">alpha</span><span class="tok-p">)</span>
+<span class="tok-p">{</span>
+  <span class="tok-k">const</span> <span class="tok-kt">int</span> <span class="tok-n">smax</span> <span class="tok-o">=</span> <span class="tok-p">(</span><span class="tok-kt">int</span><span class="tok-p">)</span><span class="tok-n">std</span><span class="tok-o">::</span><span class="tok-n">ceil</span><span class="tok-p">((</span><span class="tok-mf">1.0</span><span class="tok-o">-</span><span class="tok-n">alpha</span><span class="tok-p">)</span><span class="tok-o">/</span><span class="tok-p">(</span><span class="tok-mf">1.0</span> <span class="tok-o">+</span> <span class="tok-n">alpha</span><span class="tok-p">)</span> <span class="tok-o">*</span> <span class="tok-p">(</span><span class="tok-n">len1</span> <span class="tok-o">+</span> <span class="tok-n">len2</span><span class="tok-p">));</span>
+
+  <span class="tok-kt">int</span> <span class="tok-n">pos1</span> <span class="tok-o">=</span> <span class="tok-mi">0</span><span class="tok-p">;</span>
+  <span class="tok-kt">int</span> <span class="tok-n">pos2</span> <span class="tok-o">=</span> <span class="tok-mi">0</span><span class="tok-p">;</span>
+  <span class="tok-kt">int</span> <span class="tok-n">nintersect</span> <span class="tok-o">=</span> <span class="tok-mi">0</span><span class="tok-p">;</span>
+  <span class="tok-kt">int</span> <span class="tok-n">s</span> <span class="tok-o">=</span> <span class="tok-mi">0</span><span class="tok-p">;</span>
+  <span class="tok-k">while</span> <span class="tok-p">(</span><span class="tok-n">pos1</span> <span class="tok-o">&lt;</span> <span class="tok-n">len1</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-n">pos2</span> <span class="tok-o">&lt;</span> <span class="tok-n">len2</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-k">if</span> <span class="tok-p">(</span><span class="tok-n">fng1</span><span class="tok-p">[</span><span class="tok-n">pos1</span><span class="tok-p">]</span> <span class="tok-o">==</span> <span class="tok-n">fng2</span><span class="tok-p">[</span><span class="tok-n">pos2</span><span class="tok-p">])</span> <span class="tok-p">{</span>
+      <span class="tok-n">nintersect</span><span class="tok-o">++</span><span class="tok-p">;</span>
+      <span class="tok-n">pos1</span><span class="tok-o">++</span><span class="tok-p">;</span>
+      <span class="tok-n">pos2</span><span class="tok-o">++</span><span class="tok-p">;</span>
+      <span class="tok-cm">/* s = s + 1 + 1 - 2 = s */</span>
+    <span class="tok-p">}</span> <span class="tok-k">else</span> <span class="tok-k">if</span> <span class="tok-p">(</span><span class="tok-n">fng1</span><span class="tok-p">[</span><span class="tok-n">pos1</span><span class="tok-p">]</span> <span class="tok-o">&lt;</span> <span class="tok-n">fng2</span><span class="tok-p">[</span><span class="tok-n">pos2</span><span class="tok-p">])</span> <span class="tok-p">{</span>
+      <span class="tok-n">pos1</span><span class="tok-o">++</span><span class="tok-p">;</span>
+      <span class="tok-n">s</span><span class="tok-o">++</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span> <span class="tok-k">else</span> <span class="tok-p">{</span>
+      <span class="tok-n">pos2</span><span class="tok-o">++</span><span class="tok-p">;</span>
+      <span class="tok-n">s</span><span class="tok-o">++</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span>
+    <span class="tok-k">if</span> <span class="tok-p">(</span><span class="tok-n">s</span> <span class="tok-o">&gt;</span> <span class="tok-n">smax</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+      <span class="tok-k">return</span> <span class="tok-mf">0.0</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span>
+  <span class="tok-p">}</span>
+  <span class="tok-kt">int</span> <span class="tok-n">nunion</span> <span class="tok-o">=</span> <span class="tok-n">len1</span> <span class="tok-o">+</span> <span class="tok-n">len2</span> <span class="tok-o">-</span> <span class="tok-n">nintersect</span><span class="tok-p">;</span>
+  <span class="tok-k">return</span> <span class="tok-n">nintersect</span> <span class="tok-o">/</span> <span class="tok-p">(</span><span class="tok-kt">double</span><span class="tok-p">)</span> <span class="tok-n">nunion</span><span class="tok-p">;</span>
+<span class="tok-p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The second significant observation is that in 99% of all cases Jaccard score is smaller than threshold.
+Given a pair of fingperprints of two random documents, very few hashes will be identical among them.
+To skip large blocks of nonintersecting hashes, we can make use of
+<a href="https://software.intel.com/sites/landingpage/IntrinsicsGuide/#text=pestr&amp;expand=829">pcmpesmtrm</a> SSE intruction.
+Its intended application is fast string operations, such as substring search.
+However, other applications were found for this instruction, including
+<a href="http://www.adms-conf.org/p1-SCHLEGEL.pdf#Fast%20Sorted-Set%20Intersection%20using%20SIMD%20Instructions">intersecting</a>
+of two sorted arrays.
+Alas, <code>pcmpesmtrm</code> works natively only with 8- and 16-bit elements,
+while shingle hashes are 32 bit long.
+If they were 8 or 16 bits, we could just use the code from the article verbatim.
+But because our elements 32 bits, we can use this instruction only as a prefilter:
+we treat every 32-bit hash as a sequence of two 16 bit elements.
+If the instruction returns non-zero mask (some of the 16-bit elements are equal),
+this doesn&#8217;t prove that there are equal 32-bit elements.
+But if returned mask is zero, then definitely none of the 32-bit elements are equal.
+In this case we can advance one of the fingerprint positions by a block of four 32-bit hashes in bulk.
+Taking into account that hashes do match very rarely, such precheck is worse the cost
+paid for <code>pcmpesmtrm</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="cpp"><span class="tok-kt">double</span> <span class="tok-nf">JaccardTurbo</span><span class="tok-p">(</span><span class="tok-k">const</span> <span class="tok-kt">uint32_t</span><span class="tok-o">*</span> <span class="tok-n">fng1</span><span class="tok-p">,</span> <span class="tok-kt">int</span> <span class="tok-n">len1</span><span class="tok-p">,</span>
+                    <span class="tok-k">const</span> <span class="tok-kt">uint32_t</span><span class="tok-o">*</span> <span class="tok-n">fng2</span><span class="tok-p">,</span> <span class="tok-kt">int</span> <span class="tok-n">len2</span><span class="tok-p">,</span>
+                    <span class="tok-kt">double</span> <span class="tok-n">alpha</span><span class="tok-p">)</span>
+<span class="tok-p">{</span>
+  <span class="tok-kt">int</span> <span class="tok-n">smin</span> <span class="tok-o">=</span> <span class="tok-p">(</span><span class="tok-kt">int</span><span class="tok-p">)</span><span class="tok-n">std</span><span class="tok-o">::</span><span class="tok-n">ceil</span><span class="tok-p">((</span><span class="tok-mf">1.0</span><span class="tok-o">-</span><span class="tok-n">alpha</span><span class="tok-p">)</span><span class="tok-o">/</span><span class="tok-p">(</span><span class="tok-mf">1.0</span> <span class="tok-o">+</span> <span class="tok-n">alpha</span><span class="tok-p">)</span> <span class="tok-o">*</span> <span class="tok-p">(</span><span class="tok-n">len1</span> <span class="tok-o">+</span> <span class="tok-n">len2</span><span class="tok-p">));</span>
+
+  <span class="tok-kt">int</span> <span class="tok-n">pos1</span> <span class="tok-o">=</span> <span class="tok-mi">0</span><span class="tok-p">;</span>
+  <span class="tok-kt">int</span> <span class="tok-n">pos2</span> <span class="tok-o">=</span> <span class="tok-mi">0</span><span class="tok-p">;</span>
+  <span class="tok-kt">int</span> <span class="tok-n">nintersect</span> <span class="tok-o">=</span> <span class="tok-mi">0</span><span class="tok-p">;</span>
+  <span class="tok-kt">int</span> <span class="tok-n">s</span> <span class="tok-o">=</span> <span class="tok-mi">0</span><span class="tok-p">;</span>
+  <span class="tok-k">while</span> <span class="tok-p">(</span><span class="tok-n">pos1</span><span class="tok-o">+</span><span class="tok-mi">4</span> <span class="tok-o">&lt;=</span> <span class="tok-n">len1</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-n">pos2</span><span class="tok-o">+</span><span class="tok-mi">4</span> <span class="tok-o">&lt;=</span> <span class="tok-n">len2</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-kr">__m128i</span> <span class="tok-n">v1</span> <span class="tok-o">=</span> <span class="tok-n">_mm_loadu_si128</span><span class="tok-p">((</span><span class="tok-k">const</span> <span class="tok-kr">__m128i</span><span class="tok-o">*</span><span class="tok-p">)(</span><span class="tok-n">fng1</span> <span class="tok-o">+</span> <span class="tok-n">pos1</span><span class="tok-p">));</span>
+    <span class="tok-kr">__m128i</span> <span class="tok-n">v2</span> <span class="tok-o">=</span> <span class="tok-n">_mm_loadu_si128</span><span class="tok-p">((</span><span class="tok-k">const</span> <span class="tok-kr">__m128i</span><span class="tok-o">*</span><span class="tok-p">)(</span><span class="tok-n">fng2</span> <span class="tok-o">+</span> <span class="tok-n">pos2</span><span class="tok-p">));</span>
+    <span class="tok-kt">uint64_t</span> <span class="tok-n">m</span> <span class="tok-o">=</span> <span class="tok-n">_mm_cvtsi128_si64</span><span class="tok-p">(</span><span class="tok-n">_mm_cmpestrm</span><span class="tok-p">(</span><span class="tok-n">v1</span><span class="tok-p">,</span> <span class="tok-mi">8</span><span class="tok-p">,</span> <span class="tok-n">v2</span><span class="tok-p">,</span> <span class="tok-mi">8</span><span class="tok-p">,</span>
+                 <span class="tok-n">_SIDD_UWORD_OPS</span><span class="tok-o">|</span><span class="tok-n">_SIDD_CMP_EQUAL_ANY</span><span class="tok-o">|</span><span class="tok-n">_SIDD_BIT_MASK</span><span class="tok-p">));</span>
+    <span class="tok-k">if</span> <span class="tok-p">(</span><span class="tok-n">m</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+      <span class="tok-c1">// we have possible matches -- using classical algorithm</span>
+      <span class="tok-k">for</span> <span class="tok-p">(</span><span class="tok-kt">int</span> <span class="tok-n">i</span> <span class="tok-o">=</span> <span class="tok-mi">0</span><span class="tok-p">;</span> <span class="tok-n">i</span> <span class="tok-o">&lt;</span> <span class="tok-mi">4</span><span class="tok-p">;</span> <span class="tok-n">i</span><span class="tok-o">++</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+        <span class="tok-k">if</span> <span class="tok-p">(</span><span class="tok-n">fng1</span><span class="tok-p">[</span><span class="tok-n">pos1</span><span class="tok-p">]</span> <span class="tok-o">==</span> <span class="tok-n">fng2</span><span class="tok-p">[</span><span class="tok-n">pos2</span><span class="tok-p">])</span> <span class="tok-p">{</span>
+          <span class="tok-n">nintersect</span><span class="tok-o">++</span><span class="tok-p">;</span>
+          <span class="tok-n">pos1</span><span class="tok-o">++</span><span class="tok-p">;</span>
+          <span class="tok-n">pos2</span><span class="tok-o">++</span><span class="tok-p">;</span>
+        <span class="tok-p">}</span> <span class="tok-k">else</span> <span class="tok-k">if</span> <span class="tok-p">(</span><span class="tok-n">fng1</span><span class="tok-p">[</span><span class="tok-n">pos1</span><span class="tok-p">]</span> <span class="tok-o">&lt;</span> <span class="tok-n">fng2</span><span class="tok-p">[</span><span class="tok-n">pos2</span><span class="tok-p">])</span> <span class="tok-p">{</span>
+          <span class="tok-n">pos1</span><span class="tok-o">++</span><span class="tok-p">;</span>
+          <span class="tok-n">s</span><span class="tok-o">++</span><span class="tok-p">;</span>
+        <span class="tok-p">}</span> <span class="tok-k">else</span> <span class="tok-p">{</span>
+          <span class="tok-n">pos2</span><span class="tok-o">++</span><span class="tok-p">;</span>
+          <span class="tok-n">s</span><span class="tok-o">++</span><span class="tok-p">;</span>
+        <span class="tok-p">}</span>
+      <span class="tok-p">}</span>
+    <span class="tok-p">}</span> <span class="tok-k">else</span> <span class="tok-p">{</span>
+      <span class="tok-c1">// no matches</span>
+      <span class="tok-k">if</span> <span class="tok-p">(</span><span class="tok-n">fng1</span><span class="tok-p">[</span><span class="tok-n">pos1</span><span class="tok-o">+</span><span class="tok-mi">3</span><span class="tok-p">]</span> <span class="tok-o">&lt;</span> <span class="tok-n">fng2</span><span class="tok-p">[</span><span class="tok-n">pos2</span><span class="tok-o">+</span><span class="tok-mi">3</span><span class="tok-p">])</span> <span class="tok-p">{</span>
+        <span class="tok-n">pos1</span> <span class="tok-o">+=</span> <span class="tok-mi">4</span><span class="tok-p">;</span>
+      <span class="tok-p">}</span> <span class="tok-k">else</span> <span class="tok-p">{</span>
+        <span class="tok-n">pos2</span> <span class="tok-o">+=</span> <span class="tok-mi">4</span><span class="tok-p">;</span>
+      <span class="tok-p">}</span>
+      <span class="tok-n">s</span> <span class="tok-o">+=</span> <span class="tok-mi">4</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span>
+    <span class="tok-k">if</span> <span class="tok-p">(</span><span class="tok-n">s</span> <span class="tok-o">&gt;</span> <span class="tok-n">smax</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+      <span class="tok-k">return</span> <span class="tok-mf">0.0</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span>
+  <span class="tok-p">}</span>
+
+  <span class="tok-c1">// process up to three remaining hashes</span>
+  <span class="tok-k">while</span> <span class="tok-p">(</span><span class="tok-n">pos1</span> <span class="tok-o">&lt;</span> <span class="tok-n">len1</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-n">pos2</span> <span class="tok-o">&lt;</span> <span class="tok-n">len2</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-k">if</span> <span class="tok-p">(</span><span class="tok-n">fng1</span><span class="tok-p">[</span><span class="tok-n">pos1</span><span class="tok-p">]</span> <span class="tok-o">==</span> <span class="tok-n">fng2</span><span class="tok-p">[</span><span class="tok-n">pos2</span><span class="tok-p">])</span> <span class="tok-p">{</span>
+      <span class="tok-n">nintersect</span><span class="tok-o">++</span><span class="tok-p">;</span>
+      <span class="tok-n">pos1</span><span class="tok-o">++</span><span class="tok-p">;</span>
+      <span class="tok-n">pos2</span><span class="tok-o">++</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span> <span class="tok-k">else</span> <span class="tok-k">if</span> <span class="tok-p">(</span><span class="tok-n">fng1</span><span class="tok-p">[</span><span class="tok-n">pos1</span><span class="tok-p">]</span> <span class="tok-o">&lt;</span> <span class="tok-n">fng2</span><span class="tok-p">[</span><span class="tok-n">pos2</span><span class="tok-p">])</span> <span class="tok-p">{</span>
+      <span class="tok-n">pos1</span><span class="tok-o">++</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span> <span class="tok-k">else</span> <span class="tok-p">{</span>
+      <span class="tok-n">pos2</span><span class="tok-o">++</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span>
+  <span class="tok-p">}</span>
+
+  <span class="tok-kt">int</span> <span class="tok-n">nunion</span> <span class="tok-o">=</span> <span class="tok-n">len1</span> <span class="tok-o">+</span> <span class="tok-n">len2</span> <span class="tok-o">-</span> <span class="tok-n">nintersect</span><span class="tok-p">;</span>
+  <span class="tok-k">return</span> <span class="tok-n">nintersect</span> <span class="tok-o">/</span> <span class="tok-p">(</span><span class="tok-kt">double</span><span class="tok-p">)</span> <span class="tok-n">nunion</span><span class="tok-p">;</span>
+<span class="tok-p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Evaluation</div>
+<p>The following table summarizes performance results of the above three versions.
+All documents in a collection of 2000 documents were compared pairwise,
+resulting in total of ~2M computations.
+Shingle parameters were N=128 and K=3, threshold value was set to 0.5.</p>
+</div>
+<table class="tableblock frame-all grid-all" style="width: 70%;">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-right valign-top">Time [s]</th>
+<th class="tableblock halign-right valign-top">Computations/s</th>
+<th class="tableblock halign-right valign-top">Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">classical</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">2.372734</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.84 M/s</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">1.00</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">classical + fast abort</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">1.041861</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">1.92 M/s</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">2.28</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">classical + pcmpestrm + fast abort</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.632168</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">3.16 M/s</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">3.75</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Since documents in the collection were Wikipedia pages, you may be interested
+to know which pages had the highest <img src="math-34efd6251aa1ff62.svg" class="inlinemath" style="height:1.766ex;vertical-align:-0.391ex;" alt="J(t_1,t_2)"/>.
+I found three main caterogries: pages listing rulers for some specific year;
+pages listing animals of African countries;
+and surprisingly similar user discussion pages (probably, created by bots).</p>
+</div>
+<div class="paragraph">
+<p>To give some understanding of performance limitations, let&#8217;s assume that we need to clusterize
+large collection of documents and we are alotted a single CPU core for 24 hours.
+Using the optimized version will allow us to process a collection of ~740K documents.
+For larger collections it may be suitable to use MinHash version with multiple hash functions.
+I will describe it later in the next article.</p>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-06-21 15:52:07 UTC
+Last updated 2019-06-24 13:21:48 UTC
 </div>
 </div>
 </body>
