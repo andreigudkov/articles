@@ -575,4 +575,15 @@ h2:not(:last-child) { margin-bottom: 13px; }
   margin-bottom: 2em;
 }
 
+/********** Align ************/
+
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
 

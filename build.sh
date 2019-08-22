@@ -22,6 +22,7 @@ modules="
   $root/thumbnail
   $root/codesearch
   $root/sim/minhash1
+  $root/lxcdeb
 "
 if [ -L $0 ]; then
   modules=$(readlink -f $PWD)
@@ -62,7 +63,6 @@ function build {
   fi
 }
 
-
 function build_module {
   local module=$(readlink -f "$1")
   echo "Building $module"
@@ -71,40 +71,30 @@ function build_module {
     local scss=$module/src/lepota.scss
     local css=$module/mastercopy/lepota.css
     local mincss=$module/mastercopy/lepota.min.css
-    local txts=$(cd $module/src && ls *.txt)
 
     build $css "sassc -I $module/src $scss $css" $scss
     build $mincss "yui-compressor -o $mincss $css" $css
-
-    for txt in $txts; do
-      html=$module/mastercopy/${txt//.txt/.html}
-      txt=$module/src/$txt
-      build $html \
-        "TZ=UTC MATH_OUTPUT=${module}/mastercopy ${processor} -a stylesheet=${stylesheet} -o $html $txt" \
-        $txt $processor $stylesheet
-    done
-
-  else
-    local txt="${module}/src/index.txt"
-    local html="${module}/mastercopy/index.html"
-    local images=$(sed -rn '/^image::(.*(\.svg|\.png|\.jpg|\.gif)).*$$/s//\1/p' ${txt})
-
-    build $html \
-      "TZ=UTC MATH_OUTPUT=${module}/mastercopy ${processor} -a stylesheet=${stylesheet} -o $html $txt" \
-      $txt $processor $stylesheet
-
-    for img in $images; do
-      dia=${img//.[a-z][a-z][a-z]/.dia}
-      if [ -e $module/src/$img ]; then
-        build $module/mastercopy/$img "cp $module/src/$img $module/mastercopy/$img" $module/src/$img
-      elif [ -e $module/src/$dia ]; then
-        build $module/mastercopy/$img "dia -s 1600x -e $module/mastercopy/$img $module/src/$dia" $module/src/$dia
-      else
-        echo "ERROR: don't know how to make $img"
-        exit 1
-      fi
-    done
   fi
+
+  local txt="${module}/src/index.txt"
+  local html="${module}/mastercopy/index.html"
+  local images=$(sed -rn '/^image::(.*(\.svg|\.png|\.jpg|\.gif)).*$$/s//\1/p' ${txt})
+
+  build $html \
+    "TZ=UTC MATH_OUTPUT=${module}/mastercopy ${processor} -a stylesheet=${stylesheet} -o $html $txt" \
+    $txt $processor $stylesheet
+
+  for img in $images; do
+    dia=${img//.[a-z][a-z][a-z]/.dia}
+    if [ -e $module/src/$img ]; then
+      build $module/mastercopy/$img "cp $module/src/$img $module/mastercopy/$img" $module/src/$img
+    elif [ -e $module/src/$dia ]; then
+      build $module/mastercopy/$img "dia -s 1600x -e $module/mastercopy/$img $module/src/$dia" $module/src/$dia
+    else
+      echo "ERROR: don't know how to make $img"
+      exit 1
+    fi
+  done
 }
 
 function clean_module {

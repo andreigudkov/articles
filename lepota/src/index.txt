@@ -218,7 +218,9 @@ Misc Elements
 Image
 ~~~~~
 
-image::silky.jpg["Silky sifaka",title="Silky sifaka",width=320,align="center"]
+image::silky.jpg["Silky sifaka",title="Silky sifaka (left)",width=320,align="left"]
+image::silky.jpg["Silky sifaka",title="Silky sifaka (center)",width=320,align="center"]
+image::silky.jpg["Silky sifaka",title="Silky sifaka (right)",width=320,align="right"]
 
 
 Paradisio
@@ -252,3 +254,22 @@ Outer Ring
 ^^^^^^^^^^
 
 
+Math
+----
+
+Inline math:[S_n = \sum_{i=0}^{n} \frac{1}{n}] formula.
+
+[math,align=left]
+----
+S_n = \sum_{i=0}^{n} \frac{1}{n}
+----
+
+[math,align=center]
+----
+S_n = \sum_{i=0}^{n} \frac{1}{n}
+----
+
+[math,align=right]
+----
+S_n = \sum_{i=0}^{n} \frac{1}{n}
+----
