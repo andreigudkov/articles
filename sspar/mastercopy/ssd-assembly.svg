@@ -4,38 +4,38 @@
   <g id="Background">
     <g>
       <rect style="fill: #cedff2; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="660" y="360" width="1100" height="360" rx="0" ry="0"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1210" y="543.9">
-        <tspan x="1210" y="543.9"></tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1210" y="543.881">
+        <tspan x="1210" y="543.881"></tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1040" y="380" width="160.5" height="120" rx="0" ry="0"/>
-      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1120.25" y="448.217">
-        <tspan x="1120.25" y="448.217">Flash chip</tspan>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1120.25" y="448.215">
+        <tspan x="1120.25" y="448.215">Flash chip</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="680" y="380" width="280" height="220" rx="0" ry="0"/>
-      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="820" y="498.217">
-        <tspan x="820" y="498.217">Controller</tspan>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="820" y="498.215">
+        <tspan x="820" y="498.215">Controller</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="860" y="640" width="100" height="60" rx="0" ry="0"/>
-      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="910" y="678.217">
-        <tspan x="910" y="678.217">RAM</tspan>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="910" y="678.215">
+        <tspan x="910" y="678.215">RAM</tspan>
       </text>
     </g>
     <g>
       <ellipse style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" cx="719.017" cy="670" rx="30.5553" ry="31.5905"/>
-      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="719.017" y="678.217">
-        <tspan x="719.017" y="678.217">c</tspan>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="719.017" y="678.216">
+        <tspan x="719.017" y="678.216">c</tspan>
       </text>
     </g>
     <g>
       <ellipse style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" cx="789.017" cy="670" rx="30.5553" ry="31.5905"/>
-      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="789.017" y="678.217">
-        <tspan x="789.017" y="678.217">c</tspan>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="789.017" y="678.216">
+        <tspan x="789.017" y="678.216">c</tspan>
       </text>
     </g>
     <g>
@@ -55,44 +55,44 @@
     </text>
     <g>
       <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1220" y="380" width="160.5" height="120" rx="0" ry="0"/>
-      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1300.25" y="448.217">
-        <tspan x="1300.25" y="448.217">Flash chip</tspan>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1300.25" y="448.215">
+        <tspan x="1300.25" y="448.215">Flash chip</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1400" y="380" width="160.5" height="120" rx="0" ry="0"/>
-      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1480.25" y="448.217">
-        <tspan x="1480.25" y="448.217">Flash chip</tspan>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1480.25" y="448.215">
+        <tspan x="1480.25" y="448.215">Flash chip</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1580" y="380" width="160.5" height="120" rx="0" ry="0"/>
-      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1660.25" y="448.217">
-        <tspan x="1660.25" y="448.217">Flash chip</tspan>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1660.25" y="448.215">
+        <tspan x="1660.25" y="448.215">Flash chip</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1040" y="580" width="160.5" height="120" rx="0" ry="0"/>
-      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1120.25" y="648.217">
-        <tspan x="1120.25" y="648.217">Flash chip</tspan>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1120.25" y="648.215">
+        <tspan x="1120.25" y="648.215">Flash chip</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1220" y="580" width="160.5" height="120" rx="0" ry="0"/>
-      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1300.25" y="648.217">
-        <tspan x="1300.25" y="648.217">Flash chip</tspan>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1300.25" y="648.215">
+        <tspan x="1300.25" y="648.215">Flash chip</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1400" y="580" width="160.5" height="120" rx="0" ry="0"/>
-      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1480.25" y="648.217">
-        <tspan x="1480.25" y="648.217">Flash chip</tspan>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1480.25" y="648.215">
+        <tspan x="1480.25" y="648.215">Flash chip</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1580" y="580" width="160.5" height="120" rx="0" ry="0"/>
-      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1660.25" y="648.217">
-        <tspan x="1660.25" y="648.217">Flash chip</tspan>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1660.25" y="648.215">
+        <tspan x="1660.25" y="648.215">Flash chip</tspan>
       </text>
     </g>
     <g>

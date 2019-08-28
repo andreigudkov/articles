@@ -12,28 +12,28 @@
     <ellipse style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 8; stroke: #000000" cx="1114.25" cy="-236.948" rx="296.886" ry="26.5224"/>
     <g>
       <ellipse style="fill: #f8f8f8; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" cx="259" cy="-121" rx="299" ry="299"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="259" y="-117.1">
-        <tspan x="259" y="-117.1"></tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="259" y="-117.119">
+        <tspan x="259" y="-117.119"></tspan>
       </text>
       <ellipse style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke-dasharray: 20; stroke: #c0c0c0" cx="259" cy="-121" rx="179" ry="179"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="259" y="-117.1">
-        <tspan x="259" y="-117.1"></tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="259" y="-117.119">
+        <tspan x="259" y="-117.119"></tspan>
       </text>
       <ellipse style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" cx="259" cy="-121" rx="99" ry="99"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="259" y="-117.1">
-        <tspan x="259" y="-117.1"></tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="259" y="-117.119">
+        <tspan x="259" y="-117.119"></tspan>
       </text>
       <ellipse style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke-dasharray: 20; stroke: #c0c0c0" cx="259" cy="-120" rx="139" ry="140"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="259" y="-116.1">
-        <tspan x="259" y="-116.1"></tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="259" y="-116.119">
+        <tspan x="259" y="-116.119"></tspan>
       </text>
       <ellipse style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke-dasharray: 20; stroke: #c0c0c0" cx="258" cy="-122" rx="258" ry="258"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="258" y="-118.1">
-        <tspan x="258" y="-118.1"></tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="258" y="-118.119">
+        <tspan x="258" y="-118.119"></tspan>
       </text>
       <ellipse style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke-dasharray: 20; stroke: #c0c0c0" cx="259" cy="-121" rx="219" ry="219"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="259" y="-117.1">
-        <tspan x="259" y="-117.1"></tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="259" y="-117.119">
+        <tspan x="259" y="-117.119"></tspan>
       </text>
     </g>
     <g>
@@ -45,8 +45,8 @@
     <path style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke-dasharray: 4; stroke: #000000" d="M 148 -356 C 160,-352 -44,-116 -80,-88 C -116,-60 -104,-56 -136,-96 C -168,-136 -168,-124 -136,-148 C -104,-172 136,-360 148,-356"/>
     <g>
       <ellipse style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 4; stroke: #000000" cx="-100.983" cy="-121.431" rx="19.0169" ry="18.569"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="-100.983" y="-117.531">
-        <tspan x="-100.983" y="-117.531"></tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="-100.983" y="-117.55">
+        <tspan x="-100.983" y="-117.55"></tspan>
       </text>
     </g>
     <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #ff0000" x1="595.928" y1="-259.844" x2="697.882" y2="-259.966"/>

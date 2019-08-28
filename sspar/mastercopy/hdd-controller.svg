@@ -5,38 +5,38 @@
   <g id="Background">
     <g>
       <ellipse style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" cx="1573" cy="481" rx="156" ry="39"/>
-      <text font-size="1.6" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1573" y="481.5">
-        <tspan x="1573" y="481.5"></tspan>
+      <text font-size="1.6" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1573" y="481.485">
+        <tspan x="1573" y="481.485"></tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #cedff2; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="220" y="388" width="844" height="381" rx="0" ry="0"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="642" y="582.4">
-        <tspan x="642" y="582.4"></tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="642" y="582.381">
+        <tspan x="642" y="582.381"></tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="240" y="680" width="800" height="76.2899" rx="0" ry="0"/>
-      <text font-size="30.8638" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="640" y="727.505">
-        <tspan x="640" y="727.505">Cache</tspan>
+      <text font-size="30.8638" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="640" y="727.503">
+        <tspan x="640" y="727.503">Cache</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="380" y="420" width="280" height="80" rx="0" ry="0"/>
-      <text font-size="30.48" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="520" y="469.25">
-        <tspan x="520" y="469.25">Request queue</tspan>
+      <text font-size="30.48" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="520" y="469.242">
+        <tspan x="520" y="469.242">Request queue</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="380" y="520" width="280" height="80" rx="0" ry="0"/>
-      <text font-size="30.48" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="520" y="569.25">
-        <tspan x="520" y="569.25">Response queue</tspan>
+      <text font-size="30.48" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="520" y="569.242">
+        <tspan x="520" y="569.242">Response queue</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="240" y="400" width="86.5" height="214" rx="0" ry="0"/>
-      <text font-size="30.48" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="283.25" y="516.25">
-        <tspan x="283.25" y="516.25">PHY</tspan>
+      <text font-size="30.48" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="283.25" y="516.242">
+        <tspan x="283.25" y="516.242">PHY</tspan>
       </text>
     </g>
     <g>
@@ -49,15 +49,15 @@
     </text>
     <g>
       <rect style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="760" y="420" width="280" height="180" rx="0" ry="0"/>
-      <text font-size="30.48" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="900" y="519.25">
-        <tspan x="900" y="519.25">Logics</tspan>
+      <text font-size="30.48" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="900" y="519.242">
+        <tspan x="900" y="519.242">Logics</tspan>
       </text>
     </g>
     <path style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" d="M 1416 656 C 1483.77,672.942 1670,730 1667,741 C 1664,752 1463,730 1404,724 C 1384,708 1396,660 1416,656z"/>
     <g>
       <ellipse style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" cx="1420" cy="692" rx="8" ry="8"/>
-      <text font-size="1.6" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1420" y="692.5">
-        <tspan x="1420" y="692.5"></tspan>
+      <text font-size="1.6" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1420" y="692.485">
+        <tspan x="1420" y="692.485"></tspan>
       </text>
     </g>
     <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1080" y="428">
@@ -86,20 +86,20 @@
     </g>
     <g>
       <ellipse style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" cx="1572" cy="463" rx="156" ry="39"/>
-      <text font-size="1.6" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1572" y="463.5">
-        <tspan x="1572" y="463.5"></tspan>
+      <text font-size="1.6" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1572" y="463.485">
+        <tspan x="1572" y="463.485"></tspan>
       </text>
     </g>
     <g>
       <ellipse style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" cx="1572" cy="447" rx="156" ry="39"/>
-      <text font-size="1.6" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1572" y="447.5">
-        <tspan x="1572" y="447.5"></tspan>
+      <text font-size="1.6" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1572" y="447.485">
+        <tspan x="1572" y="447.485"></tspan>
       </text>
     </g>
     <g>
       <ellipse style="fill: #ffffff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" cx="1572" cy="448" rx="32" ry="8"/>
-      <text font-size="1.6" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1572" y="448.5">
-        <tspan x="1572" y="448.5"></tspan>
+      <text font-size="1.6" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1572" y="448.485">
+        <tspan x="1572" y="448.485"></tspan>
       </text>
     </g>
     <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1084" y="584">

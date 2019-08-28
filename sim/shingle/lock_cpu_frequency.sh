@@ -2,8 +2,6 @@
 set -e
 set -o pipefail
 
-#https://serverfault.com/questions/716317/linux-why-does-the-cpu-frequency-fluctuate-when-using-the-performance-governor
-
 function usage() {
   echo "Usage: $0 lock|unlock|status"
   exit 1
@@ -63,13 +61,4 @@ case "$1" in
     usage
     ;;
 esac
-
-# Set scaling driver
-#  1. Boot with intel_pstate=disable
-#  2. Check that /sys/devices/system/cpu/cpu*/cpufreq/scaling_driver is set to acpi-cpufreq
-# Set scaling governor
-#  1. echo performance > /sys/devices/system/cpu/cpufreq/policy*/scaling_governor
-#  2. Check that scaling governor is set to performance
-# (Optionally) lower frequency with /sys/devices/system/cpu/cpu*/cpufreq/cpuinfo_max_freq
-# Check that frequency is locked with /sys/devices/system/cpu/cpu*/cpufreq/cpuinfo_cur_freq
 

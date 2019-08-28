@@ -8,21 +8,21 @@
       <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="760" y1="400" x2="760" y2="440"/>
       <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="760" y1="400" x2="540" y2="400"/>
       <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x1="760" y1="440" x2="540" y2="440"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="644.5" y="425">
-        <tspan x="644.5" y="425"></tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="644.5" y="424.888">
+        <tspan x="644.5" y="424.888"></tspan>
       </text>
     </g>
     <path style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" d="M 540 400 C 540,400 548,400 548,410 C 548,420 532,420 532,430 C 532,440 540,440 540,440"/>
     <g>
       <rect style="fill: #bce6ab; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="150" y="400" width="150" height="40" rx="0" ry="0"/>
-      <text font-size="22.5778" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="225" y="426.889">
-        <tspan x="225" y="426.889">10 GB</tspan>
+      <text font-size="22.5778" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="225" y="426.847">
+        <tspan x="225" y="426.847">10 GB</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #ff6550; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="760" y="400" width="150" height="40" rx="0" ry="0"/>
-      <text font-size="22.5778" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="835" y="426.889">
-        <tspan x="835" y="426.889">10 GB</tspan>
+      <text font-size="22.5778" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="835" y="426.847">
+        <tspan x="835" y="426.847">10 GB</tspan>
       </text>
     </g>
     <path style="fill: #ebe4d0; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" fill-rule="evenodd" d="M 760 400 C 760,400 760,440 760,440 C 760,440 538,440 538,440 C 538,440 532,440 532,430 C 532,420 548,420 548,410 C 548,400 540,400 540,400 C 540,400 760,400 760,400z"/>

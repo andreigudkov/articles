@@ -4,50 +4,50 @@
   <g id="Background">
     <g>
       <rect style="fill: #bce6ab; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="860" y="380" width="380" height="60" rx="0" ry="0"/>
-      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="418.217">
-        <tspan x="1050" y="418.217">Process</tspan>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="418.215">
+        <tspan x="1050" y="418.215">Process</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #bce6ab; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="860" y="440" width="380" height="60" rx="0" ry="0"/>
-      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="478.217">
-        <tspan x="1050" y="478.217">(g)libc</tspan>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="478.215">
+        <tspan x="1050" y="478.215">(g)libc</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #ffcaa2; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="860" y="500" width="380" height="60" rx="0" ry="0"/>
-      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="538.217">
-        <tspan x="1050" y="538.217">Filesystem (ext4/XFS/etc)</tspan>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="538.215">
+        <tspan x="1050" y="538.215">Filesystem (ext4/XFS/etc)</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #ffcaa2; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="860" y="560" width="380" height="60" rx="0" ry="0"/>
-      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="598.217">
-        <tspan x="1050" y="598.217">Page cache</tspan>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="598.215">
+        <tspan x="1050" y="598.215">Page cache</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #ffcaa2; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="860" y="620" width="380" height="60" rx="0" ry="0"/>
-      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="658.217">
-        <tspan x="1050" y="658.217">IO scheduler</tspan>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="658.215">
+        <tspan x="1050" y="658.215">IO scheduler</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #ffcaa2; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="860" y="680" width="380" height="60" rx="0" ry="0"/>
-      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="718.217">
-        <tspan x="1050" y="718.217">Driver(s)</tspan>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="718.215">
+        <tspan x="1050" y="718.215">Driver(s)</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #9fc5e8; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="860" y="740" width="380" height="60" rx="0" ry="0"/>
-      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="778.217">
-        <tspan x="1050" y="778.217">Controller</tspan>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="778.215">
+        <tspan x="1050" y="778.215">Controller</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #9fc5e8; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="860" y="800" width="380" height="60" rx="0" ry="0"/>
-      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="838.217">
-        <tspan x="1050" y="838.217">HDD or SSD</tspan>
+      <text font-size="27.0933" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1050" y="838.215">
+        <tspan x="1050" y="838.215">HDD or SSD</tspan>
       </text>
     </g>
     <polyline style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" points="1248,380 1260,380 1260,496 1248,496 "/>

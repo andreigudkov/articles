@@ -4,8 +4,8 @@
   <g id="Background">
     <g>
       <rect style="fill: #ebe4d0; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="400" y="600" width="60" height="40" rx="0" ry="0"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="430" y="623.9">
-        <tspan x="430" y="623.9">kv0</tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="430" y="623.881">
+        <tspan x="430" y="623.881">kv0</tspan>
       </text>
     </g>
     <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #ff0000" x1="400" y1="600" x2="400" y2="670"/>
@@ -19,62 +19,62 @@
     </text>
     <g>
       <rect style="fill: #ebe4d0; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="460" y="600" width="60" height="40" rx="0" ry="0"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="490" y="623.9">
-        <tspan x="490" y="623.9">kv1</tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="490" y="623.881">
+        <tspan x="490" y="623.881">kv1</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #ebe4d0; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="520" y="600" width="100" height="40" rx="0" ry="0"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="570" y="623.9">
-        <tspan x="570" y="623.9">kv2</tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="570" y="623.881">
+        <tspan x="570" y="623.881">kv2</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #9ed6ff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="620" y="600" width="40" height="40" rx="0" ry="0"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="640" y="623.9">
-        <tspan x="640" y="623.9">kv3</tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="640" y="623.881">
+        <tspan x="640" y="623.881">kv3</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #9ed6ff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="660" y="600" width="80" height="40" rx="0" ry="0"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="700" y="623.9">
-        <tspan x="700" y="623.9">kv4</tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="700" y="623.881">
+        <tspan x="700" y="623.881">kv4</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #9ed6ff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="740" y="600" width="40" height="40" rx="0" ry="0"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="760" y="623.9">
-        <tspan x="760" y="623.9">kv5</tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="760" y="623.881">
+        <tspan x="760" y="623.881">kv5</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #9ed6ff; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="780" y="600" width="90" height="40" rx="0" ry="0"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="825" y="623.9">
-        <tspan x="825" y="623.9">kv6</tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="825" y="623.881">
+        <tspan x="825" y="623.881">kv6</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #fef7bf; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="870" y="600" width="110" height="40" rx="0" ry="0"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="925" y="623.9">
-        <tspan x="925" y="623.9">kv7</tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="925" y="623.881">
+        <tspan x="925" y="623.881">kv7</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #fef7bf; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="980" y="600" width="40" height="40" rx="0" ry="0"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1000" y="623.9">
-        <tspan x="1000" y="623.9">kv8</tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1000" y="623.881">
+        <tspan x="1000" y="623.881">kv8</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #d0f0c0; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1020" y="600" width="40" height="40" rx="0" ry="0"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1040" y="623.9">
-        <tspan x="1040" y="623.9">kv9</tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1040" y="623.881">
+        <tspan x="1040" y="623.881">kv9</tspan>
       </text>
     </g>
     <g>
       <rect style="fill: #d0f0c0; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="1060" y="600" width="40" height="40" rx="0" ry="0"/>
-      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1080" y="623.9">
-        <tspan x="1080" y="623.9">kv10</tspan>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1080" y="623.881">
+        <tspan x="1080" y="623.881">kv10</tspan>
       </text>
     </g>
     <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #ff0000" x1="600" y1="600" x2="600" y2="670"/>
@@ -106,25 +106,25 @@
       <tspan x="1010" y="680">Split #3 (Remainder)</tspan>
     </text>
     <g>
-      <rect style="fill: #ebe4d0; fill-opacity: 1; stroke: none" x="400" y="566.1" width="75.3" height="18.9"/>
+      <rect style="fill: #ebe4d0; fill-opacity: 1; stroke: none" x="400" y="566.119" width="75.2125" height="18.9"/>
       <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="402" y="580">
         <tspan x="402" y="580">Mapper #0</tspan>
       </text>
     </g>
     <g>
-      <rect style="fill: #9ed6ff; fill-opacity: 1; stroke: none" x="620" y="566.1" width="75.3" height="18.9"/>
+      <rect style="fill: #9ed6ff; fill-opacity: 1; stroke: none" x="620" y="566.119" width="75.2125" height="18.9"/>
       <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="622" y="580">
         <tspan x="622" y="580">Mapper #1</tspan>
       </text>
     </g>
     <g>
-      <rect style="fill: #fef7bf; fill-opacity: 1; stroke: none" x="880" y="566.1" width="75.3" height="18.9"/>
+      <rect style="fill: #fef7bf; fill-opacity: 1; stroke: none" x="880" y="566.119" width="75.2125" height="18.9"/>
       <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="882" y="580">
         <tspan x="882" y="580">Mapper #2</tspan>
       </text>
     </g>
     <g>
-      <rect style="fill: #d0f0c0; fill-opacity: 1; stroke: none" x="1020" y="566.1" width="75.3" height="18.9"/>
+      <rect style="fill: #d0f0c0; fill-opacity: 1; stroke: none" x="1020" y="566.119" width="75.2125" height="18.9"/>
       <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1022" y="580">
         <tspan x="1022" y="580">Mapper #3</tspan>
       </text>

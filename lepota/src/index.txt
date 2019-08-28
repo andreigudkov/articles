@@ -191,6 +191,14 @@ List and Custom Styles
 
 * That is not [underline]#dead# which can [overline]#eternal# lie +
 yet with [strike-through]#strange# [small]#aeons# even [big]#death# may die
+* Data: +
++
+[source,ini]
+----
+a = 1
+b = 2
+c = 3
+----
 
 Table
 -----
