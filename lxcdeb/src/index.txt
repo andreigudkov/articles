@@ -708,7 +708,7 @@ root@ff:/# xeyes
 ----
 
 Important points are that we use untrusted mode, that we specify large timeout and
-that we use custom +.Xauthority+ file on a host.
+that we use custom +.Xauthority+ file on the host.
 Timeout sets when cookie is expired in X server.
 After expiration, X server will remove it from the list of allowed cookies and
 applications won't be able to connect anymore with this cookie.

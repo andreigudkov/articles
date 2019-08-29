@@ -187,14 +187,14 @@ characters: <img src="math-dfefcd4be01bde4c.svg" class="inlinemath" style="heigh
 </div>
 <div class="paragraph">
 <p>To compute the longest shift, imagine the string
-math:[
+<img src="math-41d4ec5bbe4c0d36.svg" class="inlinemath" style="height:2.0ex;vertical-align:-0.5ex;" alt="
   \mathrm{S}=(c,\;
     \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}p\rbrack,\;
     ..,\;
     \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}2\rbrack,\;
     \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}1\rbrack
   )
-],
+"/>,
 i.e. this is the actual string we observed in the text and which is not the suffix
 of the pattern (which we hoped for) because of <img src="math-2e7d2c03a9507ae2.svg" class="inlinemath" style="height:0.906ex;vertical-align:-0.016ex;" alt="c"/>.
 Since it doesn&#8217;t match the end of the pattern, let&#8217;s search for
@@ -216,14 +216,14 @@ Next step is to match newly aligned pattern all over again from the last charact
 </div>
 <div class="paragraph">
 <p>If, however, the string
-math:[
+<img src="math-41d4ec5bbe4c0d36.svg" class="inlinemath" style="height:2.0ex;vertical-align:-0.5ex;" alt="
   \mathrm{S}=(c,\;
     \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}p\rbrack,\;
     ..,\;
     \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}2\rbrack,\;
     \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}1\rbrack
   )
-] cannot be found anywhere in the pattern in full,
+"/> cannot be found anywhere in the pattern in full,
 let&#8217;s try to align the pattern in such way that its beginning is also the ending of S.
 If there are multiple such alignments, we need to choose the longest matching sequence
 (corresponding to the shortest shift) in order not to miss possible answer.
@@ -586,22 +586,22 @@ For every suffix length <img src="math-148de9c5a7a44d19.svg" class="inlinemath" 
 but it doesn&#8217;t know anything about the character that caused mismatch.
 It knows only the suffix length.
 It is computed in the same way as the "big" LUT, but instead of computing shifts for every string
-math:[
+<img src="math-b258d3d504b404b4.svg" class="inlinemath" style="height:2.0ex;vertical-align:-0.5ex;" alt="
   (c,\;
     \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}p\rbrack,\;
     ..,\;
     \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}2\rbrack,\;
     \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}1\rbrack
   )
-] we need to compute shifts for every string
-math:[
+"/> we need to compute shifts for every string
+<img src="math-d88edf5a32919099.svg" class="inlinemath" style="height:2.0ex;vertical-align:-0.5ex;" alt="
   (
     \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}p\rbrack,\;
     ..,\;
     \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}2\rbrack,\;
     \mathrm{P}\lbrack\lvert\mathrm{P}\rvert{-}1\rbrack
   )
-].
+"/>.
 In special case when <img src="math-96765f99ce46a7f7.svg" class="inlinemath" style="height:1.734ex;vertical-align:-0.391ex;" alt="p=0"/> table entry is set to 1, indicating minimal possible shift.</p>
 </div>
 <div class="paragraph">
@@ -902,7 +902,7 @@ have prior knowledge of the data you will stream through it.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-15 07:54:43 UTC
+Last updated 2019-08-29 09:52:49 UTC
 </div>
 </div>
 </body>

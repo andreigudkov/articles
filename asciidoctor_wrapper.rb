@@ -129,6 +129,15 @@ class MathInlineMacroProcessor < Asciidoctor::Extensions::InlineMacroProcessor
     html += %(/>)
     return html
   end
+
+  # This allows multiline https://github.com/asciidoctor/asciidoctor/issues/3263
+  def resolve_regexp name, format
+    if format == :short
+      %r(\\?#{name}:\[((?:\\\]|[^\]])*?)\])
+    else
+      %r(\\?#{name}:(\S+?)\[((?:\\\]|[^\]])*?)\])
+    end
+  end
 end
 
 class MathBlockProcessor < Asciidoctor::Extensions::BlockProcessor
