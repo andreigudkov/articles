@@ -36,7 +36,7 @@ case "$1" in
     ;;
   'status')
     echo "CPU: $(cat /proc/cpuinfo | sed -rn '/^model name[ :\t]*(.*)$/s//\1/p' | head -1)"
-    echo "ScalingDriver: $(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_driver)"
+    echo "ScalingDriver: $(cat /sys/devices/system/cpu/cpufreq/policy0/scaling_driver)"
     echo "ScalingGovernor: $(cat /sys/devices/system/cpu/cpufreq/policy0/scaling_governor)"
     if [ -e /sys/devices/system/cpu/intel_pstate/no_turbo ]; then
       noturbo=$(cat /sys/devices/system/cpu/intel_pstate/no_turbo)
@@ -50,7 +50,7 @@ case "$1" in
     else
       echo "TurboBoost: N/A"
     fi 
-    echo "Frequency: $(sudo cat /sys/devices/system/cpu/cpu*/cpufreq/cpuinfo_cur_freq | tr '\n' ' ')"
+    echo "Frequency: $(sudo cat /sys/devices/system/cpu/cpufreq/policy*/scaling_cur_freq | tr '\n' ' ')"
     for path in /sys/class/thermal/thermal_zone*/; do
       if [ $(cat "${path}/type") == 'x86_pkg_temp' ]; then
         echo "Temp: $(cat ${path}/temp)"
