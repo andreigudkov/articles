@@ -22,7 +22,7 @@ This created problems with resource prioritization and security.
 Eventually container technology emerged.
 It allowed developers to lock every single service into separate, isolated, secure environment
 with only small performance overhead.
-Moreover, devs gained precise tool to distribute system resources to these environments.
+Moreover, developers gained precise tool to distribute system resources among these environments.
 
 
 The reasons to use containers in a workstation are different.
@@ -360,7 +360,7 @@ LXC_DOMAIN=""
 
 Now restart the lxc-net service with +systemctl restart lxc-net+ or reboot the workstation.
 When lxc-net service is started, it will observe that +USE_LXC_BRIDGE+ is true and
-will setup virtual switch, connect host machine to this switch and start +dnsmask+ daemon,
+will setup virtual switch, connect host machine to this switch and start +dnsmasq+ daemon,
 that provides DHCP and DNS services to containers.
 
 With virtual network present, you can instruct containers to connect to it.
@@ -644,6 +644,7 @@ It is not present in filesystem in contrast to another, pathname unix socket.
 
 [source,console]
 ----
+gudok@gudok6:~$ sudo systemctl status sddm
 ● sddm.service - Simple Desktop Display Manager
    Active: active (running) since Wed 2019-08-21 17:48:42 MSK; 1 day 1h ago
    CGroup: /system.slice/sddm.service
@@ -884,7 +885,7 @@ the first step to debug it is to use +strace+.
 
 Some applications may depend on environment variables.
 For example, Firefox hangs permanently during startup if environment variables are not cleared.
-ncurses applications such as +top+ require +TERM+ correctly set.
+ncurses applications such as +top+ require +TERM+ to be correctly set.
 
 
 Unprivileged containers

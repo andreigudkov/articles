@@ -244,7 +244,7 @@
       <tspan x="616" y="-76">Host</tspan>
     </text>
     <text font-size="22.5778" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="724" y="-88">
-      <tspan x="724" y="-88">dnsmask</tspan>
+      <tspan x="724" y="-88">dnsmasq</tspan>
     </text>
     <text font-size="14.6756" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="800" y="-64">
       <tspan x="800" y="-64">:53</tspan>

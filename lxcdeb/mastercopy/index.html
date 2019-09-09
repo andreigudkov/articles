@@ -122,7 +122,7 @@ This created problems with resource prioritization and security.
 Eventually container technology emerged.
 It allowed developers to lock every single service into separate, isolated, secure environment
 with only small performance overhead.
-Moreover, devs gained precise tool to distribute system resources to these environments.</p>
+Moreover, developers gained precise tool to distribute system resources among these environments.</p>
 </div>
 <div class="paragraph">
 <p>The reasons to use containers in a workstation are different.
@@ -481,7 +481,7 @@ from 10.0.3.0/24 to some unused address range, e.g. to 192.168.20.0/24.</p>
 <div class="paragraph">
 <p>Now restart the lxc-net service with <code>systemctl restart lxc-net</code> or reboot the workstation.
 When lxc-net service is started, it will observe that <code>USE_LXC_BRIDGE</code> is true and
-will setup virtual switch, connect host machine to this switch and start <code>dnsmask</code> daemon,
+will setup virtual switch, connect host machine to this switch and start <code>dnsmasq</code> daemon,
 that provides DHCP and DNS services to containers.</p>
 </div>
 <div class="paragraph">
@@ -790,7 +790,8 @@ It is not present in filesystem in contrast to another, pathname unix socket.</p
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="console"><span></span><span class="tok-go">● sddm.service - Simple Desktop Display Manager</span>
+<pre class="pygments highlight"><code data-lang="console"><span></span><span class="tok-gp">gudok@gudok6:~$</span> sudo systemctl status sddm
+<span class="tok-go">● sddm.service - Simple Desktop Display Manager</span>
 <span class="tok-go">   Active: active (running) since Wed 2019-08-21 17:48:42 MSK; 1 day 1h ago</span>
 <span class="tok-go">   CGroup: /system.slice/sddm.service</span>
 <span class="tok-go">           ├─ 927 /usr/bin/sddm</span>
@@ -1041,7 +1042,7 @@ the first step to debug it is to use <code>strace</code>.</p>
 <div class="paragraph">
 <p>Some applications may depend on environment variables.
 For example, Firefox hangs permanently during startup if environment variables are not cleared.
-ncurses applications such as <code>top</code> require <code>TERM</code> correctly set.</p>
+ncurses applications such as <code>top</code> require <code>TERM</code> to be correctly set.</p>
 </div>
 </div>
 </div>
@@ -1212,7 +1213,7 @@ Processes in containers running under container&#8217;s root now should be able 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-08-29 10:01:12 UTC
+Last updated 2019-09-09 11:38:41 UTC
 </div>
 </div>
 </body>
