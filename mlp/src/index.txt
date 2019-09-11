@@ -1,0 +1,97 @@
+Explaining machine learning pitfalls to managers
+================================================
+Andrei Gudkov <gudokk@gmail.com>
+:source-highlighter: pygments
+:figure-caption!:
+:table-caption!:
+
+
+No dataset pitfall
+------------------
+
+Machine learning is not about solving some random problem that looks commercially appealing.
+It is all about finding a problem for which a *good training dataset* can be acquired.
+
+
+For example, what is harder: speech recognition or OCR?
+Both tasks look similar at first glance.
+They both attempt to recognize sequence of words.
+The only difference is that the first one targets audio stream,
+while the second one -- stream of glyphs.
+And yet speech recognition is much harder.
+
+
+The trouble is that it is difficult to build good dataset for speech recognition.
+The only way to do this is to hire an army of native language speakers
+and ask them to manually recognize text in a collection of audio files.
+This process is extremely money- and time-consuming.
+It can take half a year to build the very first dataset barely enough to be used for training,
+and much longer to develop it into high-quality, representative dataset that
+would include corner cases such as rare accents.
+
+
+This problem is not so severe with OCR.
+Training dataset for OCR can be automatically constructed without relying on manual labor.
+The idea is to render sample text into image file and then distort it to represent
+real-world scanned text: rotate it, blur, add noise, apply brightness gradient, etc.
+Repeating this process with different texts and fonts allows to create dataset of decent
+quality in fully automatic mode.
+Of course, some actually scanned texts are required to make dataset representable,
+but this is not a bottleneck for ML engineers and can be done later.
+
+
+Machine learning problems can be roughly classified into the following tiers
+depending on the source of the dataset: naturally existing datasets;
+programmatically constructed datasets; manually created datasets.
+
+image::tiers.svg[width=70%,align=center]
+
+
+Tasks with naturally existing datasets form the lowest tier.
+For instance, the problem of detecting sex and age of a person by analyzing photo is exactly of this type.
+Dataset for this problem can be constructed by scraping social network profiles.
+Another problem of such type is predicting next word while user is typing text message,
+provided that an archive of previously sent messages exists.
+Similar problems are predicting geolocation of the user, stock price forecasting, and recommending movies.
+Even when data already exists, problems in this category can pose significant challenge
+because the data can be dirty or biased.
+People do not always specify their true sex and age in profiles,
+and recommender systems are prone to bias due to bubble effect.
+Anyway, naturally existing dirty data is better than no data at all.
+
+
+Second tier is formed by problems which do not have natural datasets,
+but datasets can be constructed in automatic mode.
+One of such problems -- OCR -- was described above.
+Datasets for large number of other problems focused on image enhancement can be solved in similar manner,
+including image colorization, deblurring or upscaling.
+Dataset construction process consists of downloading a collection of originally good images
+and then artificially morphing them, e.g. converting to black and white.
+The goal of the ML model is to reconstruct the original image.
+Datasets for other problems, such as audio denoising, can be constructed by mixing multiple samples.
+
+
+The third and highest tier consists of problems which require manual construction of the dataset.
+Speech recognition, adult content detection, search engine ranking -- all these problems require data
+to be manually labeled.
+If a problem falls into this tier, it would take 2-10 times longer to solve it than
+a "similar" problem from other tiers.
+For example, British National Corpus, which is widely used for training language models,
+was constructed in three years with input from multiple organizations.
+It is doubtful that small company would be able to provide such resources.
+Not only manual labeling is time-consuming but it also requires extra effort from ML engineer.
+ML engineer has to assemble training dataset piece by piece knowing that
+any data batch scheduled for labeling costs money.
+Every new batch must increase overall representativeness of the dataset
+or otherwise money will be wasted.
+Selecting such batches is significantly harder than filtering dirty data (tier 1 problem)
+or creating additional data mutators (tier 2).
+
+
+When approached with a new ML project, the first question to ask is:
+how hard will it be to create dataset?
+People without technical background often forget about data.
+In fact, more effort is spent on dataset construction than on fitting ML model.
+Projects which have to rely on manual data labeling are particularly prone to incorrect expectations.
+Think twice before committing to such projects.
+

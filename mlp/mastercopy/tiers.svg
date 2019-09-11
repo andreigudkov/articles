@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="54cm" height="25cm" viewBox="259 439 1062 492" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g id="Background">
+    <g>
+      <ellipse style="fill: #ff950e; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" cx="1090" cy="670" rx="230" ry="230"/>
+      <text font-size="20.32" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="1090" y="663.462">
+        <tspan x="1090" y="663.462">Manual</tspan>
+        <tspan x="1090" y="688.862">data labeling</tspan>
+      </text>
+    </g>
+    <g>
+      <ellipse style="fill: #ffea00; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" cx="610" cy="890" rx="30" ry="30"/>
+      <text font-size="12.8" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="610" y="893.881">
+        <tspan x="610" y="893.881"></tspan>
+      </text>
+    </g>
+    <g>
+      <ellipse style="fill: #ffce00; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" cx="770" cy="830" rx="100" ry="100"/>
+      <text font-size="20.32" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="770" y="810.762">
+        <tspan x="770" y="810.762">Artificial</tspan>
+        <tspan x="770" y="836.162">dataset</tspan>
+        <tspan x="770" y="861.562">construction</tspan>
+      </text>
+    </g>
+    <text font-size="20.32" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:700" x="484" y="888">
+      <tspan x="484" y="888">Existing</tspan>
+      <tspan x="484" y="913.4">dataset</tspan>
+    </text>
+    <text font-size="20.32" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="272" y="788">
+      <tspan x="272" y="788">– Age by photo</tspan>
+      <tspan x="272" y="813.4">– Stock price forecasting</tspan>
+      <tspan x="272" y="838.8">– Recommender systems</tspan>
+    </text>
+    <text font-size="20.32" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="460" y="660">
+      <tspan x="460" y="660">– OCR</tspan>
+      <tspan x="460" y="685.4">– Image colorization</tspan>
+      <tspan x="460" y="710.8">– Audio denoizing</tspan>
+    </text>
+    <text font-size="20.32" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="580" y="480">
+      <tspan x="580" y="480">– Speech recongition</tspan>
+      <tspan x="580" y="505.4">– Object classification</tspan>
+      <tspan x="580" y="530.8">– Search engine ranking</tspan>
+    </text>
+    <polyline style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" points="570,540 860,540 888.904,556.337 "/>
+    <polyline style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" points="440,720 670,720 702.068,755.275 "/>
+    <polyline style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke: #000000" points="260,850 550,850 584.211,872.808 "/>
+  </g>
+</svg>

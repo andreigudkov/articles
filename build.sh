@@ -23,6 +23,7 @@ modules="
   $root/codesearch
   $root/sim/minhash1
   $root/lxcdeb
+  $root/mlp
 "
 if [ -L $0 ]; then
   modules=$(readlink -f $PWD)
