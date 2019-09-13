@@ -97,8 +97,9 @@
 <li><a href="#_creating_containers_using_custom_templates">Creating containers using custom templates</a></li>
 <li><a href="#_environment_variables">Environment variables</a></li>
 <li><a href="#_accessing_host_data">Accessing host data</a></li>
-<li><a href="#_basic_networking">Basic networking</a></li>
-<li><a href="#_protecting_lan_from_containers">Protecting LAN from containers</a></li>
+<li><a href="#_network_basic_setup">Network: basic setup</a></li>
+<li><a href="#_network_better_dns">Network: better DNS</a></li>
+<li><a href="#_network_protecting_lan_from_containers">Network: protecting LAN from containers</a></li>
 <li><a href="#_x11_applications_via_ssh">X11 applications via SSH</a></li>
 <li><a href="#_x11_applications_via_unix_socket">X11 applications via unix socket</a></li>
 <li><a href="#_pulseaudio">PulseAudio</a></li>
@@ -425,7 +426,7 @@ to mount directory into host&#8217;s <code>/root/video</code>, not into the cont
 </div>
 </div>
 <div class="sect1">
-<h2 id="_basic_networking">Basic networking</h2>
+<h2 id="_network_basic_setup">Network: basic setup</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Nearly all modern software requires Internet connection.
@@ -537,7 +538,75 @@ Listening only on 127.0.0.1 won&#8217;t work.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_protecting_lan_from_containers">Protecting LAN from containers</h2>
+<h2 id="_network_better_dns">Network: better DNS</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Containers are able to address each other by names (<code>ping ff</code>) immediately after basic network is set up.
+No additional configuration is required.
+When <code>dhclient</code> inside a container requests IP address, it also includes its hostname
+as part of the request.
+<code>dnsmasq</code>, acting as DHCP and DNS server simultaneously, assigns some IP address to the container
+and also adds an entry to its DNS table.
+Hence every container is able to resolve IP address of every other container transparently through DNS.</p>
+</div>
+<div class="paragraph">
+<p>Host, on the other hand, is not able to resolve IP addresses of containers by default.
+To fix this, we need to use local <code>dnsmasq</code> daemon as primary DNS server on the host.
+Add following option to host&#8217;s <code>/etc/dhcp/dhclient.conf</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code>prepend domain-name-servers 10.0.3.1;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After reconfiguring networking you should see that local <code>dnsmasq</code> daemon is
+always the primary DNS server.
+This modification is robust to advertising of DNS servers by upstream routers,
+e.g. when you move your laptop from one wireless network to another one.
+10.0.3.1 will always remain the first entry.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="console"><span></span><span class="tok-gp">gudok@gudok6:~$</span> sudo systemctl restart networking
+<span class="tok-gp">gudok@gudok6:~$</span> cat /etc/resolv.conf
+<span class="tok-go">nameserver 10.0.3.1</span>
+<span class="tok-go">nameserver 192.168.88.1</span>
+<span class="tok-go">nameserver 1.1.1.1</span>
+<span class="tok-go">nameserver 1.0.0.1</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now when some application on the host calls <code>gethostbyname()</code>,
+DNS request is sent first to local <code>dnsmasq</code> daemon.
+If request is the name of one of the containers, then <code>dnsmasq</code> will respond with its IP address by itself
+by using its local DNS table.
+For all other hostnames it acts as DNS proxy and sends requests to upstream DNS server
+specified in <code>/etc/resolv.conf</code>.
+Don&#8217;t worry: it is clever enough not to send requests recursively to itself.</p>
+</div>
+<div class="paragraph">
+<p>If you want to address containers by their IP addresses and not by hostnames,
+then it is desirable to assign static IP addresses to containers.
+The clever way to do this is through <code>dhclient</code> configuration when container is created.
+Choose unused IP address from 10.0.3.0/24 range and add the following option into <em>container&#8217;s</em>
+<code>/etc/dhcp/dhclient.conf</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="console"><span></span><span class="tok-go">send dhcp-requested-address 10.0.3.55;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now when container asks DHCP server for IP address, it will ask for this particular address 10.0.3.55.
+If there are no collisions, then DHCP server will assign exactly this address.
+This approach is better than static network configuration because container still sends DHCP request with its hostname,
+allowing <code>dnsmasq</code> to add DNS entry {container name} &#8594; {desired IP}.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_network_protecting_lan_from_containers">Network: protecting LAN from containers</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Best practice of container isolation is to allow only those features that are truly required.
@@ -1213,7 +1282,7 @@ Processes in containers running under container&#8217;s root now should be able 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-09-09 11:38:41 UTC
+Last updated 2019-09-13 09:31:48 UTC
 </div>
 </div>
 </body>

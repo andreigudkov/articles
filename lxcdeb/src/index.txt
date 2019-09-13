@@ -310,8 +310,8 @@ lxc.mount.entry = /volume/DATA/video /root/video none ro,bind,create=dir 0 0
 ----
 
 
-Basic networking
-----------------
+Network: basic setup
+--------------------
 
 Nearly all modern software requires Internet connection.
 Networking in container systems is ugly.
@@ -411,8 +411,71 @@ and also firewall rules must not prohibit packet flow in both directions.
 Listening only on 127.0.0.1 won't work.
 
 
-Protecting LAN from containers
-------------------------------
+Network: better DNS
+-------------------
+
+Containers are able to address each other by names (+ping ff+) immediately after basic network is set up.
+No additional configuration is required.
+When +dhclient+ inside a container requests IP address, it also includes its hostname
+as part of the request.
++dnsmasq+, acting as DHCP and DNS server simultaneously, assigns some IP address to the container
+and also adds an entry to its DNS table.
+Hence every container is able to resolve IP address of every other container transparently through DNS.
+
+
+Host, on the other hand, is not able to resolve IP addresses of containers by default.
+To fix this, we need to use local +dnsmasq+ daemon as primary DNS server on the host.
+Add following option to host's +/etc/dhcp/dhclient.conf+:
+
+[source]
+----
+prepend domain-name-servers 10.0.3.1;
+----
+
+After reconfiguring networking you should see that local +dnsmasq+ daemon is
+always the primary DNS server.
+This modification is robust to advertising of DNS servers by upstream routers,
+e.g. when you move your laptop from one wireless network to another one.
+10.0.3.1 will always remain the first entry.
+
+[source,console]
+----
+gudok@gudok6:~$ sudo systemctl restart networking
+gudok@gudok6:~$ cat /etc/resolv.conf
+nameserver 10.0.3.1
+nameserver 192.168.88.1
+nameserver 1.1.1.1
+nameserver 1.0.0.1
+----
+
+Now when some application on the host calls +gethostbyname()+,
+DNS request is sent first to local +dnsmasq+ daemon.
+If request is the name of one of the containers, then +dnsmasq+ will respond with its IP address by itself
+by using its local DNS table.
+For all other hostnames it acts as DNS proxy and sends requests to upstream DNS server
+specified in +/etc/resolv.conf+.
+Don't worry: it is clever enough not to send requests recursively to itself.
+
+
+If you want to address containers by their IP addresses and not by hostnames,
+then it is desirable to assign static IP addresses to containers.
+The clever way to do this is through +dhclient+ configuration when container is created.
+Choose unused IP address from 10.0.3.0/24 range and add the following option into _container's_
++/etc/dhcp/dhclient.conf+:
+
+[source,console]
+----
+send dhcp-requested-address 10.0.3.55;
+----
+
+Now when container asks DHCP server for IP address, it will ask for this particular address 10.0.3.55.
+If there are no collisions, then DHCP server will assign exactly this address.
+This approach is better than static network configuration because container still sends DHCP request with its hostname,
+allowing +dnsmasq+ to add DNS entry {container name} -> {desired IP}.
+
+
+Network: protecting LAN from containers
+---------------------------------------
 
 Best practice of container isolation is to allow only those features that are truly required.
 Everything is prohibited unless explicitly allowed by configuration.
