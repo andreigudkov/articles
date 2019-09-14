@@ -951,6 +951,59 @@ For example, Firefox hangs permanently during startup if environment variables a
 ncurses applications such as +top+ require +TERM+ to be correctly set.
 
 
+Caching packages
+----------------
+
+Typically the same set of basic packages is installed in every container.
+If you do not have APT repository in your LAN, then this may be time-consuming.
+To solve this problem, you can setup +apt-cacher-ng+ that acts as a caching proxy
+to Debian/Ubuntu repositories and then instruct containers to use it instead of connecting
+to APT repository directly.
+
+
+Create additional container that will be used exclusively as a cache, I call it +acng+ below.
+Install +apt-cacher-ng+ inside it.
+As soon as you install it, it starts listening on standard proxy port 3142.
+
+[source,console]
+----
+root@acng:/# apt-get install apt-cacher-ng
+Setting up libwrap0:amd64 (7.6.q-28) ...
+Setting up apt-cacher-ng (3.2-2) ...
+----
+
+
+Now let's instruct containers to use this proxy when accessing APT repositories.
+First, we must be sure that all repository URLs use raw http scheme and not https.
+It doesn't matter what particular mirrors are used, only the scheme.
+Default +sources.list+ configuration is fine.
+If you added other repository URLs manually, then check that they use HTTP scheme.
+Next, add +proxy+ file that instructs APT to access repository via proxy.
+These steps can be performed on all containers, including proxy container itself and even host machine.
+
+[source,console]
+----
+root@ff:/# cat /etc/apt/sources.list
+deb http://deb.debian.org/debian buster main
+deb http://security.debian.org/debian-security buster/updates main
+
+root@ff:/# cat /etc/apt/apt.conf.d/proxy
+Acquire::http { Proxy "http://acng:3142"; }
+----
+
+Now when installing new packages, +apt-get+ will send requests via proxy.
+Proxy will detect that requested URL belongs to one of Debian repositories
+and return cached package if found.
+If package is not yet cached, it will download package.
+It will always use the same +deb.debian.org+ no matter what mirror is specified in the URL.
+
+In addition, +apt-cacher-ng+ instance exposures report on cache efficiency.
+Provided you configured DNS as was described in the corresponding section, you can access
+it directly from the host at http://acng:3142/acng-report.html[http://acng:3142/acng-report.html].
+
+image::acng.png[width=60%,align=center]
+
+
 Unprivileged containers
 -----------------------
 

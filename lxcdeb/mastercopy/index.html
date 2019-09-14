@@ -105,6 +105,7 @@
 <li><a href="#_pulseaudio">PulseAudio</a></li>
 <li><a href="#_webcam">Webcam</a></li>
 <li><a href="#_application_troubleshooting">Application troubleshooting</a></li>
+<li><a href="#_caching_packages">Caching packages</a></li>
 <li><a href="#_unprivileged_containers">Unprivileged containers</a></li>
 </ul>
 </div>
@@ -1116,6 +1117,66 @@ ncurses applications such as <code>top</code> require <code>TERM</code> to be co
 </div>
 </div>
 <div class="sect1">
+<h2 id="_caching_packages">Caching packages</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Typically the same set of basic packages is installed in every container.
+If you do not have APT repository in your LAN, then this may be time-consuming.
+To solve this problem, you can setup <code>apt-cacher-ng</code> that acts as a caching proxy
+to Debian/Ubuntu repositories and then instruct containers to use it instead of connecting
+to APT repository directly.</p>
+</div>
+<div class="paragraph">
+<p>Create additional container that will be used exclusively as a cache, I call it <code>acng</code> below.
+Install <code>apt-cacher-ng</code> inside it.
+As soon as you install it, it starts listening on standard proxy port 3142.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="console"><span></span><span class="tok-gp">root@acng:/#</span> apt-get install apt-cacher-ng
+<span class="tok-go">Setting up libwrap0:amd64 (7.6.q-28) ...</span>
+<span class="tok-go">Setting up apt-cacher-ng (3.2-2) ...</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s instruct containers to use this proxy when accessing APT repositories.
+First, we must be sure that all repository URLs use raw http scheme and not https.
+It doesn&#8217;t matter what particular mirrors are used, only the scheme.
+Default <code>sources.list</code> configuration is fine.
+If you added other repository URLs manually, then check that they use HTTP scheme.
+Next, add <code>proxy</code> file that instructs APT to access repository via proxy.
+These steps can be performed on all containers, including proxy container itself and even host machine.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="console"><span></span><span class="tok-gp">root@ff:/#</span> cat /etc/apt/sources.list
+<span class="tok-go">deb http://deb.debian.org/debian buster main</span>
+<span class="tok-go">deb http://security.debian.org/debian-security buster/updates main</span>
+
+<span class="tok-gp">root@ff:/#</span> cat /etc/apt/apt.conf.d/proxy
+<span class="tok-go">Acquire::http { Proxy &quot;http://acng:3142&quot;; }</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now when installing new packages, <code>apt-get</code> will send requests via proxy.
+Proxy will detect that requested URL belongs to one of Debian repositories
+and return cached package if found.
+If package is not yet cached, it will download package.
+It will always use the same <code>deb.debian.org</code> no matter what mirror is specified in the URL.</p>
+</div>
+<div class="paragraph">
+<p>In addition, <code>apt-cacher-ng</code> instance exposures report on cache efficiency.
+Provided you configured DNS as was described in the corresponding section, you can access
+it directly from the host at <a href="http://acng:3142/acng-report.html">http://acng:3142/acng-report.html</a>.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="acng.png" alt="acng" width="60%">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_unprivileged_containers">Unprivileged containers</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -1282,7 +1343,7 @@ Processes in containers running under container&#8217;s root now should be able 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-09-13 09:31:48 UTC
+Last updated 2019-09-14 09:23:58 UTC
 </div>
 </div>
 </body>
