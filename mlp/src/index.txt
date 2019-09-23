@@ -4,6 +4,8 @@ Andrei Gudkov <gudokk@gmail.com>
 :source-highlighter: pygments
 :figure-caption!:
 :table-caption!:
+:toc:
+:toclevels: 3
 
 
 No dataset pitfall
@@ -94,4 +96,96 @@ People without technical background often forget about data.
 In fact, more effort is spent on dataset construction than on fitting ML model.
 Projects which have to rely on manual data labeling are particularly prone to incorrect expectations.
 Think twice before committing to such projects.
+
+
+No classification error allowed
+-------------------------------
+
+When building a classifier, only one type of error can be minimized.
+
+This is an example of typical conversation between a manager and a tech lead:
+
+_Manager._ Hello, I have an idea that will earn us a fortune.
+
+_TechLead._ What is it?
+
+_Manager._ There are a lot of prospective customers who are willing
+           to pay for a classifier that is able to mark images with explicit content.
+           Forums, social networks, file hostings -- actually all sorts of public web sites
+           where people can upload photos.
+           We will be the first who implement this classifier and will become rich.
+
+_TechLead._ Nope, we won't be able to create such a classifier.
+
+_Manager._ What are you talking about?
+           I do not see any offensive images in google image search.
+           Surely they can do this, and so do we.
+
+
+At this moment tech lead has to explain concepts of precision and recall to the manager.
+It is possible to optimize classifier only for one type of error.
+Either it will erroneously filter out some good images in addition to bad ones;
+or it will allow some bad images to pass through.
+But it is impossible to build a classifier that is free of both errors.
+In another words, there is a knob in ML model that allows
+to choose what error is more important.
+Depending on how you treat "gray" zone, error will shift to the left or to the right.
+The lower one error type, the higher the another one.
+If the knob is set to middle position, nothing good will happen
+because both error types will be higher than zero.
+
+image::knob.svg[width=60%,align=center]
+
+
+In the hypothetical classifier discussed between manager and tech lead
+neither error is acceptable.
+If classifier allows bad images through, then users will be afraid to visit
+web site in public or allow children to use it.
+And if it blocks upload of innocent images, users will be frustrated by not understanding what they did wrong.
+Google, on the other hand, is not so constrained.
+It can rotate ML knob to a position where all bad images are filtered out along with some good ones.
+The web is huge.
+Definitely it will be able to find other images which match query and also pass the classifier.
+If the classifier even slightly complains about some image, then this image is removed and replaced with another,
+absolutely innocent one.
+
+
+Similarly, you may have noticed that a lot of signboards in the google street view are blurred
+like if they were car plate numbers.
+The reason is the same: ML knob is in the position where it correctly detects all true plate numbers
+at the cost of misclassifying some ordinary signboards as plate numbers.
+
+
+When dealing with spam, the situation is the opposite.
+It is better to allow some spam messages through antispam filter rather than throwing away
+important messages.
+Only when classifier 99.999% sure that message is spam, it is filtered out.
+
+
+Another example of this kind is an ads engine.
+Suppose that classifier is able to use location information to predict that user's car has just broken on the road.
+Positive classification of some user instructs ads engine to promote nearby service centers and dealerships to this user.
+It is not a big trouble to misclassify a user and therefore display irrelevant ads
+if user stopped on the road for some random reason,
+but it would be inexcusable to miss a click from a person who is really in need of such services.
+Even if classifier is so bad that four out of five people are marked incorrectly,
+ads should be displayed.
+
+
+It should be noted that if neither of error types is acceptable, it is not the end of the world yet.
+It just means that classifier can't work in fully automatic mode, but only as a prefilter.
+Final decision must be made by a real person.
+In the original example about explicit content identification, classifier may be tuned to make
+one of the following decisions: a) publish photo immediately if it is sure that photo is OK;
+b) immediately reject photo and notify user if it is sure that photo is not OK;
+c) add photo into the queue for manual review in case of uncertainty.
+The trouble is that it may be prohibitively expensive to pay to reviewers.
+However, if you manage to make people work for free (usually such people are proudly called "moderators"),
+then it can work out.
+
+
+Conclusion.
+When building classifiers, important question to ask:
+assuming that cumulative error will be 20%,
+where would you prefer to rotate the knob to?
 
