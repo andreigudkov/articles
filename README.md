@@ -3,14 +3,15 @@ This repository contains source code of the articles which are hosted at [`http:
 
 ### Required Debian packges
 
-  * dia             -- to edit diagrams
-  * libreoffice     -- to edit charts
-  * asciidoctor     -- to build article
-  * pygments        -- to build article (source code highlighting)
-  * texlive         -- to build article (math rendering)
-  * dvipng          -- to build article (math rendering)
-  * sassc           -- to compile "lepota" stylesheet from SASS template
-  * yui-compressor  -- to compress "lepota" stylesheet
+  * dia                  -- to edit diagrams
+  * libreoffice          -- to edit charts
+  * asciidoctor          -- to build article
+  * ruby-pygments.rb     -- to build article (source code highlighting)
+  * texlive              -- to build article (math rendering)
+  * preview-latex-style  -- to build article (math rendering)
+  * dvipng               -- to build article (math rendering)
+  * sassc                -- to compile "lepota" stylesheet from SASS template
+  * yui-compressor       -- to compress "lepota" stylesheet
  
 
 ### Build

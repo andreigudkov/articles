@@ -677,7 +677,7 @@ table.tableblock > tbody > tr > td {
   padding: 0 5px 2px 5px; }
 
 table.tableblock > tbody > tr:nth-of-type(2n) {
-  background-color: #F3F5F7; }
+  background-color: #F8F8F8; }
 
 p.tableblock {
   text-align: inherit; }
@@ -724,7 +724,7 @@ div.listingblock {
   border-style: solid;
   border-color: #667788;
   border-width: 0 0 0 2px;
-  background-color: #F3F5F7;
+  background-color: #F8F8F8;
   overflow: auto; }
   div.listingblock .title {
     text-align: right; }
@@ -732,7 +732,7 @@ div.listingblock {
     font-family: Menlo, Consolas, Monaco, "Lucida Console", monospace;
     font-size: 87.5%;
     white-space: pre;
-    background-color: #F3F5F7 !important;
+    background-color: #F8F8F8 !important;
     /* override value provided by pygments css */
     margin: 0; }
   div.listingblock td.linenos {

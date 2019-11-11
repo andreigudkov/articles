@@ -41,6 +41,7 @@ module MathRenderer
   end
 
   def convert1 formula, dir
+    puts dir
     texfile = File.join(dir, 'formula.tex')
     dvifile = File.join(dir, 'formula.dvi')
     pngfile = File.join(dir, 'formula.png')
@@ -50,7 +51,7 @@ module MathRenderer
     texdata = gentex(formula)
     puts texdata
     IO.binwrite(texfile, texdata)
-    if !system(%(cd #{dir} && latex -halt-on-error #{texfile}))
+    if !system(%(cd #{dir} && latex -halt-on-error -interaction=batchmode #{texfile}))
       raise 'latex execution failed'
     end
 
