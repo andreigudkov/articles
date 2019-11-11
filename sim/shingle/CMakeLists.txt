@@ -47,10 +47,12 @@ target_link_libraries(${SHN_EXE} ${SHN_LIB} ${SHN_DEPS})
 
 # tests
 add_executable(${SHN_TEST} src/${SHN_TEST}.cc)
+target_include_directories(${SHN_TEST} PRIVATE ${GTEST_INCLUDE_DIR})
 set_target_properties(${SHN_TEST} PROPERTIES COMPILE_FLAGS ${SHN_COMPILE_FLAGS})
 set_target_properties(${SHN_TEST} PROPERTIES LINK_FLAGS ${SHN_LINK_FLAGS})
 target_link_libraries(${SHN_TEST} ${SHN_LIB} ${GTEST_LIBRARY} ${SHN_DEPS})
 if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.10.0") 
+  include(GoogleTest)
   gtest_discover_tests(${SHN_TEST})
 else()
   add_test(NAME ${SHN_TEST} COMMAND ${SHN_TEST})
