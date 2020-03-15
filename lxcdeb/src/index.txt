@@ -527,8 +527,8 @@ iptables $use_iptables_lock -I FORWARD -i ${LXC_BRIDGE} -d 172.16.0.0/12 -j DROP
 iptables $use_iptables_lock -I FORWARD -i ${LXC_BRIDGE} -d 192.168.0.0/16 -j DROP
 iptables $use_iptables_lock -I FORWARD -i ${LXC_BRIDGE} -m state --state RELATED,ESTABLISHED -j ACCEPT
 iptables $use_iptables_lock -I FORWARD -i ${LXC_BRIDGE} -p icmp -j ACCEPT
-iptables $use_iptables_lock -t nat -A POSTROUTING -s ${LXC_NETWORK} ! -d ${LXC_NETWORK} -j MASQUERADE
-iptables $use_iptables_lock -t mangle -A POSTROUTING -o ${LXC_BRIDGE} -p udp -m udp --dport 68 -j CHECKSUM --checksum-fill
+iptables $use_iptables_lock -t nat -I POSTROUTING -s ${LXC_NETWORK} ! -d ${LXC_NETWORK} -j MASQUERADE
+iptables $use_iptables_lock -t mangle -I POSTROUTING -o ${LXC_BRIDGE} -p udp -m udp --dport 68 -j CHECKSUM --checksum-fill
 ----
 
 The central idea of these rules is that we prohibit containers from initiating connections to LAN addresses.
@@ -1056,14 +1056,14 @@ lxc.idmap = g 0 689824 65536
   to +lxc.apparmor.profile = unconfined+.
 . Create +/etc/lxc/lxc-usernet+ and add entry for your user: +gudok veth lxcbr0 100+.
   This will allow you to have up to 100 containers connected to virtual switch.
-. Reboot the workstation
+. Reboot the workstation (you may get cryptic segmentation faults if don't do that)
 . Run +lxc-checkconfig+ and check that everything is enabled and there are no error and warning messages.
 
 
 Now it is possible to create unprivileged containers.
 The procedure is exactly the same as with privileged containers, just run all the commands with ordinary user, not root.
 Remember that +lxc-debian+ template won't work, only +lxc-download+.
-If something goes wrong, try to execute lxc-* command with +--logfile /tmp/lxc.log --loglevel DEBUG+ options.
+If something goes wrong, try to execute lxc-* command with +--logfile /tmp/lxc.log --logpriority DEBUG+ options.
 Log file contains much more verbose messages than those ones printed to stdout.
 
 
@@ -1115,4 +1115,18 @@ Processes in containers running under container's root now should be able to acc
 ----
 lxc.mount.entry = /dev/video0.gudok dev/video0 none bind,optional,create=file
 ----
+
+Another nuisance with unrprivileged containers is that you cannot copy files directly from host file system into
+LXC container (e.g.  +cp ~/.vimrc ~/.local/share/lxc/ff/rootfs/root/+ will fail) because the owner of this directory
+is different from your ordinary user ID.
+To circumvent this problem use the following command that remaps user and group IDs:
+
+[source,console]
+----
+gudok@gudok6:~$ lxc-usernsexec -m b:0:689824:65536 -- <some command>
+gudok@gudok6:~$ lxc-usernsexec -m b:0:689824:65536 -- cp $HOME/.vimrc ~/.local/share/lxc/ff/rootfs/root/
+----
+
+What happens here is that every user in range [689824, 689824+65536) on the host file system is remapped to [0, 65536)
+respectively into the container.
 
