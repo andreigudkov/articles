@@ -52,7 +52,8 @@ case "$1" in
     fi 
     echo "Frequency: $(sudo cat /sys/devices/system/cpu/cpufreq/policy*/scaling_cur_freq | tr '\n' ' ')"
     for path in /sys/class/thermal/thermal_zone*/; do
-      if [ $(cat "${path}/type") == 'x86_pkg_temp' ]; then
+      what=$(cat "${path}/type")
+      if [ "${what}" == 'x86_pkg_temp' ]; then
         echo "Temp: $(cat ${path}/temp)"
       fi
     done
