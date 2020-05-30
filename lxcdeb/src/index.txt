@@ -309,6 +309,67 @@ lxc.mount.entry = /volume/DATA/video /var/lib/lxc/some_container_name/rootfs/roo
 lxc.mount.entry = /volume/DATA/video /root/video none ro,bind,create=dir 0 0
 ----
 
+Mounting is only one half of the solution.
+Another one deals with permissions.
+Suppose that you have a directory in the host and you want to share this directory into container
+and make it painlessly writable from both host and container.
+To do this, you need to ensure that UID/GID of your user inside the container matches UID/GID of your user in the host.
+
+The simplest way would be to create a user inside the container with the same UID/GIDs as your user
+in the host, and work in the container as this newly created user.
+The commands below will create user "gudok" in the container which is exactly the same
+entity as host's "gudok" from permissions perspective.
+This works because in privileged containers UID/GIDs refer to the same UID/GIDs in the host.
+
+[source,console]
+----
+gudok@gudok6:~$ sudo lxc-attach --clear-env -n ff
+root@ff:/# apt-get install libuser
+root@ff:/# /usr/sbin/groupadd --gid 1000 gudok
+root@ff:/# /usr/sbin/useradd --uid 1000 --gid 1000 --create-home --shell /bin/bash gudok
+root@ff:/# exit
+gudok@gudok6:~$ lxc-attach --clear-env -n ff -- su gudok
+----
+
+
+If your prefer to work as root inside container, things are more complicated.
+What we need to do is to map container's UID/GID=0 to host's UID/GID=1000.
+This means that files created in host with UID/GID=1000 as owner will be visible as UID/GID=0
+inside a container and vice versa.
+To do so, first we will need to allow root user to create explicit UID/GID mappings.
+Add following line to both +/etc/subuid+ and +/etc/subgid+.
+It will allow root user to map container's UID/GID to any UID/GID on the host that we want:
+
+----
+root:0:2147483647
+----
+
+Now let's create create explicit mapping in +/etc/lxc/default.conf+:
+
+[source,ini]
+----
+lxc.idmap = u 0 1000 500000
+lxc.idmap = g 0 1000 500000
+----
+
+All newly created containers will have UID/GID=[0, 0+500000] mapped into host UID/GID=[1000, 1000+500000].
+In particular, UID/GID=0 in the container becomes UID/GID=1000 in the host.
+This is exactly what we want.
+What looks as root user UID/GID=0 inside container, is actually "gudok" UID/GID=1000 in the host:
+
+[source,console]
+----
+gudok@gudok6:~$ sudo ls -ln /var/lib/lxc/ff/rootfs/ | grep root
+drwx------  2 1000 1000 4096 May 30 21:14 root
+----
+
+image::ugidmap.png[width=70%,align=center]
+
+*Acknowledgments.* The idea of creating one-to-one mapping between container's user and host's user
+belongs to mailto:i@rudolfvesely.com[Rudolf Vesely].
+This solution is so neat compared to ugly +lxc-usernsexec+ that I suggested to use before.
+Thanks, Rudolf!
+
 
 Network: basic setup
 --------------------
@@ -1039,29 +1100,60 @@ Other differences:
 
 Below is the list of what needs to be done to make unprivileged containers work:
 
-. Set option +kernel.unprivileged_userns_clone = 1+ in +/etc/sysctl.conf+
-. Install following packages: uidmap, libpam-cgfs
-. Ensure that +/etc/subuid+ and +/etc/subgid+ have your user included.
-  Both files should contain entry similar to this one: +gudok:689824:65536+.
-  This says that unpriveleged containers of the specified user will use UIDs/GIDs
-  in the range [689824, 689824+65536).
-  If entries for your user are missing, add them either with
-  +usermod --add-subuids/--add-subgids+ commands or manually.
-. Copy +/etc/lxc/default.conf+ to +$HOME/.config/lxc/default.conf+.
-  Create directory hierarchy if it doesn't exist.
-. Add UID and GID mappings of your user to the default configuration file:
-+ 
+*1.* Set option +kernel.unprivileged_userns_clone = 1+ in +/etc/sysctl.conf+
+
+*2.* Install following packages: uidmap, libpam-cgfs
+
+*3.* Ensure that +/etc/subuid+ and +/etc/subgid+ have your user included.
+Both files should contain entry similar to this one: +gudok:689824:65536+.
+I suggest to change values to gudok:0:2147483647, so that your user will be entitled to use full range of UID/GIDs,
+and thus allowed to make one-to-one mapping between host's UID/GIDs and container's UID/GIDs.
+If entries for your user are missing, add them either with
++usermod --add-subuids/--add-subgids+ or manually.
+
+*4.* Copy +/etc/lxc/default.conf+ to +$HOME/.config/lxc/default.conf+.
+This will be default configuration file for user's LXC containers.
+Create directory hierarchy if it doesn't exist.
+
+*5.* Add UID and GID mappings to the default configuration file.
+Unlike privileged containers, mapping entries are mandatory.
+If your prefer to create custom user inside container,
+just add one-to-one UID/GID mappings and next create user inside container identical to that one used in the host.
+Like this:
+
 [source,ini]
 ----
-lxc.idmap = u 0 689824 65536
-lxc.idmap = g 0 689824 65536
+lxc.idmap = u 0 0 65536
+lxc.idmap = g 0 0 65536
 ----
-. In the default configuration file, change +lxc.apparmor.profile = generated+  
-  to +lxc.apparmor.profile = unconfined+.
-. Create +/etc/lxc/lxc-usernet+ and add entry for your user: +gudok veth lxcbr0 100+.
-  This will allow you to have up to 100 containers connected to virtual switch.
-. Reboot the workstation (you may get cryptic segmentation faults if don't do that)
-. Run +lxc-checkconfig+ and check that everything is enabled and there are no error and warning messages.
+
+Otherwise, if you prefer to work as root, then create mapping that will map container's UID/GID=0 to your host's user UID/GID (usually 1000).
+How to do this was described in the section "Accessing host data".
+Note that you can add multiple mapping entries, but be sure that 1) they do not intersect; 2) that you are allowed
+to access all UID/GIDs according to +/etc/sub{u,g}id+; 3) at least UID/GIDs in range [0..0+65536) must be mapped to somewhere
+because some default system users are created with high UID/GID values.
+In the example below, container's UID/GID range [0..0+65536) is mapped to host's [100000, 100000+65536)
+with the exception of UID/GID=1000, which is mapped to the identical values in the host.
+ 
+[source,ini]
+----
+lxc.idmap = u 0 100000 1000
+lxc.idmap = g 0 100000 1000
+lxc.idmap = u 1000 1000 1
+lxc.idmap = g 1000 1000 1
+lxc.idmap = u 1001 101001 64535
+lxc.idmap = g 1001 101001 64535
+----
+
+*6.* In the default configuration file, change +lxc.apparmor.profile = generated+  
+to +lxc.apparmor.profile = unconfined+.
+
+*7.* Create +/etc/lxc/lxc-usernet+ and add entry for your user: +gudok veth lxcbr0 100+.
+This will allow you to have up to 100 containers connected to virtual switch.
+
+*8.* Reboot the workstation (you may get cryptic segmentation faults if don't do that)
+
+*9.* Run +lxc-checkconfig+ and check that everything is enabled and there are no error and warning messages.
 
 
 Now it is possible to create unprivileged containers.
@@ -1119,18 +1211,4 @@ Processes in containers running under container's root now should be able to acc
 ----
 lxc.mount.entry = /dev/video0.gudok dev/video0 none bind,optional,create=file
 ----
-
-Another nuisance with unrprivileged containers is that you cannot copy files directly from host file system into
-LXC container (e.g.  +cp ~/.vimrc ~/.local/share/lxc/ff/rootfs/root/+ will fail) because the owner of this directory
-is different from your ordinary user ID.
-To circumvent this problem use the following command that remaps user and group IDs:
-
-[source,console]
-----
-gudok@gudok6:~$ lxc-usernsexec -m b:0:689824:65536 -- <some command>
-gudok@gudok6:~$ lxc-usernsexec -m b:0:689824:65536 -- cp $HOME/.vimrc ~/.local/share/lxc/ff/rootfs/root/
-----
-
-What happens here is that every user in range [689824, 689824+65536) on the host file system is remapped to [0, 65536)
-respectively into the container.
 

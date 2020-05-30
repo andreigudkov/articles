@@ -424,6 +424,76 @@ to mount directory into host&#8217;s <code>/root/video</code>, not into the cont
 <span class="tok-na">lxc.mount.entry</span> <span class="tok-o">=</span> <span class="tok-s">/volume/DATA/video /root/video none ro,bind,create=dir 0 0</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Mounting is only one half of the solution.
+Another one deals with permissions.
+Suppose that you have a directory in the host and you want to share this directory into container
+and make it painlessly writable from both host and container.
+To do this, you need to ensure that UID/GID of your user inside the container matches UID/GID of your user in the host.</p>
+</div>
+<div class="paragraph">
+<p>The simplest way would be to create a user inside the container with the same UID/GIDs as your user
+in the host, and work in the container as this newly created user.
+The commands below will create user "gudok" in the container which is exactly the same
+entity as host&#8217;s "gudok" from permissions perspective.
+This works because in privileged containers UID/GIDs refer to the same UID/GIDs in the host.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="console"><span></span><span class="tok-gp">gudok@gudok6:~$</span> sudo lxc-attach --clear-env -n ff
+<span class="tok-gp">root@ff:/#</span> apt-get install libuser
+<span class="tok-gp">root@ff:/#</span> /usr/sbin/groupadd --gid <span class="tok-m">1000</span> gudok
+<span class="tok-gp">root@ff:/#</span> /usr/sbin/useradd --uid <span class="tok-m">1000</span> --gid <span class="tok-m">1000</span> --create-home --shell /bin/bash gudok
+<span class="tok-gp">root@ff:/#</span> <span class="tok-nb">exit</span>
+<span class="tok-gp">gudok@gudok6:~$</span> lxc-attach --clear-env -n ff -- su gudok</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If your prefer to work as root inside container, things are more complicated.
+What we need to do is to map container&#8217;s UID/GID=0 to host&#8217;s UID/GID=1000.
+This means that files created in host with UID/GID=1000 as owner will be visible as UID/GID=0
+inside a container and vice versa.
+To do so, first we will need to allow root user to create explicit UID/GID mappings.
+Add following line to both <code>/etc/subuid</code> and <code>/etc/subgid</code>.
+It will allow root user to map container&#8217;s UID/GID to any UID/GID on the host that we want:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>root:0:2147483647</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s create create explicit mapping in <code>/etc/lxc/default.conf</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="ini"><span></span><span class="tok-na">lxc.idmap</span> <span class="tok-o">=</span> <span class="tok-s">u 0 1000 500000</span>
+<span class="tok-na">lxc.idmap</span> <span class="tok-o">=</span> <span class="tok-s">g 0 1000 500000</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All newly created containers will have UID/GID=[0, 0+500000] mapped into host UID/GID=[1000, 1000+500000].
+In particular, UID/GID=0 in the container becomes UID/GID=1000 in the host.
+This is exactly what we want.
+What looks as root user UID/GID=0 inside container, is actually "gudok" UID/GID=1000 in the host:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="console"><span></span><span class="tok-gp">gudok@gudok6:~$</span> sudo ls -ln /var/lib/lxc/ff/rootfs/ <span class="tok-p">|</span> grep root
+<span class="tok-go">drwx------  2 1000 1000 4096 May 30 21:14 root</span></code></pre>
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="ugidmap.png" alt="ugidmap" width="70%">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Acknowledgments.</strong> The idea of creating one-to-one mapping between container&#8217;s user and host&#8217;s user
+belongs to <a href="mailto:i@rudolfvesely.com">Rudolf Vesely</a>.
+This solution is so neat compared to ugly <code>lxc-usernsexec</code> that I suggested to use before.
+Thanks, Rudolf!</p>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1241,50 +1311,70 @@ Other differences:</p>
 <div class="paragraph">
 <p>Below is the list of what needs to be done to make unprivileged containers work:</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Set option <code>kernel.unprivileged_userns_clone = 1</code> in <code>/etc/sysctl.conf</code></p>
-</li>
-<li>
-<p>Install following packages: uidmap, libpam-cgfs</p>
-</li>
-<li>
-<p>Ensure that <code>/etc/subuid</code> and <code>/etc/subgid</code> have your user included.
+<div class="paragraph">
+<p><strong>1.</strong> Set option <code>kernel.unprivileged_userns_clone = 1</code> in <code>/etc/sysctl.conf</code></p>
+</div>
+<div class="paragraph">
+<p><strong>2.</strong> Install following packages: uidmap, libpam-cgfs</p>
+</div>
+<div class="paragraph">
+<p><strong>3.</strong> Ensure that <code>/etc/subuid</code> and <code>/etc/subgid</code> have your user included.
 Both files should contain entry similar to this one: <code>gudok:689824:65536</code>.
-This says that unpriveleged containers of the specified user will use UIDs/GIDs
-in the range [689824, 689824+65536).
+I suggest to change values to gudok:0:2147483647, so that your user will be entitled to use full range of UID/GIDs,
+and thus allowed to make one-to-one mapping between host&#8217;s UID/GIDs and container&#8217;s UID/GIDs.
 If entries for your user are missing, add them either with
-<code>usermod --add-subuids/--add-subgids</code> commands or manually.</p>
-</li>
-<li>
-<p>Copy <code>/etc/lxc/default.conf</code> to <code>$HOME/.config/lxc/default.conf</code>.
+<code>usermod --add-subuids/--add-subgids</code> or manually.</p>
+</div>
+<div class="paragraph">
+<p><strong>4.</strong> Copy <code>/etc/lxc/default.conf</code> to <code>$HOME/.config/lxc/default.conf</code>.
+This will be default configuration file for user&#8217;s LXC containers.
 Create directory hierarchy if it doesn&#8217;t exist.</p>
-</li>
-<li>
-<p>Add UID and GID mappings of your user to the default configuration file:</p>
+</div>
+<div class="paragraph">
+<p><strong>5.</strong> Add UID and GID mappings to the default configuration file.
+Unlike privileged containers, mapping entries are mandatory.
+If your prefer to create custom user inside container,
+just add one-to-one UID/GID mappings and next create user inside container identical to that one used in the host.
+Like this:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="ini"><span></span><span class="tok-na">lxc.idmap</span> <span class="tok-o">=</span> <span class="tok-s">u 0 689824 65536</span>
-<span class="tok-na">lxc.idmap</span> <span class="tok-o">=</span> <span class="tok-s">g 0 689824 65536</span></code></pre>
+<pre class="pygments highlight"><code data-lang="ini"><span></span><span class="tok-na">lxc.idmap</span> <span class="tok-o">=</span> <span class="tok-s">u 0 0 65536</span>
+<span class="tok-na">lxc.idmap</span> <span class="tok-o">=</span> <span class="tok-s">g 0 0 65536</span></code></pre>
 </div>
 </div>
-</li>
-<li>
-<p>In the default configuration file, change <code>lxc.apparmor.profile = generated</code>
+<div class="paragraph">
+<p>Otherwise, if you prefer to work as root, then create mapping that will map container&#8217;s UID/GID=0 to your host&#8217;s user UID/GID (usually 1000).
+How to do this was described in the section "Accessing host data".
+Note that you can add multiple mapping entries, but be sure that 1) they do not intersect; 2) that you are allowed
+to access all UID/GIDs according to <code>/etc/sub{u,g}id</code>; 3) at least UID/GIDs in range [0..0+65536) must be mapped to somewhere
+because some default system users are created with high UID/GID values.
+In the example below, container&#8217;s UID/GID range [0..0+65536) is mapped to host&#8217;s [100000, 100000+65536)
+with the exception of UID/GID=1000, which is mapped to the identical values in the host.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="ini"><span></span><span class="tok-na">lxc.idmap</span> <span class="tok-o">=</span> <span class="tok-s">u 0 100000 1000</span>
+<span class="tok-na">lxc.idmap</span> <span class="tok-o">=</span> <span class="tok-s">g 0 100000 1000</span>
+<span class="tok-na">lxc.idmap</span> <span class="tok-o">=</span> <span class="tok-s">u 1000 1000 1</span>
+<span class="tok-na">lxc.idmap</span> <span class="tok-o">=</span> <span class="tok-s">g 1000 1000 1</span>
+<span class="tok-na">lxc.idmap</span> <span class="tok-o">=</span> <span class="tok-s">u 1001 101001 64535</span>
+<span class="tok-na">lxc.idmap</span> <span class="tok-o">=</span> <span class="tok-s">g 1001 101001 64535</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>6.</strong> In the default configuration file, change <code>lxc.apparmor.profile = generated</code>
 to <code>lxc.apparmor.profile = unconfined</code>.</p>
-</li>
-<li>
-<p>Create <code>/etc/lxc/lxc-usernet</code> and add entry for your user: <code>gudok veth lxcbr0 100</code>.
+</div>
+<div class="paragraph">
+<p><strong>7.</strong> Create <code>/etc/lxc/lxc-usernet</code> and add entry for your user: <code>gudok veth lxcbr0 100</code>.
 This will allow you to have up to 100 containers connected to virtual switch.</p>
-</li>
-<li>
-<p>Reboot the workstation (you may get cryptic segmentation faults if don&#8217;t do that)</p>
-</li>
-<li>
-<p>Run <code>lxc-checkconfig</code> and check that everything is enabled and there are no error and warning messages.</p>
-</li>
-</ol>
+</div>
+<div class="paragraph">
+<p><strong>8.</strong> Reboot the workstation (you may get cryptic segmentation faults if don&#8217;t do that)</p>
+</div>
+<div class="paragraph">
+<p><strong>9.</strong> Run <code>lxc-checkconfig</code> and check that everything is enabled and there are no error and warning messages.</p>
 </div>
 <div class="paragraph">
 <p>Now it is possible to create unprivileged containers.
@@ -1344,28 +1434,12 @@ Processes in containers running under container&#8217;s root now should be able 
 <pre class="pygments highlight"><code data-lang="ini"><span></span><span class="tok-na">lxc.mount.entry</span> <span class="tok-o">=</span> <span class="tok-s">/dev/video0.gudok dev/video0 none bind,optional,create=file</span></code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Another nuisance with unrprivileged containers is that you cannot copy files directly from host file system into
-LXC container (e.g.  <code>cp ~/.vimrc ~/.local/share/lxc/ff/rootfs/root/</code> will fail) because the owner of this directory
-is different from your ordinary user ID.
-To circumvent this problem use the following command that remaps user and group IDs:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="console"><span></span><span class="tok-gp">gudok@gudok6:~$</span> lxc-usernsexec -m b:0:689824:65536 -- &lt;some command&gt;
-<span class="tok-gp">gudok@gudok6:~$</span> lxc-usernsexec -m b:0:689824:65536 -- cp <span class="tok-nv">$HOME</span>/.vimrc ~/.local/share/lxc/ff/rootfs/root/</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>What happens here is that every user in range [689824, 689824+65536) on the host file system is remapped to [0, 65536)
-respectively into the container.</p>
-</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-05-30 13:14:16 UTC
+Last updated 2020-05-30 19:55:12 UTC
 </div>
 </div>
 </body>
