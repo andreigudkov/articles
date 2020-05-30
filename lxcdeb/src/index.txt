@@ -928,8 +928,9 @@ Application troubleshooting
 ---------------------------
 
 Some applications may work differently or refuse to function altogether if run under root.
-For instance, this is the case with VLC.
-There is not much sense in adding new user from security point of view.
+For instance, this is the case with *VLC*.
+It refuses to work under root user referring to security concerns.
+However, there is not much sense in adding new user from security point of view when we are inside a container.
 Instead VLC may be patched with the following common hack:
 
 [source,console]
@@ -940,15 +941,18 @@ root@ff:/# sed -i 's/geteuid/getppid/' /usr/bin/vlc
 
 Default container images are minimalistic.
 Third-party applications may require manual installation of additional packages.
-For example, Skype installs but fails to start without printing any diagnostic information to console.
+For example, *Skype* installs but fails to start without printing any diagnostic information to console.
 However, reading its log file reveals that +libgconf-2-4+ must be installed.
 In general case if third-part application doesn't work and doesn't produce meaningful error messages,
 the first step to debug it is to use +strace+.
 
-
 Some applications may depend on environment variables.
-For example, Firefox hangs permanently during startup if environment variables are not cleared.
-ncurses applications such as +top+ require +TERM+ to be correctly set.
+For example, applications based on ncurses library, such as *top*, require +TERM+ to be correctly set.
+
+*Firefox* communicates with other running instances by means of X Window tree.
+If you try to launch it from inside a container, it will create new window of already running Firefox in the host (spooky!).
+You can disable this remote communication feature by starting it as +firefox -no-remote+.
+Firefox is also prone to hanging during startup if environment variables are not cleared.
 
 
 Caching packages
