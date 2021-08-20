@@ -1,1 +1,4 @@
 *.kdev4
+enwiki*
+ruwiki*
+build*

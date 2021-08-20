@@ -24,6 +24,7 @@ modules="
   $root/sim/minhash1
   $root/lxcdeb
   $root/mlp
+  $root/transpose
 "
 if [ -L $0 ]; then
   modules=$(readlink -f $PWD)
@@ -80,17 +81,31 @@ function build_module {
   local txt="${module}/src/index.txt"
   local html="${module}/mastercopy/index.html"
   local images=$(sed -rn '/^image::(.*(\.svg|\.png|\.jpg|\.gif)).*$$/s//\1/p' ${txt})
+  local inlineimages=$(cat ${txt} | sed 's/image:/\nimage:/g' | sed -rn '/image:([^:]*(\.svg|\.png|\.jpg|\.gif)).*/s//\1/p')
+  echo $inlineimages
 
   build $html \
     "TZ=UTC MATH_OUTPUT=${module}/mastercopy ${processor} -a stylesheet=${stylesheet} -o $html $txt" \
     $txt $processor $stylesheet
 
   for img in $images; do
-    dia=${img//.[a-z][a-z][a-z]/.dia}
+    name=${img//.[a-z][a-z][a-z]/}
     if [ -e $module/src/$img ]; then
       build $module/mastercopy/$img "cp $module/src/$img $module/mastercopy/$img" $module/src/$img
-    elif [ -e $module/src/$dia ]; then
-      build $module/mastercopy/$img "dia -s 1600x -e $module/mastercopy/$img $module/src/$dia" $module/src/$dia
+    elif [ -e $module/src/$name.dia ]; then
+      build $module/mastercopy/$img "dia -s 1600x -e $module/mastercopy/$img $module/src/$name.dia" $module/src/$name.dia
+    elif [ -e $module/src/$name.tex ] && [ "${img}" == "${name}.png" ]; then
+      build $module/mastercopy/$img "cd /tmp && latex -halt-on-error -interaction=batchmode $module/src/$name.tex && dvipng -T tight -D 400 --depth -o $module/mastercopy/$img $name.dvi" $module/src/$name.tex
+    else
+      echo "ERROR: don't know how to make $img"
+      exit 1
+    fi
+  done
+
+  for img in $inlineimages; do
+    name=${img//.[a-z][a-z][a-z]/}
+    if [ -e $module/src/$name.dia ]; then
+      build $module/mastercopy/$img "dia -s 128x -e $module/mastercopy/$img $module/src/$name.dia" $module/src/$name.dia
     else
       echo "ERROR: don't know how to make $img"
       exit 1

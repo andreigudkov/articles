@@ -720,29 +720,22 @@ th.valign-middle, td.valign-middle {
 
 /*********** Listing ****************/
 div.listingblock {
-  padding: 0.5em;
-  border-style: solid;
-  border-color: #667788;
-  border-width: 0 0 0 2px;
+  padding: 0.25em;
   background-color: #F8F8F8;
   overflow: auto; }
   div.listingblock .title {
     text-align: right; }
   div.listingblock pre {
     font-family: Menlo, Consolas, Monaco, "Lucida Console", monospace;
-    font-size: 87.5%;
+    font-size: 14px;
     white-space: pre;
     background-color: #F8F8F8 !important;
     /* override value provided by pygments css */
     margin: 0; }
   div.listingblock td.linenos {
-    border-right: 1px solid #91A7B3;
-    padding-right: 0.67em; }
-  div.listingblock table.pyhltable div.linenodiv {
-    color: #667788;
-    text-align: right; }
-  div.listingblock table.pyhltable td.code {
-    padding-left: .67em; }
+    border-right: 2px solid #91A7B3; }
+  div.listingblock td.code {
+    padding-left: 0.25em; }
 
 /****************** Image **********************/
 div.imageblock > div.content > img {

@@ -1,0 +1,39 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+%\SetSymbolFont{operators}{normal}{OT1}{ptm}{m}{n}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{align*}
+  \mathrm{\left\lfloor \frac{ColumnBegin + N \cdot i_1}{64} \right\rfloor \% NumSets}
+  &\ne
+  \mathrm{\left\lfloor \frac{ColumnBegin + N \cdot i_2}{64} \right\rfloor \% NumSets}
+  \\
+  &\;\;\;\Leftrightarrow
+  \\
+  \mathrm{\left( \left\lfloor \frac{ColumnBegin}{64} \right\rfloor + OddNumber \cdot i_1 \right) \% NumSets}
+  &\ne
+  \mathrm{\left( \left\lfloor \frac{ColumnBegin}{64} \right\rfloor + OddNumber \cdot i_2 \right) \% NumSets}
+  \\
+  &\;\;\;\Leftrightarrow
+  \\
+  \mathrm{\left( OddNumber \cdot \left( i_1 - i_2 \right) \right ) \% NumSets}
+  &\ne
+  \mathrm{0}
+  \\
+  &\;\;\;\Leftrightarrow
+  \\
+  \mathrm{\left( i_1 - i_2 \right) \% NumSets}
+  &\ne
+  \mathrm{0}
+\end{align*}
+
+\end{document}
+
+
+

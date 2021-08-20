@@ -23,7 +23,7 @@ add_dependencies(${GTEST_LIBRARY} GTEST)
 
 # definitions
 include_directories("src/")
-set(SHN_COMPILE_FLAGS "-std=c++14 -fPIC -Wall -Werror -Wextra -Wno-unused -Wno-sign-compare -march=native")
+set(SHN_COMPILE_FLAGS "-std=c++14 -fPIC -Wall -Werror -Wextra -Wno-unused -Wno-sign-compare -march=native -Wno-implicit-fallthrough")
 set(SHN_LINK_FLAGS "-rdynamic")
 set(SHN_DEPS "pthread")
 set(SHN_LIB "shingle")
