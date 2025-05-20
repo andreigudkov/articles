@@ -25,6 +25,7 @@ modules="
   $root/lxcdeb
   $root/mlp
   $root/transpose
+  $root/partitioning
 "
 if [ -L $0 ]; then
   modules=$(readlink -f $PWD)
@@ -82,7 +83,7 @@ function build_module {
   local html="${module}/mastercopy/index.html"
   local images=$(sed -rn '/^image::(.*(\.svg|\.png|\.jpg|\.gif)).*$$/s//\1/p' ${txt})
   local inlineimages=$(cat ${txt} | sed 's/image:/\nimage:/g' | sed -rn '/image:([^:]*(\.svg|\.png|\.jpg|\.gif)).*/s//\1/p')
-  echo $inlineimages
+  local archives=$(cat ${txt} | sed 's/link:/\nlink:/g' | sed -rn '/link:([a-zA-Z0-9_]+)\.zip.*/s//\1/p')
 
   build $html \
     "TZ=UTC MATH_OUTPUT=${module}/mastercopy ${processor} -a stylesheet=${stylesheet} -o $html $txt" \
@@ -110,6 +111,18 @@ function build_module {
       echo "ERROR: don't know how to make $img"
       exit 1
     fi
+  done
+
+  for archive in $archives; do
+    # src/${archive}.txt should contain list of files which must be zipped into mastercopy/${archive}.zip
+    if ! [ -e $module/src/$archive.txt ]; then
+      echo "ERROR: ${module}/src/${archive}.txt not found"
+      exit 1
+    fi
+    rm -f ${module}/${archive}.zip
+    (cd ${module} && zip ${archive}.zip $(cat ${module}/src/${archive}.txt))
+    mv ${module}/${archive}.zip $module/mastercopy/${archive}.zip
+    #zipinfo ${module}/mastercopy/${archive}.zip
   done
 }
 

@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.12">
+<meta name="author" content="Andrei Gudkov">
+<title>Data structures for storing partitions of a set</title>
+<style>
+/*! normalize.css v2.1.2 | MIT License | git.io/normalize */article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}audio,canvas,video{display:inline-block}audio:not([controls]){display:none;height:0}[hidden],template{display:none}script{display:none !important}html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}a{background:transparent}a:focus{outline:thin dotted}a:active,a:hover{outline:0}h1{font-size:2em;margin:.67em 0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}dfn{font-style:italic}hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}mark{background:#ff0;color:#000}code,kbd,pre,samp{font-family:monospace,serif;font-size:1em}pre{white-space:pre-wrap}q{quotes:"\201C" "\201D" "\2018" "\2019"}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-0.5em}sub{bottom:-0.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:0}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0}button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}button,input{line-height:normal}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}textarea{overflow:auto;vertical-align:top}table{border-collapse:collapse;border-spacing:0}*,*::before,*::after{box-sizing:border-box;margin:0}body{font-family:Helvetica,Arial,sans-serif;font-size:16px;color:#222;line-height:1.5;max-width:55em;margin:0 auto}#content,#footnotes{padding-left:.5em;padding-right:.5em}strong{font-weight:bold}em{font-style:italic}:not(pre)>code{font-family:Courier,monospace;line-height:1.0}a{color:#0061c5;text-decoration:none}a:hover{text-decoration:underline}hr{border-width:0 0 1px 0;border-style:solid;border-color:#678}ul,ol{list-style-position:outside;padding-left:0;margin-left:2em}ul li ul,ul li ol,ol li ul,ol li ol{margin-left:1.414em}ul>li{list-style-type:square;font-size:80%}ul>li>*{font-size:125%}ol>li{font-weight:bold}ol>li>*{font-weight:normal}ol.arabic{list-style-type:decimal}ol.decimal{list-style-type:decimal-leading-zero}ol.loweralpha{list-style-type:lower-alpha}ol.upperalpha{list-style-type:upper-alpha}ol.lowerroman{list-style-type:lower-roman}ol.upperroman{list-style-type:upper-roman}ol.lowergreek{list-style-type:lower-greek}.dlist dt{color:#325d72;font-weight:bold}.dlist dt:not(:first-child){margin-top:1em}.dlist dd{margin-left:2em}td.hdlist1{color:#325d72;padding-right:.5em;vertical-align:top}td.hdlist2{padding-bottom:.5em}h1{font-size:28px;font-weight:normal;letter-spacing:-1px;color:white;background-color:#325d72;text-align:center;margin:0 0 .5em 0;padding:.05em .5em}@media print{h1{color:#325d72;background-color:white;font-weight:bold}}h1::after{content:':';width:0;overflow:hidden;display:inline-block;vertical-align:middle}.author{color:#325d72}.email::before{content:"<";color:#325d72}.email::after{content:">";color:#325d72}.author+br,.email+br{display:none}#author{padding-left:.5em}#toc{margin:1em 0 2em 0;padding-left:.5em}#toctitle{font-size:19px;font-weight:bold;color:#325d72;margin:.5em 0}#toc>ul{line-height:1.4;font-size:15px;margin:0 0 0 .5em}#toc ul li{list-style-type:none}#toc li{margin:0}.big{font-size:120%}.small{font-size:75%}.underline{text-decoration:underline}.overline{text-decoration:overline}.line-through{text-decoration:line-through}.aqua{color:#00bfbf}.aqua-background{background-color:#00fafa;border-radius:2px;padding:0 3px}.black{color:"black"}.black-background{background-color:"black";border-radius:2px;padding:0 3px}.blue{color:#0000bf}.blue-background{background-color:#0000fa;border-radius:2px;padding:0 3px}.fuchsia{color:#bf00bf}.fuchsia-background{background-color:#fa00fa;border-radius:2px;padding:0 3px}.gray{color:#606060}.gray-background{background-color:#7d7d7d;border-radius:2px;padding:0 3px}.green{color:#006000}.green-background{background-color:#007d00;border-radius:2px;padding:0 3px}.lime{color:#00bf00}.lime-background{background-color:#00fa00;border-radius:2px;padding:0 3px}.maroon{color:#600000}.maroon-background{background-color:#7d0000;border-radius:2px;padding:0 3px}.navy{color:#000060}.navy-background{background-color:#00007d;border-radius:2px;padding:0 3px}.olive{color:#606000}.olive-background{background-color:#7d7d00;border-radius:2px;padding:0 3px}.purple{color:#600060}.purple-background{background-color:#7d007d;border-radius:2px;padding:0 3px}.red{color:#bf0000}.red-background{background-color:#fa0000;border-radius:2px;padding:0 3px}.silver{color:#909090}.silver-background{background-color:#bcbcbc;border-radius:2px;padding:0 3px}.teal{color:#006060}.teal-background{background-color:#007d7d;border-radius:2px;padding:0 3px}.white{color:#bfbfbf}.white-background{background-color:#fafafa;border-radius:2px;padding:0 3px}.yellow{color:#bfbf00}.yellow-background{background-color:#fafa00;border-radius:2px;padding:0 3px}table.tableblock{border:1px solid #91a7b3;margin-left:auto;margin-right:auto}table.tableblock>caption.title{text-align:left;margin-bottom:.5em}table.tableblock>colgroup>col{width:inherit !important}table.tableblock>tbody>tr>td{border-style:solid;border-color:#91a7b3;border-width:0 1px;padding:0 5px 2px 5px}table.tableblock>tbody>tr:nth-of-type(2n){background-color:#f8f8f8}p.tableblock{text-align:inherit}table.tableblock>thead>tr>td,table.tableblock>thead>tr>th,table.tableblock>tfoot>tr>td,table.tableblock>tfoot>tr>th{color:#325d72;font-weight:bold;line-height:1.35;padding:2px 5px;border:1px solid #91a7b3}table.tableblock>thead>tr>th,table.tableblock>thead>tr>td{border-bottom-width:2px}table.tableblock>tfoot>tr>th,table.tableblock>tfoot>tr>td{border-top-width:2px}th.halign-left,td.halign-left{text-align:left}th.halign-right,td.halign-right{text-align:right}th.halign-center,td.halign-center{text-align:center}th.valign-top,td.valign-top{vertical-align:top}th.valign-bottom,td.valign-bottom{vertical-align:bottom}th.valign-middle,td.valign-middle{vertical-align:middle}div.listingblock{padding:.25em;background-color:#f8f8f8;overflow:auto}div.listingblock .title{text-align:right}div.listingblock pre{font-family:Menlo,Consolas,Monaco,"Lucida Console",monospace;font-size:14px;white-space:pre;background-color:#f8f8f8 !important;margin:0}div.listingblock td.linenos{border-right:2px solid #91a7b3}div.listingblock td.code{padding-left:.25em}div.imageblock>div.content>img{max-width:98%}.text-indent{padding-left:2em}img.inlinemath{image-rendering:optimizequality;margin-top:.5ex}h2,h3,h4{font-weight:normal;color:#325d72;margin:0}h2{font-size:27px;letter-spacing:-1px;border-bottom:1px solid #91a7b3}h3{font-size:24px;letter-spacing:-0.75px}h4{font-size:21px;letter-spacing:-0.5px}.title{color:#325d72;font-weight:bold}#footer{font-size:80%;color:white;background-color:#325d72}@media print{#footer{color:#325d72;background-color:white;font-weight:bold}}#footer-text{text-align:center;padding:.5em}#footer-badges{display:none}span.footnote{vertical-align:super;font-size:80%}#footnotes>hr{display:none}#footnotes::before{display:block;border-bottom:1px solid #678;margin:.5em 0;content:"Notes";font-size:19px;font-weight:bold;color:#325d72}#footnotes .footnote{margin-left:.5em;font-size:15px}hr:not(:first-child){margin-top:1.5em}hr:not(:last-child){margin-bottom:1.5em}.imageblock:not(:last-child),.listingblock:not(:last-child),.tableblock:not(:last-child){margin-bottom:1em}p+*{margin-top:1em}.paragraph+*{margin-top:1em}p+.ulist,p+.olist,p+.dlist,p+.hdlist,.paragraph+.ulist,.paragraph+.olist,.paragraph+.dlist,.paragraph+.hdlist,.paragraph+.listingblock{margin-top:.5em !important}li *+.ulist,li *+.olist,li *+.dlist,li *+.hdlist{margin-top:.1em !important}.title:not(:first-child){margin-top:1.5em}.content+.title{margin-top:.5em !important}.title+*{margin-top:1.5em}.title+p,.title+.paragraph,.title+.ulist,.title+.olist,.title+.dlist,.title+.hdlist{margin-top:.5em !important}.ulist:not(:last-child){margin-bottom:1em}.olist:not(:last-child){margin-bottom:1em}li:not(:first-child){margin-top:.1em}.dlist:not(:last-child){margin-bottom:1em}.dlist:not(:first-child){margin-top:1em}.sect3:not(:last-child){margin-bottom:18px}.sect3:not(:first-child){margin-top:18px}h4:not(:last-child){margin-bottom:9px}.sect2:not(:last-child){margin-bottom:22px}.sect2:not(:first-child){margin-top:22px}h3:not(:last-child){margin-bottom:11px}.sect1:not(:last-child){margin-bottom:40px}.sect1:not(:first-child){margin-top:40px}#preamble:not(:last-child){margin-bottom:40px}h2:not(:last-child){margin-bottom:13px}#header:not(:last-child),#content:not(:last-child),#footnotes:not(:last-child){margin-bottom:2em}.text-left{text-align:left}.text-center{text-align:center}.text-right{text-align:right}
+</style>
+<style>
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+pre.pygments .hll { background-color: #ffffcc }
+pre.pygments { background: #f8f8f8; }
+pre.pygments .tok-c { color: #3D7B7B; font-style: italic } /* Comment */
+pre.pygments .tok-err { border: 1px solid #FF0000 } /* Error */
+pre.pygments .tok-k { color: #008000; font-weight: bold } /* Keyword */
+pre.pygments .tok-o { color: #666666 } /* Operator */
+pre.pygments .tok-ch { color: #3D7B7B; font-style: italic } /* Comment.Hashbang */
+pre.pygments .tok-cm { color: #3D7B7B; font-style: italic } /* Comment.Multiline */
+pre.pygments .tok-cp { color: #9C6500 } /* Comment.Preproc */
+pre.pygments .tok-cpf { color: #3D7B7B; font-style: italic } /* Comment.PreprocFile */
+pre.pygments .tok-c1 { color: #3D7B7B; font-style: italic } /* Comment.Single */
+pre.pygments .tok-cs { color: #3D7B7B; font-style: italic } /* Comment.Special */
+pre.pygments .tok-gd { color: #A00000 } /* Generic.Deleted */
+pre.pygments .tok-ge { font-style: italic } /* Generic.Emph */
+pre.pygments .tok-ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+pre.pygments .tok-gr { color: #E40000 } /* Generic.Error */
+pre.pygments .tok-gh { color: #000080; font-weight: bold } /* Generic.Heading */
+pre.pygments .tok-gi { color: #008400 } /* Generic.Inserted */
+pre.pygments .tok-go { color: #717171 } /* Generic.Output */
+pre.pygments .tok-gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+pre.pygments .tok-gs { font-weight: bold } /* Generic.Strong */
+pre.pygments .tok-gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+pre.pygments .tok-gt { color: #0044DD } /* Generic.Traceback */
+pre.pygments .tok-kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+pre.pygments .tok-kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+pre.pygments .tok-kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+pre.pygments .tok-kp { color: #008000 } /* Keyword.Pseudo */
+pre.pygments .tok-kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+pre.pygments .tok-kt { color: #B00040 } /* Keyword.Type */
+pre.pygments .tok-m { color: #666666 } /* Literal.Number */
+pre.pygments .tok-s { color: #BA2121 } /* Literal.String */
+pre.pygments .tok-na { color: #687822 } /* Name.Attribute */
+pre.pygments .tok-nb { color: #008000 } /* Name.Builtin */
+pre.pygments .tok-nc { color: #0000FF; font-weight: bold } /* Name.Class */
+pre.pygments .tok-no { color: #880000 } /* Name.Constant */
+pre.pygments .tok-nd { color: #AA22FF } /* Name.Decorator */
+pre.pygments .tok-ni { color: #717171; font-weight: bold } /* Name.Entity */
+pre.pygments .tok-ne { color: #CB3F38; font-weight: bold } /* Name.Exception */
+pre.pygments .tok-nf { color: #0000FF } /* Name.Function */
+pre.pygments .tok-nl { color: #767600 } /* Name.Label */
+pre.pygments .tok-nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+pre.pygments .tok-nt { color: #008000; font-weight: bold } /* Name.Tag */
+pre.pygments .tok-nv { color: #19177C } /* Name.Variable */
+pre.pygments .tok-ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+pre.pygments .tok-w { color: #bbbbbb } /* Text.Whitespace */
+pre.pygments .tok-mb { color: #666666 } /* Literal.Number.Bin */
+pre.pygments .tok-mf { color: #666666 } /* Literal.Number.Float */
+pre.pygments .tok-mh { color: #666666 } /* Literal.Number.Hex */
+pre.pygments .tok-mi { color: #666666 } /* Literal.Number.Integer */
+pre.pygments .tok-mo { color: #666666 } /* Literal.Number.Oct */
+pre.pygments .tok-sa { color: #BA2121 } /* Literal.String.Affix */
+pre.pygments .tok-sb { color: #BA2121 } /* Literal.String.Backtick */
+pre.pygments .tok-sc { color: #BA2121 } /* Literal.String.Char */
+pre.pygments .tok-dl { color: #BA2121 } /* Literal.String.Delimiter */
+pre.pygments .tok-sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+pre.pygments .tok-s2 { color: #BA2121 } /* Literal.String.Double */
+pre.pygments .tok-se { color: #AA5D1F; font-weight: bold } /* Literal.String.Escape */
+pre.pygments .tok-sh { color: #BA2121 } /* Literal.String.Heredoc */
+pre.pygments .tok-si { color: #A45A77; font-weight: bold } /* Literal.String.Interpol */
+pre.pygments .tok-sx { color: #008000 } /* Literal.String.Other */
+pre.pygments .tok-sr { color: #A45A77 } /* Literal.String.Regex */
+pre.pygments .tok-s1 { color: #BA2121 } /* Literal.String.Single */
+pre.pygments .tok-ss { color: #19177C } /* Literal.String.Symbol */
+pre.pygments .tok-bp { color: #008000 } /* Name.Builtin.Pseudo */
+pre.pygments .tok-fm { color: #0000FF } /* Name.Function.Magic */
+pre.pygments .tok-vc { color: #19177C } /* Name.Variable.Class */
+pre.pygments .tok-vg { color: #19177C } /* Name.Variable.Global */
+pre.pygments .tok-vi { color: #19177C } /* Name.Variable.Instance */
+pre.pygments .tok-vm { color: #19177C } /* Name.Variable.Magic */
+pre.pygments .tok-il { color: #666666 } /* Literal.Number.Integer.Long */
+</style>
+</head>
+<body class="article">
+<div id="header">
+<h1>Data structures for storing partitions of a set</h1>
+<div class="details">
+<span id="author" class="author">Andrei Gudkov</span><br>
+<span id="email" class="email"><a href="mailto:gudokk@gmail.com">gudokk@gmail.com</a></span><br>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_introduction">Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Suppose that we need to partition a set of <em>n</em> items into <em>k</em> labeled subsets.
+What data structure should we use to represent partitions?
+Vast variety of real-world problems depend on such a data structure.
+Let me list a number of assorted examples.</p>
+</div>
+<div class="paragraph">
+<p><strong>UI layout.</strong>
+Given <em>n</em> UI elements of varying height, we want to distribute them into <em>k</em> columns such that
+the height of the tallest column is minimized.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="ui.png" alt="ui" width="30%">
+</div>
+</div>
+<div class="paragraph">
+<p>Assuming that <em>n</em> and <em>k</em> are not very big, this can be easily achieved by bruteforce enumeration
+of all possible k<sup>n</sup> layouts and selecting the best one.
+During enumeration process we need to maintain the data structure that stores current layout.
+This data structure must support the following operations: 1) assigning given UI element into given column;
+2) checking whether given UI element is assigned to a given column;
+3) listing all elements in a column (to evaluate current layout).
+Due to simplicity of the bruteforce enumeration its performance will primarily depend
+on the efficiency of the listed operations.</p>
+</div>
+<div class="paragraph">
+<p><strong>Data shard balancing.</strong>
+Exactly the same problem arises in the area of distributed databases and filesystems.
+Given a set of <em>n</em> data shards&#8201;&#8212;&#8201;which can be highly uneven in size&#8201;&#8212;&#8201;we would like
+to distribute them among <em>k</em> servers such that disk usage of each server
+is approximately the same.
+This would correspond to the shortest possible time it would take to execute
+sequential scan query over all the data in parallel.
+Full enumeration of all possible shard-to-server mappings is out of question here
+due to typically large <em>n</em> and <em>k</em>.
+Instead, this problem can be solved using local search methods, which requires
+again an efficient data structure to store shard-to-server mappings.</p>
+</div>
+<div class="paragraph">
+<p><strong>Bin-packing.</strong>
+Any enumerative algorithm solving any of infinitely many versions of bin-packing problem
+also depends on such a data structure.
+In its simplest form the problem requires to distribute items of sizes s<sub>1</sub>,s<sub>2</sub>,..,s<sub>n</sub>
+between bins of capacity C each using as few bins as possible.
+Given NP-hardness of the problem, there is no universal way to solve it.
+Again, local search algorithms are the cornerstone of solving such problems in practice,
+when running time is limited.
+Normally, first preliminary step would be to run simple heuristic (e.g. fill bins one by one)
+to obtain an initial, although suboptimal solution.
+Number of bins <em>k</em> used by the initial solution is an upper bound on the optimal number of bins.
+All remaining time would be spent on trying to find a sequence of small changes that progressively
+reduces number of bins.
+Ability to store effectively item-to-bin assignment is crucial to achieve good performance.</p>
+</div>
+<div class="paragraph">
+<p>What else? Clustering algorithms aim to find a partition of objects satisfying specific properties.
+Also a related problem is the design of cardinality-limited key/value caches.
+Typically such caches are implemented using hash tables, where stored values are additionally
+organized into doubly linked list in order of access time to evict the oldest entries.
+Such type of cache can be treated as partition of values into fixed number of buckets,
+making many of the ideas described below applicable.</p>
+</div>
+<div class="paragraph">
+<p>All listed problems and many more rely on an efficient way of representing partitions.
+This justifies spending some time on designing such a data structure that will be efficient
+in terms of wall-time performance.
+Since set of items and number of subsets are known in advance, we can map them to integers.
+Therefore without loss of generality let item ∈ {0 .. <em>n</em>-1}, subset ∈ {0 .. <em>k</em>-1} ∪ {-1},
+where the latter is a special value indicating that the item is assigned to nowhere.
+Whether we want to support -1 or not is purely a design choice.
+On the one hand, we can always emulate "nowhere" by adding artificial subset.
+On the other hand, some problems may keep large number of items not assigned to any
+of the subsets at any given time.
+This suggests that it is better to support "nowhere" explicitly for performance reasons,
+so let&#8217;s stick with the latter option.
+Below is the list of operations that data structure under consideration must support:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="cpp"><span></span><span class="tok-cm">/* Construct new partition object for given number of items and subsets.</span>
+<span class="tok-cm"> * All items are initially assigned to nowhere. */</span>
+<span class="tok-n">Init</span><span class="tok-p">(</span><span class="tok-n">num_items</span><span class="tok-o">:</span><span class="tok-kt">int</span><span class="tok-p">,</span><span class="tok-w"> </span><span class="tok-n">num_subsets</span><span class="tok-o">:</span><span class="tok-kt">int</span><span class="tok-p">);</span>
+
+<span class="tok-cm">/* (Re)assign item to a given subset, possibly to &quot;nowhere&quot; (-1). */</span>
+<span class="tok-n">Assign</span><span class="tok-p">(</span><span class="tok-n">item</span><span class="tok-o">:</span><span class="tok-kt">int</span><span class="tok-p">,</span><span class="tok-w"> </span><span class="tok-n">subset</span><span class="tok-o">:</span><span class="tok-kt">int</span><span class="tok-p">);</span>
+
+<span class="tok-cm">/* Query where given item belongs to. */</span>
+<span class="tok-n">SubsetOf</span><span class="tok-p">(</span><span class="tok-n">item</span><span class="tok-o">:</span><span class="tok-kt">int</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-o">-&gt;</span><span class="tok-w"> </span><span class="tok-n">subset</span><span class="tok-o">:</span><span class="tok-kt">int</span><span class="tok-p">;</span>
+
+<span class="tok-cm">/* Return a container-like view of the given subset that allows</span>
+<span class="tok-cm"> * to iterate over items assigned to it (in arbitrary order). */</span>
+<span class="tok-n">ViewOf</span><span class="tok-p">(</span><span class="tok-n">subset</span><span class="tok-o">:</span><span class="tok-kt">int</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-o">-&gt;</span><span class="tok-w"> </span><span class="tok-n">Iterable</span><span class="tok-o">&lt;</span><span class="tok-n">item</span><span class="tok-o">:</span><span class="tok-kt">int</span><span class="tok-o">&gt;</span><span class="tok-p">;</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_set_based_implementations">Set-based implementations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Obvious solution is to use one SetType instance per each subset, where SetType
+is any set-conforming implementation, such as <code>std::set</code> or <code>std::unordered_set</code>.
+More specifically, we need two arrays.
+One&#8201;&#8212;&#8201;<code>item_data</code>&#8201;&#8212;&#8201;stores for each item the subset it is currently assigned to or (-1).
+Another&#8201;&#8212;&#8201;<code>subset_data</code>&#8201;&#8212;&#8201;stores the items of each subset inside a SetType instances.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="cpp"><div class="lineno"><table class="linenotable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div><pre><span></span><span class="tok-k">struct</span><span class="tok-w"> </span><span class="tok-nc">ItemData</span><span class="tok-p">{</span><span class="tok-w"> </span><span class="tok-kt">int</span><span class="tok-w"> </span><span class="tok-n">subset</span><span class="tok-p">;</span><span class="tok-w"> </span><span class="tok-p">}</span><span class="tok-w"> </span><span class="tok-n">item_data</span><span class="tok-p">[</span><span class="tok-n">num_items</span><span class="tok-p">];</span>
+<span class="tok-k">struct</span><span class="tok-w"> </span><span class="tok-nc">SubsetData</span><span class="tok-p">{</span><span class="tok-w"> </span><span class="tok-n">SetType</span><span class="tok-w"> </span><span class="tok-n">items</span><span class="tok-p">;</span><span class="tok-w"> </span><span class="tok-p">}</span><span class="tok-w"> </span><span class="tok-n">subset_data</span><span class="tok-p">[</span><span class="tok-n">num_subsets</span><span class="tok-p">];</span>
+<span class="tok-kt">void</span><span class="tok-w"> </span><span class="tok-nf">Assign</span><span class="tok-p">(</span><span class="tok-kt">int</span><span class="tok-w"> </span><span class="tok-n">item</span><span class="tok-p">,</span><span class="tok-w"> </span><span class="tok-kt">int</span><span class="tok-w"> </span><span class="tok-n">subset</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-p">{</span>
+<span class="tok-w">  </span><span class="tok-kt">int</span><span class="tok-w"> </span><span class="tok-n">curr_subset</span><span class="tok-w"> </span><span class="tok-o">=</span><span class="tok-w"> </span><span class="tok-n">item_data</span><span class="tok-p">[</span><span class="tok-n">item</span><span class="tok-p">].</span><span class="tok-n">subset</span><span class="tok-p">;</span>
+<span class="tok-w">  </span><span class="tok-k">if</span><span class="tok-w"> </span><span class="tok-p">(</span><span class="tok-n">curr_subset</span><span class="tok-w"> </span><span class="tok-o">!=</span><span class="tok-w"> </span><span class="tok-n">subset</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-p">{</span>
+<span class="tok-w">    </span><span class="tok-k">if</span><span class="tok-w"> </span><span class="tok-p">(</span><span class="tok-n">curr_subset</span><span class="tok-w"> </span><span class="tok-o">!=</span><span class="tok-w"> </span><span class="tok-mi">-1</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-p">{</span>
+<span class="tok-w">      </span><span class="tok-n">subset_data</span><span class="tok-p">[</span><span class="tok-n">curr_subset</span><span class="tok-p">].</span><span class="tok-n">items</span><span class="tok-p">.</span><span class="tok-n">erase</span><span class="tok-p">(</span><span class="tok-n">item</span><span class="tok-p">);</span>
+<span class="tok-w">    </span><span class="tok-p">}</span>
+<span class="tok-w">    </span><span class="tok-k">if</span><span class="tok-w"> </span><span class="tok-p">(</span><span class="tok-n">subset</span><span class="tok-w"> </span><span class="tok-o">!=</span><span class="tok-w"> </span><span class="tok-mi">-1</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-p">{</span>
+<span class="tok-w">      </span><span class="tok-n">subset_data</span><span class="tok-p">[</span><span class="tok-n">subset</span><span class="tok-p">].</span><span class="tok-n">items</span><span class="tok-p">.</span><span class="tok-n">insert</span><span class="tok-p">(</span><span class="tok-n">item</span><span class="tok-p">);</span>
+<span class="tok-w">    </span><span class="tok-p">}</span>
+<span class="tok-w">    </span><span class="tok-n">item_data</span><span class="tok-p">[</span><span class="tok-n">item</span><span class="tok-p">].</span><span class="tok-n">subset</span><span class="tok-w"> </span><span class="tok-o">=</span><span class="tok-w"> </span><span class="tok-n">subset</span><span class="tok-p">;</span>
+<span class="tok-w">  </span><span class="tok-p">}</span>
+<span class="tok-p">}</span>
+</pre></div></td></tr></table></div></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>What performance should we expect for <code>Assign()</code> operation?
+It depends on SetType implementation, of which we have two in STL.
+<code>std::set</code> is based on red-black trees and works in O(log <em>n</em>) time&#8201;&#8212;&#8201;far from perfect.
+<code>std::unordered_set</code> is better in terms of asymptotics: implemented using hash tables,
+it performs insertion and deletion in only O(1).
+However, there is significant per-item overhead associated with <code>unordered_set</code> (as of GNU stdc++-11):</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Inserting an item causes walk over the nodes of the bucket to check whether the item is already present.</p>
+</li>
+<li>
+<p>Bucket index is computed using IDIV instruction&#8201;&#8212;&#8201;its latency is
+<a href="https://www.agner.org/optimize/instruction_tables.pdf">up to</a> 90 cycles in Intel CPUs.</p>
+</li>
+<li>
+<p>After modification it is checked whether number of buckets needs to be changed,
+and if the answer is yes then costly O(<em>n</em>) rehashing is performed.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Another small source of inefficiency comes from memory allocation.
+No matter whether we choose <code>set</code> or <code>unordered_set</code>, they both are node-based and perform
+dynamic memory allocation and deallocation on each insertion and deletion respectively.
+Finally, all the issues have double impact since to move an item from one subset to another one
+requires interaction with two SetType instances.</p>
+</div>
+<div class="paragraph">
+<p>Some of the issues can be alleviated.
+SetType implementation can be replaced with corresponding multiset:
+this should make insertion a bit faster at the cost of a bit slower deletion.
+Number of dynamic memory allocations can be reduced by reusing nodes with C++17
+<a href="https://en.cppreference.com/w/cpp/container/unordered_set/extract"><code>extract()</code></a>.
+Rehashing in <code>unordered_set</code> can be made less frequent by invoking <code>reserve(count)</code> on newly
+constructed instance with <code>count</code> equal to the expected max number of items per subset,
+but this comes at the cost of higher memory consumption.
+Anyway, assign performance remains poor even with these tweaks.
+Iterating over subset items is also poor for both <code>set</code> and <code>unordered_set</code> due to necessity to walk
+over the nodes of the linked lists, which makes memory prefetching and caching ineffective.</p>
+</div>
+<div class="paragraph">
+<p>Since we are not limited with standard library implementations of hash set, let&#8217;s try to plug one of the
+<a href="https://martin.ankerl.com/2022/08/27/hashmap-bench-01/">many third-party alternatives</a>,
+which are predominantly open-addressed.
+Open addressing makes iteration blazingly fast since it effectively degenerates into walking over
+dense array of the item slots and checking on the way which ones are actually occupied.
+Such data access pattern is perfect for both memory prefetching and caching.
+Modification operations in open-addressed hash tables are also typically faster
+thanks to improved caching (no pointers &#8658; lower memory footprint)
+and due to absence of node allocation/deallocation.
+Exact running time will of course depend on the particular data structure used.
+As an example, in the final result table I included measurements for
+<a href="https://tessil.github.io/2016/08/29/hopscotch-hashing.html">tsl::hopscotch_set</a>.
+To make bucket location faster, it uses power-of-two growth policy, which makes costly division unnecessary.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_linked_list_implementations">Linked-list implementations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this section we will investigate two specialized data structures based on linked lists.
+Key observation is that while a single subset can contain anywhere from 0 to <em>n</em> items,
+cumulative number of items in all subsets <em>together</em> also does not exceed <em>n</em>.
+This suggests that O(<em>n</em>+<em>k</em>) memory we allocate for <code>item_data</code> and <code>subset_data</code> arrays
+combined is all that we will ever need.
+But to make use of this idea, we have to extend <code>ItemData</code> structure with two more fields:
+these will be the item indices referencing the previous and the next items in the same subset respectively.
+Overall this means that <code>item_data</code> now has dual role.
+As before, it acts as a one-way mapping between an item and the subset it is assigned to.
+Its second role is to act as an intertwining of <em>k</em> disjoint doubly linked lists, one for each subset.
+Item indices to the backs of these linked lists are stored in <code>subset_data</code>.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="item_twine.png" alt="item twine" width="80%">
+</div>
+</div>
+<div class="paragraph">
+<p>To insert item <code>i</code> to subset <code>s</code>, we first set <code>item_data[i].subset=s</code> and
+next we add <code>item_data[i]</code> to the back of the subset&#8217;s linked list by juggling prev/next indices.
+To remove an item we do the opposite: we set <code>item_data[i].subset=-1</code> and
+we also delete <code>item_data[i]</code> from the linked list of its current subset by splicing two sublists.
+Iteration is just walking over the items of the linked list starting with <code>subset_data[s].back_item</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="cpp"><div class="lineno"><table class="linenotable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span></pre></div></td><td class="code"><div><pre><span></span><span class="tok-kt">void</span><span class="tok-w"> </span><span class="tok-nf">Assign</span><span class="tok-p">(</span><span class="tok-kt">int</span><span class="tok-w"> </span><span class="tok-n">item</span><span class="tok-p">,</span><span class="tok-w"> </span><span class="tok-kt">int</span><span class="tok-w"> </span><span class="tok-n">subset</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-p">{</span>
+<span class="tok-w">  </span><span class="tok-k">if</span><span class="tok-w"> </span><span class="tok-p">(</span><span class="tok-n">item_data</span><span class="tok-p">[</span><span class="tok-n">item</span><span class="tok-p">].</span><span class="tok-n">subset</span><span class="tok-w"> </span><span class="tok-o">!=</span><span class="tok-w"> </span><span class="tok-n">subset</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-p">{</span>
+<span class="tok-w">    </span><span class="tok-k">if</span><span class="tok-w"> </span><span class="tok-p">(</span><span class="tok-n">item_data</span><span class="tok-p">[</span><span class="tok-n">item</span><span class="tok-p">].</span><span class="tok-n">subset</span><span class="tok-w"> </span><span class="tok-o">!=</span><span class="tok-w"> </span><span class="tok-mi">-1</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-p">{</span>
+<span class="tok-w">      </span><span class="tok-cm">/* Remove item from its current subset:</span>
+<span class="tok-cm">       * 1) link together item_data[item_data[item].prev_item]</span>
+<span class="tok-cm">       *             with item_data[item_data[item].next_item]</span>
+<span class="tok-cm">       * 2) set item_data[item].subset = -1 */</span>
+<span class="tok-w">       </span><span class="tok-p">...</span>
+<span class="tok-w">    </span><span class="tok-p">}</span>
+<span class="tok-w">    </span><span class="tok-k">if</span><span class="tok-w"> </span><span class="tok-p">(</span><span class="tok-n">subset</span><span class="tok-w"> </span><span class="tok-o">!=</span><span class="tok-w"> </span><span class="tok-mi">-1</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-p">{</span>
+<span class="tok-w">      </span><span class="tok-cm">/* Add item to the given subset:</span>
+<span class="tok-cm">       * 1) link together item_data[item]</span>
+<span class="tok-cm">       *             with item_data[subset_data[subset].back_item]</span>
+<span class="tok-cm">       * 2) set subset_data[subset].back_item = item</span>
+<span class="tok-cm">       * 3) set item_data[item].subset = subset */</span>
+<span class="tok-w">       </span><span class="tok-p">...</span>
+<span class="tok-w">    </span><span class="tok-p">}</span>
+<span class="tok-w">  </span><span class="tok-p">}</span>
+<span class="tok-p">}</span>
+</pre></div></td></tr></table></div></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We will call this data structure ItemTwine to indicate that it consists of
+multiple entangled linked lists holding separate items.
+Now if you look into comparison table in the end of the article, you can see that our newly
+designed data structure excels in assignment.
+This is expected since it is implemented as a simple, constant-time operation devoid
+of dynamic memory allocation, division and loops.
+Iteration, on the other hand, is no better than in set-based data structures,
+again because it requires walking along prefetcher-unfriendly linked lists.</p>
+</div>
+<div class="paragraph">
+<p>Our next goal is to speed up iteration without sacrificing performance of assigning too much.
+It is clear that to achieve this goal we have to pack items of the same subset close together.
+This leads us to the following implementation based on grouping items into chunks.
+The idea is to use linked lists to stitch together not the separate items,
+but fixed-sized chunks of at most <em>c</em> items each.
+This leads us to the next data structure&#8201;&#8212;&#8201;ChunkTwine.
+Memory layout becomes more complex.
+We need to allocate one pointer (<code>free</code>) in addition to three arrays:
+<code>subset_data</code>, <code>item_data</code>, and <code>chunk_pool</code>.
+Similarly to the previous data structure, <code>subset_data[s]</code> stores pointer to the back chunk of its linked list.
+Chunks themselves are preallocated into <code>chunk_pool</code> array.
+Each chunk contains two pointers to link it with adjacent chunks in the linked list,
+an array of items of capacity <em>c</em>, and a value that indicates the actual number (≤<em>c</em>) of stored items.
+Third array&#8201;&#8212;&#8201;<code>item_data</code>&#8201;&#8212;&#8201;in addition to information to which subset item belongs to,
+will also carry 2d coordinates of its location: chunk pointer and the position inside the chunk&#8217;s array.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="chunk_twine.png" alt="chunk twine" width="92%">
+</div>
+</div>
+<div class="paragraph">
+<p>Initially we link together all chunks into the pool of free chunks, the back of which we
+reference by the <code>free</code> pointer.
+When we want to add an item <code>i</code> into subset <code>s</code>, we append it to the items array of the back chunk
+of the designated subset and increase <code>num_items</code>.
+If the back chunk is already full (or absent altogether, which happens when subset is empty),
+we first pop a chunk from the free pool and attach it to the linked list of <code>s</code>.
+Such logic ensures that in each subset only the back chunk can be non-full, and even in this chunk
+no holes can occur.
+In any case, after we have added item to the chunk, we set <code>ItemData[i]</code> to point to its location,
+which is a tuple consisting of a pointer to the chunk and a position inside this chunk&#8217;s array.
+To delete an item, we first get its location stored in <code>item_data[i]</code>.
+We cannot just write (-1) to the slot pointed by this location because it would create a hole.
+Instead we delete an item by moving another item&#8201;&#8212;&#8201;the last one in the back chunk of the subset&#8201;&#8212;&#8201;into its place.
+After this is done, we have to update coordinates of two items: the item that we have deleted
+(set its coordinates to NULL/-1) and the item we have moved.
+In corner case when the moved item was the only one in the back chunk, we migrate this chunk from the
+subset&#8217;s linked list into the pool of free chunks.
+Example: if we unassign item 8 in the pictured example, then the left blue chunk will migrate into the grays,
+while the right blue chunk will contain items [7,4,5,1] and become new "back".
+Iteration is a simple operation: walk over all chunks of the target subset starting with
+<code>subset_data[s].back</code>, and for each chunk return all items with indices from 0 to <code>num_items</code> (exclusive).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="cpp"><div class="lineno"><table class="linenotable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span></pre></div></td><td class="code"><div><pre><span></span><span class="tok-kt">void</span><span class="tok-w"> </span><span class="tok-nf">Assign</span><span class="tok-p">(</span><span class="tok-kt">int</span><span class="tok-w"> </span><span class="tok-n">item</span><span class="tok-p">,</span><span class="tok-w"> </span><span class="tok-kt">int</span><span class="tok-w"> </span><span class="tok-n">subset</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-p">{</span>
+<span class="tok-w">  </span><span class="tok-k">if</span><span class="tok-w"> </span><span class="tok-p">(</span><span class="tok-n">item_data</span><span class="tok-p">[</span><span class="tok-n">item</span><span class="tok-p">].</span><span class="tok-n">subset</span><span class="tok-w"> </span><span class="tok-o">==</span><span class="tok-w"> </span><span class="tok-n">subset</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-p">{</span>
+<span class="tok-w">    </span><span class="tok-k">return</span><span class="tok-p">;</span>
+<span class="tok-w">  </span><span class="tok-p">}</span>
+
+<span class="tok-w">  </span><span class="tok-k">if</span><span class="tok-w"> </span><span class="tok-p">(</span><span class="tok-n">item_data</span><span class="tok-p">[</span><span class="tok-n">item</span><span class="tok-p">].</span><span class="tok-n">subset</span><span class="tok-w"> </span><span class="tok-o">!=</span><span class="tok-w"> </span><span class="tok-mi">-1</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-p">{</span>
+<span class="tok-w">    </span><span class="tok-cm">/* Remove item from its current subset:</span>
+<span class="tok-cm">     * 1. Remove and remember the last item from the back chunk of the subset</span>
+<span class="tok-cm">     * 2. If back chunk becomes empty, migrate it into free chunk pool</span>
+<span class="tok-cm">     * 3. Unless item == last_item, put last_item into position occupied previously</span>
+<span class="tok-cm">     *    by the item and update item_data[last_item] fields accordingly</span>
+<span class="tok-cm">     * 4. Reset item_data[item] fields to defaults */</span>
+<span class="tok-w">     </span><span class="tok-p">...</span>
+<span class="tok-w">  </span><span class="tok-p">}</span>
+
+<span class="tok-w">  </span><span class="tok-k">if</span><span class="tok-w"> </span><span class="tok-p">(</span><span class="tok-n">subset</span><span class="tok-w"> </span><span class="tok-o">!=</span><span class="tok-w"> </span><span class="tok-mi">-1</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-p">{</span>
+<span class="tok-w">    </span><span class="tok-cm">/* Add item to the given subset:</span>
+<span class="tok-cm">     * 1. Get back chunk of the subset</span>
+<span class="tok-cm">     * 2. If it is NULL or full, add new chunk from free chunk pool</span>
+<span class="tok-cm">     * 3. Add item into back chunk and increase its num_items</span>
+<span class="tok-cm">     * 4. Set item_data[item] fields accordingly */</span>
+<span class="tok-w">     </span><span class="tok-p">...</span>
+<span class="tok-w">  </span><span class="tok-p">}</span>
+<span class="tok-p">}</span>
+</pre></div></td></tr></table></div></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Description of the assign operation makes it clear that our newly designed data structure maintains
+the invariant that each chunk always belongs to the one of <em>k</em>+1 disjoint linked lists:
+either to the linked list of one of the subsets, or to the linked list of the pool of free chunks.
+How many chunks do we need to allocate in total?
+Since we have enforced the rule that for each subset at most one chunk can be non-full,
+then in the worst case we will need <img src="math-1a2570670b1c22af.svg" class="inlinemath" style="height:4.797ex;vertical-align:-1.906ex;" alt="k + \left\lfloor\frac{n-k}{c}\right\rfloor"/> chunks.
+Note that it is sufficient to perform rounding down.
+This worst-case bound comes from the following construction.
+First <img src="math-3eb017161cd1590f.svg" class="inlinemath" style="height:4.797ex;vertical-align:-1.906ex;" alt="k + \left\lfloor\frac{n-k}{c}\right\rfloor\!\cdot\!c"/> items form a partition where
+each subset consists of one chunk with only one item in it plus some number (≥0) of full chunks.
+Remaining items (there are strictly &lt; <em>c</em> of them) no matter how we distribute
+them among subsets, will always have to fall into the chunks with initially one item in them.
+Therefore these items do not require additional chunks and the stated bound is exact.</p>
+</div>
+<div class="paragraph">
+<p>We have some implementation freedom left.
+List of free chunks can be implemented as FIFO or LIFO (stack).
+The latter is wiser since it reduces chances of cache misses.
+For example, when it is expected that at any given moment number of assigned items is significantly
+smaller than <em>n</em>, then the majority of chunks in the pool will remain cache-cold.
+Another consideration is the value of <em>c</em>, on which the number of allocated chunks depends.
+Larger <em>c</em> values will improve iteration performance at the cost of higher memory overhead.
+Experiments show that for "idling" iterating (e.g. counting items) reasonable <em>c</em> values lie in range [32, 128].
+<em>c</em>≈128 is the saturation point beyond which performance does not improve.
+Doing useful per-item work while iterating makes selection of <em>c</em> even less important.
+Perfectionists would also prefer such <em>c</em> values which make <code>sizeof(Chunk)</code> to be multiple
+of cache line size and allocate chunk pool aligned accordingly.
+Third consideration is whether to use pointers or indices to reference chunks.
+Both options are viable.
+Assuming that <em>c</em> is sufficiently big, there should be no difference in performance.
+For small values (imagine extreme case of <em>c</em>=1) i32 indices should be prefered
+since it will reduce memory consumption.
+The benefit is not memory conservation per se, but the improved cache locality due
+to smaller memory footprint.
+Final remark should be made about prefetching.
+Further small boost in performance can be achieved if we place
+<a href="https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html#index-_005f_005fbuiltin_005fprefetch">prefetch calls</a>
+into iteration logic:
+as soon as we have some chunk at hand, initiate prefetch of the next chunk (<code>chunk-&gt;next</code>).
+This makes linked lists less unfriendly with respect to memory subsystem, but the gains are only marginal in reality.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="cpp"><span></span><span class="tok-cm">/***** ChunkTwine ******/</span>
+<span class="tok-k">class</span><span class="tok-w"> </span><span class="tok-nc">Iterator</span><span class="tok-w"> </span><span class="tok-p">{</span>
+<span class="tok-k">public</span><span class="tok-o">:</span>
+<span class="tok-w">  </span><span class="tok-n">Iterator</span><span class="tok-p">(</span><span class="tok-n">Chunk</span><span class="tok-o">*</span><span class="tok-w"> </span><span class="tok-n">chunk</span><span class="tok-p">,</span><span class="tok-w"> </span><span class="tok-kt">int</span><span class="tok-w"> </span><span class="tok-n">chpos</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-o">:</span><span class="tok-w"> </span><span class="tok-n">chunk_</span><span class="tok-p">(</span><span class="tok-n">chunk</span><span class="tok-p">),</span><span class="tok-w"> </span><span class="tok-n">chpos_</span><span class="tok-p">(</span><span class="tok-n">chpos</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-p">{</span>
+<span class="tok-w">    </span><span class="tok-k">if</span><span class="tok-w"> </span><span class="tok-p">(</span><span class="tok-n">chunk_</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"> </span><span class="tok-n">__builtin_prefetch</span><span class="tok-p">(</span><span class="tok-n">chunk_</span><span class="tok-o">-&gt;</span><span class="tok-n">next</span><span class="tok-p">,</span><span class="tok-w"> </span><span class="tok-mi">0</span><span class="tok-cm">/*read*/</span><span class="tok-p">,</span><span class="tok-w"> </span><span class="tok-mi">1</span><span class="tok-p">);</span><span class="tok-w"> </span><span class="tok-p">}</span>
+<span class="tok-w">  </span><span class="tok-p">}</span>
+<span class="tok-w">  </span><span class="tok-n">Iterator</span><span class="tok-o">&amp;</span><span class="tok-w"> </span><span class="tok-k">operator</span><span class="tok-o">++</span><span class="tok-p">()</span><span class="tok-w"> </span><span class="tok-p">{</span>
+<span class="tok-w">    </span><span class="tok-n">chpos_</span><span class="tok-o">++</span><span class="tok-p">;</span>
+<span class="tok-w">    </span><span class="tok-k">if</span><span class="tok-w"> </span><span class="tok-p">(</span><span class="tok-n">chpos_</span><span class="tok-w"> </span><span class="tok-o">&gt;=</span><span class="tok-w"> </span><span class="tok-n">chunk_</span><span class="tok-o">-&gt;</span><span class="tok-n">num_count</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-p">{</span>
+<span class="tok-w">      </span><span class="tok-n">chunk_</span><span class="tok-w"> </span><span class="tok-o">=</span><span class="tok-w"> </span><span class="tok-n">chunk_</span><span class="tok-o">-&gt;</span><span class="tok-n">next</span><span class="tok-p">;</span>
+<span class="tok-w">      </span><span class="tok-n">chpos_</span><span class="tok-w"> </span><span class="tok-o">=</span><span class="tok-w"> </span><span class="tok-mi">0</span><span class="tok-p">;</span>
+<span class="tok-w">      </span><span class="tok-k">if</span><span class="tok-w"> </span><span class="tok-p">(</span><span class="tok-n">chunk_</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"> </span><span class="tok-n">__builtin_prefetch</span><span class="tok-p">(</span><span class="tok-n">chunk_</span><span class="tok-o">-&gt;</span><span class="tok-n">next</span><span class="tok-p">,</span><span class="tok-w"> </span><span class="tok-mi">0</span><span class="tok-cm">/*read*/</span><span class="tok-p">,</span><span class="tok-w"> </span><span class="tok-mi">1</span><span class="tok-p">);</span><span class="tok-w"> </span><span class="tok-p">}</span>
+<span class="tok-w">    </span><span class="tok-p">}</span>
+<span class="tok-w">    </span><span class="tok-k">return</span><span class="tok-w"> </span><span class="tok-o">*</span><span class="tok-k">this</span><span class="tok-p">;</span>
+<span class="tok-w">  </span><span class="tok-p">}</span>
+<span class="tok-w">  </span><span class="tok-cm">/* ... */</span>
+<span class="tok-k">private</span><span class="tok-o">:</span>
+<span class="tok-w">  </span><span class="tok-n">Chunk</span><span class="tok-o">*</span><span class="tok-w"> </span><span class="tok-n">chunk_</span><span class="tok-p">;</span>
+<span class="tok-w">  </span><span class="tok-kt">int</span><span class="tok-w"> </span><span class="tok-n">chpos_</span><span class="tok-p">;</span>
+<span class="tok-p">};</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Data structure we have constructed is quite universal.
+It may not be the fastest for some specific usage scenario, but it also doesn&#8217;t have any
+fatal shortcomings and therefore always demonstrates acceptable performance.
+Let&#8217;s check why this is so.
+Iteration is fast due to items being packed close together [✓]; assign operation is still O(1) [✓];
+memory footprint is close to minimum [✓].
+Its additional benefit is that memory can be allocated statically, e.g. in a file-mapped address space.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_circular_list_implementation">Circular list implementation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This implementation&#8201;&#8212;&#8201;called Carousel&#8201;&#8212;&#8201;uses circular buffer (ring) instead of linked lists.
+The idea is to store items of each subset in a contiguous region inside the ring.
+Again, because total number of stored items doesn&#8217;t exceed <em>n</em>, it is sufficient for the ring
+to be of exactly this capacity.
+In practice we will allocate more memory to improve <code>Assign()</code> performance in amortized sense.
+We associate with each subset two values, <code>begin</code> and <code>size</code>, which together define the contiguous
+region of items inside the ring.
+Such layout benefits iteration.
+To move to the next item we increment position pointing into the ring and, in rare case when
+it has reached the end of the memory that backs the ring, we rewind it to zero.
+Overall this means that for all subsets except maybe but one items are physically stored in
+a single memory chunk, while the items of the sole "unlucky" subset may span two chunks:
+[<code>s.begin</code> .. <code>ring.cap</code>) ∪ [0, <code>s.size</code> - (<code>ring.cap</code> - <code>s.begin</code>)),
+where <code>ring.cap</code> is the capacity of the ring.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="carousel.png" alt="carousel" width="80%">
+</div>
+</div>
+<div class="paragraph">
+<p>Initially we distribute beginnings of the subsets approximately evenly along the ring, i.e.
+<code>subset_data[s].begin = ring.cap/num_items * s</code>; and set the sizes of all subsets to 0.
+Items are always appended to the end of the subset&#8217;s region.
+If the target slot is free (-1), then we write item to it, increase subset size by one,
+set <code>item_data[i].pos</code> to point to the target slot, and we are done.
+Otherwise, if the value in the slot ≠-1 this means that we have bumped into the region of some
+other subset.
+In this case we also proceed as planned, but additionally relocate the item previously written
+to the target slot to the end of the region it belongs to.
+This latter operation may in turn bump in into the region of the third subset,
+which would require another relocation, and so on.
+Relocations make assignment O(<em>k</em>) since in the worst case we will have to do
+one relocation per each subset.
+But on average the number of reallocations is few.
+Among other things, this number depends on how many free slots we have in the ring&#8201;&#8212;&#8201;something we have control of.
+That&#8217;s why in practice we create ring with larger capacity than we have items, let&#8217;s say by a factor of two.</p>
+</div>
+<div class="paragraph">
+<p>Another thing we need to be careful about when inserting items is when we insert item into an empty subset.
+Due to the previous relocations of the items it is possible that <code>s.begin</code> points
+into the middle of the region of some other subset.
+In this case relocation of the item to the end of the region will not help&#8201;&#8212;&#8201;it will violate the continuity invariant.
+However, since subset is empty, we can just rotate its beginning until we encounter free slot and insert item there.
+Note that this can change the order of the subsets around the ring.
+Alternatively, we could demand that subsets never be empty by placing sentinel values.</p>
+</div>
+<div class="paragraph">
+<p>Removing items is done using already described technique:
+by filling the place of the removed item with the last item in the subset.
+Overall <code>Assign()</code> logic is quite complex, but in practice its performance is comparable
+to that of LL-based data structures.
+It should be mentioned that to achieve good performance implementations must not use modulo operator.
+Recall that during both assignment and iteration we move along the ring,
+which requires incrementing position and rewinding it to zero if it hits ring capacity.
+This must be done strictly by using if/else and not the modulo operator because the latter is so slow.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_comparison">Comparison</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>First two benchmarks are synthetic.
+They measure performance of assigning and iterating independently.
+A partition is created with <em>n</em>=1,000,000 and <em>k</em>=1,000.
+Assignment benchmark executes a sequence of <code>Assign()</code> operations by passing arguments
+from a large prepared vector of random item/subset pairs.
+Iterating benchmark scans subsets drawn from prepared vector and counts items
+on the way to ensure that compiler doesn&#8217;t optimize out iterating altogether.
+To compare described data structures under more realistic workloads, I also coded
+the following "algorithmic" benchmarks:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>layout</strong>&#8201;&#8212;&#8201;follows the example from the introduction.
+The goal is to find <em>k</em>=3-column layout of <em>n</em>=16 widgets with heights drawn from ~<em>U</em>(1, 1000),
+such that height of the tallest column is minimized.
+The algorithm is brute force enumeration of all possible 3<sup>16</sup> layouts.</p>
+</li>
+<li>
+<p><strong>kmeans</strong>&#8201;&#8212;&#8201;clusterize <em>n</em>=1,000,000 1d points into <em>k</em>=5 clusters using 500 iterations of classical K-means algorithm.</p>
+</li>
+<li>
+<p><strong>balancer</strong>&#8201;&#8212;&#8201;follows the example on shard balancing from the introduction.
+Starting from a random mapping of 10,000 shards to 100 servers, in each iteration algorithm
+selects randomly two servers and tries to move some shard from the higher loaded server
+to the less loaded server in order to equalize disk usage of both servers as much as possible.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Listed algorithms were implemented in the simplest possible way.
+Benchmarks were compiled with GCC 10.2.1 and executed on Intel 7700HQ CPU (2.80GHz, 6MiB L3) with turbo boost disabled.
+Performance of synthetic benchmarks is reported in processed items per second (the higher&#8201;&#8212;&#8201;the better),
+while for algorithmic benchmarks the reported values are end-to-end time except data initialization
+(the lower&#8201;&#8212;&#8201;the better).</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-right valign-top">assign [i/s]</th>
+<th class="tableblock halign-right valign-top">iterate [i/s]</th>
+<th class="tableblock halign-right valign-top">layout [s]</th>
+<th class="tableblock halign-right valign-top">kmeans [s]</th>
+<th class="tableblock halign-right valign-top">balancer [s]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PolyRbSet</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.7M</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">10.8M</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">7.816</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">30.348</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">15.150</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PolyHashSet</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">1.7M</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">13.4M</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">5.398</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">39.066</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">7.830</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PolyHopscotchSet</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">6.8M</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">86.6M</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">11.380</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">9.377</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">3.593</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ItemTwine</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">46.1M</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">22.2M</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">1.029</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">22.438</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.869</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ChunkTwine</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">33.0M</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">1666.7M</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">1.412</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">9.819</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.989</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Carousel</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">36.1M</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">2644.6M</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">1.734</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">9.284</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.933</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Behaviour of data structures under synthetic benchmarks was already discussed along the course
+of the article, but results for algorithmic benchmarks require further explanation.
+Results may appear surprising at first.</p>
+</div>
+<div class="paragraph">
+<p>In layout benchmark, we see that PolyHopscotchSet performs the worst of all tested data structures.
+A bit of time spent on profiling (set noinline attribute to target function &#8594; run callgrind
+&#8594; analyze results with kcachegrind &#8594; repeat) reveals that the bottleneck is the iteration.
+Source code suggests that out-of-the box <code>hopscotch_set</code> is not optimized for small sets like ours.
+Internally it creates 93 buckets: 32 buckets as the next power-of-two for max number of stored items
+plus 62-1 buckets as the "neighborhood".
+This means that even when there is only single item present in a set, iteration has to walk along all
+93 buckets, making it very expensive operation for small-sized sets.
+Performance supposedly can be improved by tuning template parameters, i.e. by reducing neighborhood size
+and making growth policy more conservative, although I didn&#8217;t test it.</p>
+</div>
+<div class="paragraph">
+<p>In kmeans benchmark number of items is much larger but performance is also dominated by iterating.
+Points aggressively migrate between clusters only during the first couple of iterations.
+After that, points are reassigned to the clusters to which they already currently belong.
+Such situation is explicitly checked in all implementations, resulting in no-op.
+As a consequence, we can observe that implementations using linked lists to store individual items
+(PolyRbSet, PolyHashSet, ItemTwine), perform poorly, while implementations with continuous
+item storage perform better by a factor of ≈3.
+Surprisingly, PolyHashSet is even worse than PolyRbSet despite the better asymptotics of the former.</p>
+</div>
+<div class="paragraph">
+<p>Balancer benchmark is the only one where results appear similar to that of synthetic benchmarks.
+Likely it is because balancer algorithm has higher ratio of assigning compared to iteration:
+there is one item reassigning per each two subsets scanned.</p>
+</div>
+<div class="paragraph">
+<p>In general, it is natural that iterating has more importance than assignment from performance perspective
+because in a typical algorithm, we have to iterate over many items before we can make some reasonable assignment.
+As such, data structures with continuous item storage should be preferred.
+But asymptotics should not be entirely forgotten.
+For example, although carousel performs well in all listed benchmarks, it doesn&#8217;t perform assignment in constant-time.
+It is possible to construct pathological sequence of operations that will ruin its performance.</p>
+</div>
+<div class="paragraph">
+<p>Source code: <a href="code.zip">code.zip</a>.
+Hopscotch set must be downloaded separately from <a href="https://github.com/Tessil/hopscotch-map/tree/b28a4c2c3010941b44d79f40df10282b2f16f326">here</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-05-20 19:03:13 UTC
+</div>
+</div>
+</body>
+</html>
