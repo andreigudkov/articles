@@ -97,6 +97,8 @@ function build_module {
       build $module/mastercopy/$img "dia -s 1600x -e $module/mastercopy/$img $module/src/$name.dia" $module/src/$name.dia
     elif [ -e $module/src/$name.tex ] && [ "${img}" == "${name}.png" ]; then
       build $module/mastercopy/$img "cd /tmp && latex -halt-on-error -interaction=batchmode $module/src/$name.tex && dvipng -T tight -D 400 --depth -o $module/mastercopy/$img $name.dvi" $module/src/$name.tex
+    elif [ -e $module/src/$name.svg ] && [ "${img}" == "${name}.png" ]; then
+      build $module/mastercopy/$img "inkscape -o $module/mastercopy/$img --export-overwrite --export-type=png --export-dpi=400 $module/src/$name.svg" $module/src/$name.svg
     else
       echo "ERROR: don't know how to make $img"
       exit 1
